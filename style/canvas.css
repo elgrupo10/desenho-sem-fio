@@ -1,0 +1,15 @@
+#canvas{
+    border: 1px solid red;
+    
+}
+html,body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    
+}
+
+body{
+    overflow: hidden;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telefone sem Fio</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/estilosLobby.css">
+    <link rel="stylesheet" href="style/estiloGeral.css">
+
+</head>
+<body>
+    <header>
+        <h1>📞DESENHO SEM FIO</h1>
+    </header>
+    <main>
+        <a href="desenho.html">⏭️</a>
+        <a href="canvas.html">canvas</a>
+        <div id="telaDeJogadores">
+            <h2> Jogadores </h2>
+            <div id="jogadores">
+                <span id ="joga1" class="jogador desaparecer"></span>
+                <span id ="joga2" class="jogador desaparecer"></span>
+                <span id ="joga3" class="jogador desaparecer"></span>
+                <span id ="joga4" class="jogador desaparecer"></span>
+                <span id ="joga5" class="jogador desaparecer"></span>
+                <span id ="joga6" class="jogador desaparecer"></span>
+                <span id ="joga7" class="jogador desaparecer"></span>
+                <span id ="joga8" class="jogador desaparecer"></span>
+                <span id ="joga9" class="jogador desaparecer"></span>
+                <span id ="joga10" class="jogador desaparecer"></span>
+            </div>
+            <button type="button" class="btn btn-success">PRONTO!</button>
+        </div>
+        
+    </main>
+    <footer>
+        Participantes: Gabriel Lucas, Helio Antunes, Leônidas José
+    </footer>
+    <div id= "nome" class="meuModal">
+        <h2>Insira seu nome!</h2>
+        <input id="nomeJogador" type="text" maxlength = "8"></input>
+    </div>
+    <div id="mask">
+    </div>
+    <script src="js/lobby.js"></script>
+
+</body>
+</html>
