@@ -76,15 +76,8 @@ function pare(e) {
     }
 }
 
-function fim() {
-    estaPintando = false;
-    points[points.length - 1].mode = "end";
-}
 
-function pare() {
-    estaPintando = false;
-    ctx.beginPath();
-}
+
 
 function naopinte(e) {
     if (e.clientX < canvasRect.x || e.clientY < canvasRect.y || e.clientY > canvasRect.height + canvasRect.y || e.clientX > canvasRect.width + canvasRect.x) {
@@ -176,7 +169,7 @@ espessuraEl.addEventListener("change", () => {
     ctx.lineWidth = espessuraEl.value;
 })
 
-canvas.addEventListener("mouseup", fim);
+
 
 canvas.addEventListener("mousemove", (e) => {
     desenhar(e, 0);
@@ -254,7 +247,6 @@ function preencher(posX, posY, RGBA, diagonal, imgData, tolerance, antiAlias, re
     var sg = data[ind + 1];
     var sb = data[ind + 2];
     var sa = data[ind + 3];
-
     if (RGBA[0] == sr && RGBA[1] == sg && RGBA[2] == sb && RGBA[3] == sa) {
 
         points.pop();
@@ -354,6 +346,7 @@ function preencher(posX, posY, RGBA, diagonal, imgData, tolerance, antiAlias, re
             }
         }
     }
+    ctx.putImageData(imgData, 0, 0);
 }
 
 function desfazer() {
@@ -380,7 +373,6 @@ function desfazer() {
 
 function refazer() {
 
-
     if (!points2.length) return;
     let temp = [];
 
@@ -401,13 +393,10 @@ function refazer() {
 }
 
 
-function redesenhar(tipo) {
-    if (tipo && points.length == 0) return;
-    if (!tipo && points2.length == 0) return;
+function redesenhar() {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fill();
-    // ctx.beginPath();
 
     for (let i = 0; i < points.length; i++) {
 
