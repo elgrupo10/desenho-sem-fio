@@ -1,11 +1,11 @@
 html {
-    min-height: 100vh;
+    height: 100vh;
 } 
 
 body{
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction:column;
 }
@@ -13,21 +13,22 @@ body{
 header h1{
     font-size: 40px;
     color: white;
-    text-align: center;
     margin: 0;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
     font-family: Arial, Helvetica, sans-serif;
+    align-self: center;
+    font-weight: bold;
 }
 
 header{
     background-color: #292929;
     height: 10%;
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 main {
-    min-height: calc(100vh-80px);
+    min-height: calc(100vh - 80px - 24px);
     flex: 1;
     background-color: #e6e6e6
     /* background-image: linear-gradient(to top, rgb(0, 0, 0) , rgb(71, 71, 71) , white 10%); */
@@ -37,4 +38,4 @@ footer{
     background-color: #292929;
     color: white;
     text-align: center;
-}
+} 
