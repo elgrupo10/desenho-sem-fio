@@ -257,53 +257,53 @@ function preencher(posX, posY, RGBA, diagonal, imgData, tolerance, antiAlias, re
     var dontPaint = false;
 
     var checkColour = function (x, y) {
-        if (x < 0 || y < 0 || y >= h || x >= w) {  
+        if (x < 0 || y < 0 || y >= h || x >= w) {
             return false;
         }
-        var ind = y * dw + x * 4;  
-        var dif = Math.max(        
+        var ind = y * dw + x * 4;
+        var dif = Math.max(
             Math.abs(sr - data[ind]),
             Math.abs(sg - data[ind + 1]),
             Math.abs(sb - data[ind + 2]),
             Math.abs(sa - data[ind + 3])
         );
-        if (dif < tolerance) {         
+        if (dif < tolerance) {
             dif = 0;
         }
-        var paint = Math.abs(painted[y * w + x]); 
-        if (antiAlias && !dontPaint) {  
+        var paint = Math.abs(painted[y * w + x]);
+        if (antiAlias && !dontPaint) {
             if (dif !== 0 && paint !== 255) {
                 data[ind] = RGBA[0];
                 data[ind + 1] = RGBA[1];
                 data[ind + 2] = RGBA[2];
-                data[ind + 3] = (RGBA[3] + data[ind + 3]) / 2; 
-                painted[y * w + x] = 255;  
+                data[ind + 3] = (RGBA[3] + data[ind + 3]) / 2;
+                painted[y * w + x] = 255;
             }
         }
-        return (dif + paint) === 0 ? true : false;  
+        return (dif + paint) === 0 ? true : false;
     }
-    
+
     var setPixel = function (x, y) {
-        var ind = y * dw + x * 4;  
-        data[ind] = RGBA[0];       
+        var ind = y * dw + x * 4;
+        data[ind] = RGBA[0];
         data[ind + 1] = RGBA[1];
         data[ind + 2] = RGBA[2];
         data[ind + 3] = RGBA[3];
-        painted[y * w + x] = 255;   
+        painted[y * w + x] = 255;
     }
 
 
-    stack.push([x, y]);  
+    stack.push([x, y]);
 
-    while (stack.length) {   
-        var pos = stack.pop();  
+    while (stack.length) {
+        var pos = stack.pop();
         x = pos[0];
         y = pos[1];
-        dontPaint = true;    
-        while (checkColour(x, y - 1)) {  
+        dontPaint = true;
+        while (checkColour(x, y - 1)) {
             y -= 1;
         }
-        dontPaint = false;    
+        dontPaint = false;
         if (diagonal) {
             if (!checkColour(x - 1, y) && checkColour(x - 1, y - 1)) {
                 stack.push([x - 1, y - 1]);
@@ -312,32 +312,32 @@ function preencher(posX, posY, RGBA, diagonal, imgData, tolerance, antiAlias, re
                 stack.push([x + 1, y - 1]);
             }
         }
-        lookLeft = false;  
-        lookRight = false; 
-        while (checkColour(x, y)) { 
-            setPixel(x, y);         
-            if (checkColour(x - 1, y)) {  
+        lookLeft = false;
+        lookRight = false;
+        while (checkColour(x, y)) {
+            setPixel(x, y);
+            if (checkColour(x - 1, y)) {
                 if (!lookLeft) {
-                    stack.push([x - 1, y]);  
+                    stack.push([x - 1, y]);
                     lookLeft = true;
                 }
             } else
                 if (lookLeft) {
                     lookLeft = false;
                 }
-            if (checkColour(x + 1, y)) {  
+            if (checkColour(x + 1, y)) {
                 if (!lookRight) {
-                    stack.push([x + 1, y]); 
+                    stack.push([x + 1, y]);
                     lookRight = true;
                 }
             } else
                 if (lookRight) {
                     lookRight = false;
                 }
-            y += 1;                 
+            y += 1;
         }
-        
-        if (diagonal) {  
+
+        if (diagonal) {
             if (checkColour(x - 1, y) && !lookLeft) {
                 stack.push([x - 1, y]);
             }
