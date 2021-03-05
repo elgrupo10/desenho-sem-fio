@@ -20,3 +20,4 @@ inputNomeEl.addEventListener("change", () => {
         jogadores[i].classList.remove("desaparecer");
     }
 })
+                

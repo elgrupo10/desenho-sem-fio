@@ -3,35 +3,112 @@
   <head>
     <title>Telefone sem fio</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style/desenho.css">
     <link rel="stylesheet" href="style/estiloGeral.css">
+    <link rel="stylesheet" href='https://css.gg/color-bucket.css' rel='stylesheet'>
+    <link rel="stylesheet" href='https://css.gg/erase.css' rel='stylesheet'>
   </head>
   <body>
     <header>
-      <h1>📞TELEFONE SEM FIO</h1>
-      <a href="lobby.html">🏠</a>
+      <h1>📞DESENHO SEM FIO</h1>
     </header>
     <main>
+      <a href="lobby.html">🏠</a>
       <div class="grid-container">
-        <div id="gridJogadores">Jogadores</div>
-        <div id="gridRecebido">Desenhe isto</div>
+
+        <div id="gridJogadores">
+<<<<<<< HEAD
+          <h2>Jogadores</h2>
+          <ul>
+            <li>
+              <a href="lobby.html">🏠</a>
+            </li>
+          </ul>
+=======
+          Jogadores
+>>>>>>> 35f772638ff10675e698c547893f4de6c194b0ab
+        </div>
+
+        <div id="gridRecebido">
+          <span>Desenhe isto</span>
+<<<<<<< HEAD
+        </div>
+
+        <div id="gridCanvas">
+          <canvas id="canvas" class="aparece"></canvas>
+          <canvas id="canvas-transparente"></canvas>
+        </div>
+
+=======
+        </div>
+
         <div id="gridCanvas">
           <canvas id="canvas"></canvas>
-
-
         </div>
+
+>>>>>>> 35f772638ff10675e698c547893f4de6c194b0ab
         <div id="gridControles">
-
           <div class="cor-container">
-            <input id = "seletor-rgb" value="#ffff" class="input-cor" type="color">
+            <input id = "seletor-rgb" value="#000000" class="input-cor" type="color">
           </div>
+<<<<<<< HEAD
 
+          <div class="seletor-container">
+            <input id = "seletor-espessura" min="1" max="100" value="10" type="range">
+          </div>
+          
+          <div class="seletor-container" class="botao tolerancia-container">
+            <input type="range" min="0" max="256" value="100" id="tolerancia">
+          </div>
+          
+          <div class="seletor-desfazer-refazer">
+            <button id="refazer" class="botao">refazer</button>
+            <button id="desfazer" class="botao">desfazer</button>
+          </div>
+          
+          
+          
+          <div class="seletor-ferramentas-basicas">
+            <label for="preencher">preencher</label>
+            <input type="radio" name="pincel" id="preencher" class="botao">
+            <label for="borracha"></label>
+            <input type="radio" name="pincel" id="borracha" class="botao gg-erase">
+            <label for="linha">linha</label>
+            <input type="radio" name="pincel" id="linha" class="botao">
+            <label for="retangulo">retangulo</label>
+            <input type="radio" name="pincel" id="retangulo" class="botao">
+            <label for="circulo">circulo</label>
+            <input type="radio" name="pincel" id="circulo" class="botao"></button>
+            <label for="pincel">pincel</label>
+            <input type="radio" name="pincel" id="pincel" class="botao" checked="checked"></button>
+
+          </div>
+=======
+          <div class="seletor-container">
+            <input id = "seletor-espessura" value="10" type="range">
+          </div>
+          <div class="seletor-container">
+            <input type="range" min="0" max="256" value="100" id="tolerancia">
+          </div>
+          <div class="seletor-container">
+            <button id="preencher">preencher</button>
+          </div>
+          <div class="seletor-desfazer-refazer">
+            <button id="refazer">refazer</button>
+            <!-- <i class="gg-color-bucket"></i> -->
+            <button id="desfazer">desfazer</button>
+          </div>
+          <div class="seletor-borracha">
+            <button id="borracha">borracha</button>
+          </div>
+>>>>>>> 35f772638ff10675e698c547893f4de6c194b0ab
         </div>
       </div>
-      
     </main>
       <footer>
-      Participantes: Gabriel Lucas, Helio Antunes, Leônidas José
+        Paticipantes: Gabriel Lucas, Helio Antunes, Leônidas José
     </footer>
     <script src="js/canvas.js"></script>
   </body>
