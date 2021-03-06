@@ -35,6 +35,8 @@ let modos = {
     "preencher": 0,
     "borracha": 0,
     "linha": 0,
+    "retangulo": 0,
+    "circulo": 0,
     "pincel": 1
 }
 
@@ -66,18 +68,18 @@ function pare(e) {
     if (modos["circulo"] && estaPintandoCirculo) {
         finalizarCirculo(e);
     }
+    if ((modos["pincel"] || modos["borracha"]) && estaPintando) {
+        points.push({
+            mode: "pincel",
+            data: ctx.getImageData(0, 0, canvas.width, canvas.height)
+        })
+    }
 
     estaPintando = false;
     estaPintandoLinha = false;
     estaPintandoRetangulo = false;
     estaPintandoCirculo = false;
-    if (modos["pincel"] && points.length) {
-        points[points.length - 1].mode = "end";
-    }
 }
-
-
-
 
 function naopinte(e) {
     if (e.clientX < canvasRect.x || e.clientY < canvasRect.y || e.clientY > canvasRect.height + canvasRect.y || e.clientX > canvasRect.width + canvasRect.x) {
@@ -87,7 +89,7 @@ function naopinte(e) {
     }
 }
 
-function desenhar(e, start) {
+function desenhar(e) {
 
     if (!estaPintando || (!modos["pincel"] && !modos["borracha"])) return;
 
@@ -101,35 +103,12 @@ function desenhar(e, start) {
 
     }
 
-    let ultimoX = e.clientX - canvasRect.x;
-    let ultimoY = e.clientY - canvasRect.y;
     ctx.lineCap = "round";
     ctx.lineWidth = espessuraEl.value;
     ctx.lineTo(e.clientX - canvasRect.x, e.clientY - canvasRect.y);
     ctx.stroke();
     ctx.moveTo(e.clientX - canvasRect.x, e.clientY - canvasRect.y);
-    if (!start) {
-        points.push({
-            x: ultimoX,
-            y: ultimoY,
-            width: espessuraEl.value,
-            color: ctx.strokeStyle,
-            mode: "default"
 
-        })
-
-    }
-
-    else {
-        points.push({
-            x: ultimoX,
-            y: ultimoY,
-            width: espessuraEl.value,
-            color: ctx.strokeStyle,
-            mode: "start"
-
-        })
-    }
 }
 
 function redimensionar() {
@@ -161,9 +140,7 @@ body.addEventListener("mousemove", desenharRetangulo);
 body.addEventListener("mousemove", desenharCirculo);
 
 
-canvas.addEventListener("mousemove", (e) => {
-    desenhar(e, 0);
-});
+canvas.addEventListener("mousemove",desenhar);
 
 espessuraEl.addEventListener("change", () => {
     ctx.lineWidth = espessuraEl.value;
@@ -171,9 +148,7 @@ espessuraEl.addEventListener("change", () => {
 
 
 
-canvas.addEventListener("mousemove", (e) => {
-    desenhar(e, 0);
-});
+canvas.addEventListener("mousemove",desenhar);
 
 refazerEl.addEventListener("click", refazer);
 desfazerEl.addEventListener("click", desfazer);
@@ -193,15 +168,15 @@ canvas.addEventListener("click", (e) => {
     rgba = [r, g, b, 255];
     let data = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-    points.push({
+    // points.push({
 
-        x: e.clientX,
-        y: e.clientY,
-        color: colorEl.value,
-        tolerancia: tolerancia,
-        mode: "fill"
+    //     x: e.clientX,
+    //     y: e.clientY,
+    //     color: colorEl.value,
+    //     tolerancia: tolerancia,
+    //     mode: "fill"
 
-    });
+    // });
     preencher(e.clientX, e.clientY, rgba, 1, data, tolerancia, 1, 0);
 
 });
@@ -249,7 +224,7 @@ function preencher(posX, posY, RGBA, diagonal, imgData, tolerance, antiAlias, re
     var sa = data[ind + 3];
     if (RGBA[0] == sr && RGBA[1] == sg && RGBA[2] == sb && RGBA[3] == sa) {
 
-        points.pop();
+        // points.pop();
         return;
 
     }
@@ -346,49 +321,32 @@ function preencher(posX, posY, RGBA, diagonal, imgData, tolerance, antiAlias, re
             }
         }
     }
+
+    points.push({
+        mode: "fill",
+        data: imgData
+    })
+
     ctx.putImageData(imgData, 0, 0);
 }
 
 function desfazer() {
 
-
-    if (!points.length) return;
-    let temp = [];
-
-    for (let i = points.length - 1; i >= 0; i--) {
-
-        a = points.pop();
-        temp.push(a);
-        if (i >= 1 && a.mode == points[i - 1].mode && points[i - 1].mode == "end") break;
-
-        if (a.mode == "start" || a.mode == "fill" || a.mode == "linha" || a.mode == "retangulo" || a.mode == "circulo") break;
+    if (!points.length){
+        return;
     }
 
-    for (let i = temp.length - 1; i >= 0; i--) {
-        points2.push(temp[i]);
-
-    }
+    points2.push(points.pop());
     redesenhar();
 }
 
 function refazer() {
 
-    if (!points2.length) return;
-    let temp = [];
-
-    for (let i = points2.length - 1; i >= 0; i--) {
-        a = points2.pop();
-        temp.push(a);
-
-        if (i >= 1 && a.mode == points2[i - 1].mode && a.mode == "end") break;
-
-        if (a.mode == "start" || a.mode == "fill" || a.mode == "linha" || a.mode == "retangulo" || a.mode == "circulo") break;
+    if (!points2.length) {
+        return;
     }
 
-    for (let i = temp.length - 1; i >= 0; i--) {
-        points.push(temp[i]);
-    }
-
+    points.push(points2.pop());
     redesenhar();
 }
 
@@ -410,32 +368,10 @@ function redesenhar() {
 
         }
 
-        if (pt.mode == "default") {
-            pintar(pt.x, pt.y, pt.color, pt.width);
-        }
-        if (pt.mode == "start") {
-
-            ctx.beginPath();
-            pintar(pt.x, pt.y, pt.color, pt.width);
+        if(pt.mode == "pincel" || pt.mode == "fill"){
+            ctx.putImageData(pt.data, 0, 0);
         }
 
-        if (pt.mode == "end") {
-
-            pintar(pt.x, pt.y, pt.color, pt.width);
-            ctx.beginPath();
-        }
-
-        if (pt.mode == "fill") {
-
-            let color = pt.color
-            let r = parseInt(color.substr(1, 2), 16);
-            let g = parseInt(color.substr(3, 2), 16);
-            let b = parseInt(color.substr(5, 2), 16);
-            rgba = [r, g, b, 255];
-            let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            preencher(pt.x, pt.y, rgba, 1, imgData, pt.tolerancia, 1, 1);
-
-        }
         if (pt.mode == "linha") {
             ctx.lineCap = "round";
             ctx.lineWidth = pt.width;
@@ -445,6 +381,7 @@ function redesenhar() {
             ctx.lineTo(pt.xf, pt.yf);
             ctx.stroke();
         }
+
         if (pt.mode == "retangulo") {
             ctx.lineCap = "round";
             ctx.lineWidth = pt.width;
@@ -453,29 +390,23 @@ function redesenhar() {
             ctx.rect(pt.xi, pt.yi, pt.xf - pt.xi, pt.yf - pt.yi);
             ctx.stroke();
         }
+
         if (pt.mode == "circulo") {
-            ctx.lineCap = "round";
+            ctx.save();
+            ctx.beginPath();
+            let scaleX = 1 * ((pt.xf - pt.xi) / 2);
+            let scaleY = 1 * ((pt.yf - pt.yi) / 2);
+            ctx.scale(scaleX, scaleY);
+            let centerX = (pt.xi / scaleX) + 1;
+            let centerY = (pt.yi / scaleY) + 1;
             ctx.lineWidth = pt.width;
             ctx.strokeStyle = pt.color;
-            ctx.beginPath();
-            ctx.arc(pt.xi, pt.yi, pt.raio, 0, 2 * Math.PI);
+            ctx.arc(centerX, centerY, 1, 0, 2 * Math.PI);
+            ctx.restore();
             ctx.stroke();
         }
     }
 }
-
-
-
-function pintar(posX, posY, color, width) {
-
-    ctx.strokeStyle = color;
-    ctx.lineCap = "round";
-    ctx.lineWidth = width;
-    ctx.lineTo(posX, posY);
-    ctx.stroke();
-    ctx.moveTo(posX, posY);
-}
-
 
 function trocarCanvas() {
 
@@ -602,11 +533,19 @@ function desenharCirculo(e) {
     if (!modos["circulo"] || !estaPintandoCirculo) return;
 
     ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-    ctx2.lineCap = "round";
     ctx2.lineWidth = espessuraEl.value;
     ctx2.strokeStyle = colorEl.value;
+    ctx2.save();
     ctx2.beginPath();
-    ctx2.arc(xInicial, yInicial, Math.abs(e.clientX - canvasRect.x - xInicial), 0, 2 * Math.PI);
+    let xAtual = e.clientX - canvasRect.x;
+    let yAtual = e.clientY - canvasRect.y;
+    let scaleX = 1 * ((xAtual - xInicial) / 2);
+    let scaleY = 1 * ((yAtual - yInicial) / 2);
+    ctx2.scale(scaleX, scaleY);
+    let centerX = (xInicial / scaleX) + 1;
+    let centerY = (yInicial / scaleY) + 1;
+    ctx2.arc(centerX, centerY, 1, 0, 2 * Math.PI);
+    ctx2.restore();
     ctx2.stroke();
 
 }
@@ -615,26 +554,29 @@ function finalizarCirculo(e) {
 
     points2 = [];
     ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+    let xAtual = e.clientX - canvasRect.x;
+    let yAtual = e.clientY - canvasRect.y;
 
     points.push({
         xi: xInicial,
         yi: yInicial,
-        raio: Math.abs(e.clientX - canvasRect.x - xInicial),
+        xf: xAtual,
+        yf: yAtual,
         mode: "circulo",
         width: espessuraEl.value,
         color: colorEl.value
-
     });
 
-    ctx.lineCap = "round";
     ctx.lineWidth = espessuraEl.value;
     ctx.strokeStyle = colorEl.value;
+    ctx.save();
     ctx.beginPath();
-    ctx.arc(xInicial, yInicial, Math.abs(e.clientX - canvasRect.x - xInicial), 0, 2 * Math.PI);
+    let scaleX = 1 * ((xAtual - xInicial) / 2);
+    let scaleY = 1 * ((yAtual - yInicial) / 2);
+    ctx.scale(scaleX, scaleY);
+    let centerX = (xInicial / scaleX) + 1;
+    let centerY = (yInicial / scaleY) + 1;
+    ctx.arc(centerX, centerY, 1, 0, 2 * Math.PI);
+    ctx.restore();
     ctx.stroke();
 }
-ctx.beginPath();
-ctx.fillStyle = 'white';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.fill();
-ctx.fill();

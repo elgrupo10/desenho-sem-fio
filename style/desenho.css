@@ -63,7 +63,6 @@ main{
     z-index:1;
 }
 
-
 #gridControles{
     grid-area: 1 / 3 / 3 / 3;
     background: #292929;
@@ -72,30 +71,32 @@ main{
     grid-template-columns: 1fr 1fr;
 }
 .cor-container {
-  position: relative;
+  border: rgba();
+  width: 130px;
+  height: 75px;
+  border-radius: 5px;
   overflow: hidden;
-  width: 40px;
-  height: 40px;
-  border: solid 2px #ddd;
-  border-radius: 40px;
   grid-column: 1 / 3;
 }
 
 .tolerancia-container {
     grid-row: 3 / 4;
 }
-.input-cor {
-  position: absolute;
-  right: -8px;
-  top: -8px;
-  width: 56px;
-  height: 56px;
-  border: none;
-}
+
+
+
 .botao {
     border-radius: 5px;
 }
- 
+input[type="color"] {
+  border: 0;
+  padding: 0;
+  width: 200%;
+  height: 200%;
+  cursor: pointer;
+  transform: translate(-25%, -25%)
+
+}
 .gg-erase {
     box-sizing: border-box;
     display: block;
