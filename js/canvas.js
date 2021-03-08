@@ -8,8 +8,6 @@ const ctx = canvas.getContext('2d');
 const ctx2 = canvas2.getContext('2d');
 let canvasRect = canvas.getBoundingClientRect();
 
-
-
 //personalizações do usuário
 
 let borrachaEl = document.querySelector("#borracha");
@@ -47,11 +45,16 @@ let points2 = [];
 //Outras variáveis
 let tolerancia = 100;
 
+function esvaziarRefazer(){
+
+    points2 = [];
+    desfazerEl.classList.add("impossivel");
+}
 
 function comeco(e) {
     estaPintando = true;
     ctx.beginPath();
-    points2 = [];
+    esvaziarRefazer();
     desenhar(e, 1);
 
 }
@@ -69,6 +72,7 @@ function pare(e) {
         finalizarCirculo(e);
     }
     if ((modos["pincel"] || modos["borracha"]) && estaPintando) {
+        desfazerEl.classList.remove("impossivel");
         points.push({
             mode: "pincel",
             data: ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -88,6 +92,7 @@ function naopinte(e) {
 
     }
 }
+
 
 function desenhar(e) {
 
@@ -167,16 +172,6 @@ canvas.addEventListener("click", (e) => {
     let b = parseInt(color.substr(5, 2), 16);
     rgba = [r, g, b, 255];
     let data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-    // points.push({
-
-    //     x: e.clientX,
-    //     y: e.clientY,
-    //     color: colorEl.value,
-    //     tolerancia: tolerancia,
-    //     mode: "fill"
-
-    // });
     preencher(e.clientX, e.clientY, rgba, 1, data, tolerancia, 1, 0);
 
 });
@@ -224,11 +219,10 @@ function preencher(posX, posY, RGBA, diagonal, imgData, tolerance, antiAlias, re
     var sa = data[ind + 3];
     if (RGBA[0] == sr && RGBA[1] == sg && RGBA[2] == sb && RGBA[3] == sa) {
 
-        // points.pop();
         return;
 
     }
-    if (!redesenhando) points2 = [];
+    if (!redesenhando) esvaziarRefazer;
     var dontPaint = false;
 
     var checkColour = function (x, y) {
@@ -326,6 +320,7 @@ function preencher(posX, posY, RGBA, diagonal, imgData, tolerance, antiAlias, re
         mode: "fill",
         data: imgData
     })
+    desfazerEl.classList.remove("impossivel");
 
     ctx.putImageData(imgData, 0, 0);
 }
@@ -335,8 +330,13 @@ function desfazer() {
     if (!points.length){
         return;
     }
-
+    refazerEl.classList.remove("impossivel");
     points2.push(points.pop());
+
+    if(!points.length){
+        desfazerEl.classList.add("impossivel");
+    }
+
     redesenhar();
 }
 
@@ -345,8 +345,12 @@ function refazer() {
     if (!points2.length) {
         return;
     }
-
+    desfazerEl.classList.remove("impossivel");
     points.push(points2.pop());
+
+    if (!points2.length) {
+        refazerEl.classList.add("impossivel");
+    }
     redesenhar();
 }
 
@@ -445,9 +449,9 @@ function desenharLinha(e) {
 
 function finalizarLinha(e) {
 
-    points2 = [];
+    esvaziarRefazer();
     ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-
+    desfazerEl.classList.remove("impossivel");
     points.push({
         xi: xInicial,
         yi: yInicial,
@@ -495,9 +499,9 @@ function desenharRetangulo(e) {
 
 function finalizarRetangulo(e) {
 
-    points2 = [];
+    esvaziarRefazer();
     ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-
+    desfazerEl.classList.remove("impossivel");
     points.push({
         xi: xInicial,
         yi: yInicial,
@@ -552,11 +556,11 @@ function desenharCirculo(e) {
 
 function finalizarCirculo(e) {
 
-    points2 = [];
+    esvaziarRefazer();
     ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
     let xAtual = e.clientX - canvasRect.x;
     let yAtual = e.clientY - canvasRect.y;
-
+    desfazerEl.classList.remove("impossivel");
     points.push({
         xi: xInicial,
         yi: yInicial,

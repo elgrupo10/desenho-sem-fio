@@ -164,6 +164,10 @@ input[type="color"] {
     height: 2em;
 }
 
+button:focus {
+    outline: none;
+}
+
 [type=radio] { 
     position: absolute;
     opacity: 0;
