@@ -2,7 +2,7 @@
 const inputNomeEl = document.querySelector("#nomeJogador");
 const maskEl = document.querySelector("#mask");
 const modalNomeEl = document.querySelector("#nome");
-const jogadores = document.querySelectorAll(".jogador")
+const palyers = document.querySelectorAll(".jogador")
 
 let vetorJogadores = [];
 
@@ -16,8 +16,8 @@ inputNomeEl.addEventListener("change", () => {
     modalNomeEl.classList.add("desaparecer");
     vetorJogadores.push(inputNomeEl.value);
     for (let i = 0; i<vetorJogadores.length; i++){
-        jogadores[i].innerHTML = vetorJogadores[i];
-        jogadores[i].classList.remove("desaparecer");
+        palyers[i].innerHTML = vetorJogadores[i];
+        palyers[i].classList.remove("desaparecer");
     }
 })
                 

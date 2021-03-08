@@ -137,6 +137,7 @@ h2 {
     padding: 10px;
     border-radius: 10px;
     z-index: 2;
+    transition: linear 500ms;
 }
 
 #mask {
@@ -152,7 +153,7 @@ h2 {
 .desaparecer {
     display: none;
     pointer-events: none;
-    transition: linear 500ms;
+    
 
 }
 

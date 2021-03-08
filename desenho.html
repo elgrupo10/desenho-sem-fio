@@ -7,15 +7,13 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style/desenho.css">
     <link rel="stylesheet" href="style/estiloGeral.css">
-    <link rel="stylesheet" href='https://css.gg/color-bucket.css' rel='stylesheet'>
-    <link rel="stylesheet" href='https://css.gg/erase.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style/estilosImportados.css">
   </head>
   <body>
     <header>
       <h1>📞DESENHO SEM FIO</h1>
     </header>
     <main>
-      <a href="lobby.html">🏠</a>
       <div class="grid-container">
 
         <div id="gridJogadores">
@@ -50,27 +48,51 @@
           </div>
           
           <div class="seletor-desfazer-refazer">
-            <button id="refazer" class="botao">refazer</button>
-            <button id="desfazer" class="botao">desfazer</button>
+            <button id="desfazer" class="botao"><i class="gg-undo"></i></button>
+            <button id="refazer" class="botao"><i class="gg-redo"></i></button>
           </div>
           
           
           
           <div class="seletor-ferramentas-basicas">
-            <label for="preencher">preencher</label>
-            <input type="radio" name="pincel" id="preencher" class="botao">
-            <label for="borracha"></label>
-            <input type="radio" name="pincel" id="borracha" class="botao gg-erase">
-            <label for="linha">linha</label>
-            <input type="radio" name="pincel" id="linha" class="botao">
-            <label for="retangulo">retangulo</label>
-            <input type="radio" name="pincel" id="retangulo" class="botao">
-            <label for="circulo">circulo</label>
-            <input type="radio" name="pincel" id="circulo" class="botao"></button>
-            <label for="pincel">pincel</label>
-            <input type="radio" name="pincel" id="pincel" class="botao" checked="checked"></button>
-
+            <label class="botao">
+              <input type="radio" name="pincel" id="pincel" checked="checked"></button>
+              <div>
+                <i class="gg-pen"></i>
+              </div>
+            </label>
+            <label class="botao">
+              <input type="radio" name="pincel" id="borracha">
+              <div>
+                <i class="gg-erase"></i>
+              </div>
+            </label>
+            <label class="botao">
+              <input type="radio" name="pincel" id="linha">
+              <div>
+                <i class="gg-border-style-solid"></i>
+              </div>
+            </label>
+            <label class="botao">
+              <input type="radio" name="pincel" id="retangulo">
+              <div>
+                <i class="gg-shape-square"></i>
+              </div>
+            </label>
+            <label class="botao">
+              <input type="radio" name="pincel" id="circulo"></button>
+              <div>
+                <i class="gg-shape-circle"></i>
+              </div>
+            </label>
+            <label class="botao">
+              <input type="radio" name="pincel" id="preencher">
+              <div>
+                <i class="gg-color-bucket"></i>
+              </div>
+            </label>
           </div>
+          <button type="button" class="btn btn-success">PRONTO!</button>
         </div>
       </div>
     </main>

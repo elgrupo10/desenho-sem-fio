@@ -1,4 +1,4 @@
-const jogadores = 7;
+const jogadores = 10;
 
 
 
@@ -57,4 +57,4 @@ for(let i=1;i<=jogadores;i++){
         console.log(trocas[i][j]);
     }
     console.log("PROXIMO JOGADOR");
-}w
+}
