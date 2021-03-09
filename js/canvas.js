@@ -75,7 +75,7 @@ coresEl.forEach(colocaCor);
 function esvaziarRefazer(){
 
     points2 = [];
-    desfazerEl.classList.add("impossivel");
+    refazerEl.classList.add("impossivel");
 }
 
 function comeco(e) {
