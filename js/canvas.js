@@ -187,12 +187,6 @@ body.addEventListener("mousemove", desenharCirculo);
 
 canvas.addEventListener("mousemove",desenhar);
 
-espessuraEl.addEventListener("change", () => {
-    ctx.lineWidth = espessuraEl.value;
-})
-
-
-
 canvas.addEventListener("mousemove",desenhar);
 
 refazerEl.addEventListener("click", refazer);
