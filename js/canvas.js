@@ -17,6 +17,7 @@ let preencherEl = document.querySelector("#preencher");
 let linhaEl = document.querySelector("#linha");
 let quadradoEl = document.querySelector("#quadrado");
 let circuloEl = document.querySelector("#circulo");
+let coresEl = document.querySelectorAll(".cor");
 let colorEl = document.querySelector("#seletor-rgb");
 let espessuraEl = document.querySelector("#seletor-espessura");
 let toleranciaEl = document.querySelector("#tolerancia");
@@ -35,6 +36,7 @@ let modos = {
     "linha": 0,
     "retangulo": 0,
     "circulo": 0,
+    "contaGotas": 0,
     "pincel": 1
 }
 
@@ -44,6 +46,31 @@ let points2 = [];
 
 //Outras variáveis
 let tolerancia = 100;
+let hexCores = {
+    "blue": "#0000ff",
+    "rebeccaPurple": "#663399",
+    "chocolate": "#d2691e",
+    "red": "#FF0000",
+    "dodgerBlue": "#1e90ff",
+    "orange": "#ffa500",
+    "deepPink": "#FF1493",
+    "LimeGreen": "#32CD32",
+    "black": "#000000",
+    "gold": "#FFD700"
+}
+
+
+function atualizarCor(e){
+    e = e.currentTarget;
+    colorEl.value = hexCores[e.id];
+}
+
+function colocaCor(e){
+    e.addEventListener("click",atualizarCor);
+    e.style.background = e.id;
+}
+
+coresEl.forEach(colocaCor);
 
 function esvaziarRefazer(){
 
@@ -133,10 +160,23 @@ function redimensionar() {
 
 }
 
+function pegarCor(e){
+    if(!modos["contaGotas"])return;
+    let data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    let x = Math.ceil(e.clientX - canvasRect.x);
+    let y = Math.ceil(e.clientY - canvasRect.y);
+    
+    let r = data[Math.ceil((y*canvas.width+x)*4)];
+    let g = data[Math.ceil((y*canvas.width+x)*4)+1];
+    let b = data[Math.ceil((y*canvas.width+x)*4)+2];
+    colorEl.value = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
 body.addEventListener("mouseup", pare);
 body.addEventListener("mousemove", naopinte);
 window.addEventListener("resize", redimensionar);
 canvas.addEventListener("mousedown", comeco);
+canvas.addEventListener("mousedown", pegarCor);
 canvas2.addEventListener("mousedown", comecoLinha);
 canvas2.addEventListener("mousedown", comecoRetangulo);
 canvas2.addEventListener("mousedown", comecoCirculo);

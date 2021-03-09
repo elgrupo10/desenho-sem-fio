@@ -92,6 +92,33 @@ main{
   position: relative;
 }
 
+#pack-de-cores{
+    justify-self: center;
+    row-gap: .25em;
+    column-gap: .25em;
+    grid-area: 2 / 1 / 2 / 3;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.cores-dir{
+  justify-self: start;
+}
+.cores-esq{
+  justify-self: end;
+}
+.cores-centro{
+    justify-self: center;
+}
+.cor {
+  cursor: pointer;
+  width: 2em;
+  height: 2em;
+  border-radius: 5px;
+  border: 2px solid rgb(255, 255, 255);
+}
+
 .cor-container:after {
     content: '';
     display: block;
