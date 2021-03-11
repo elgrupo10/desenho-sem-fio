@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shotcut icon" href=".imgs/icontelefone.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telefone sem Fio</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/estilosLobby.css">
+    <link rel="stylesheet" href="css/estiloGeral.css">
+
+</head>
+<body>
+    <header>
+        <h1>📞DESENHO SEM FIO</h1>
+    </header>
+    <main>
+        <a href="/game">⏭️</a>
+        <div id="telaDeJogadores">
+            <h2> Jogadores </h2>
+            <div id="jogadores">
+                <span class="jogador desaparecer"></span>
+                <span class="jogador desaparecer"></span>
+                <span class="jogador desaparecer"></span>
+                <span class="jogador desaparecer"></span>
+                <span class="jogador desaparecer"></span>
+                <span class="jogador desaparecer"></span>
+                <span class="jogador desaparecer"></span>
+                <span class="jogador desaparecer"></span>
+                <span class="jogador desaparecer"></span>
+                <span class="jogador desaparecer"></span>
+            </div>
+            <button type="button" class="btn btn-success">PRONTO!</button>
+        </div>
+        
+    </main>
+    <footer>
+        Participantes: Gabriel Lucas, Helio Antunes, Leônidas José
+    </footer>
+    <div id= "nome" class="meuModal">
+        <h2>Insira seu nome!</h2>
+        <input id="nomeJogador" type="text" maxlength = "8"></input>
+    </div>
+    <div id="mask">
+    </div>
+    <script src="js/sorteio.js"></script>
+    <script src="js/lobby.js"></script>
+</body>
+</html>
