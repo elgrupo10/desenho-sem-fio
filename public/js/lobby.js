@@ -2,10 +2,14 @@
 const inputNomeEl = document.querySelector("#nomeJogador");
 const maskEl = document.querySelector(".mask");
 const modalNomeEl = document.querySelector("#nome");
-const palyers = document.querySelectorAll(".jogador")
+const palyers = document.querySelectorAll(".jogador");
+const headers = new Headers({
+    "Content-Type": "application/json"
+})
 let PlayersContainer = document.querySelector("#jogadores");
 let avisoNome = document.querySelector("#aviso-nome");
 let readyEl = document.querySelector("#ready");
+let tituloEl = document.querySelector("#tituloTelaDeJogadores");
 let startEl = document.querySelector("#leader-start");
 let vJogadores = [];
 let ready = 0;
@@ -23,12 +27,9 @@ if (localStorage.getItem("nome") == null) {
     buscar = 0;
 
 }else{
-    const headers = new Headers({
-        "Content-Type": "application/json"
-    })
     fetch("/jogadores", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), pronto: 0 }) })
-    .then(r => r.json())
-    .then(r => console.log(r));
+    // .then(r => r.json())
+    // .then(r => console.log(r));
     
 }
 
@@ -38,9 +39,6 @@ maskEl.addEventListener("click", () => {
 
 
 inputNomeEl.addEventListener("change", () => {   
-    const headers = new Headers({
-        "Content-Type": "application/json"
-    })
     fetch("/jogadores", { method: "POST", headers: headers, body: JSON.stringify({nome: inputNomeEl.value, pronto:0 })})
         .then(r => r.json())
         .then(r => {
@@ -79,6 +77,7 @@ function registrarJogadores(){
 
 
 function buscarJogadores() {
+    let tipoDeStart;
     if(!buscar)return;
     vJogadores = [];
     fetch("/jogadores")
@@ -91,7 +90,12 @@ function buscarJogadores() {
                     vJogadores.push({"nome": r.jogadores[i].nome,"pronto":r.jogadores[i].pronto});
             }
             registrarJogadores();
+            if(r.start){
+                comecar = 1;
+            }
+            tipoDeStart = r.startType;
         });
+    return tipoDeStart;
 }
 
 
@@ -100,9 +104,6 @@ function changeReadyState(){
     readyEl.classList.toggle("btn-success");
     readyEl.classList.toggle("btn-danger");
     readyEl.innerHTML = ready ? "NÃO PRONTO!" : "PRONTO!";
-    const headers = new Headers({
-        "Content-Type": "application/json"
-    })
     fetch("/changeReadyState", { method: "POST", headers: headers, body: JSON.stringify({nome: localStorage.getItem("nome")})})
          
         
@@ -111,26 +112,55 @@ function changeReadyState(){
 
 function jogadorSaindo(){
     if(!localStorage.getItem("nome"))return;
-    const headers = new Headers({
-        "Content-Type": "application/json"
-    })
     fetch("/saindo", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome")}) })
     
 }
 
 function iniciarPartida(){
     if(!comecar)return;
+    clearInterval(inicia);
+    buscar = 0;
+    readyEl.disabled = true;
+    startEl.disabled = true;
+    let t = buscarJogadores();
+    let timeleft = 3;
+    let timer = setInterval(function () {
+        if (timeleft <= 0) {
+            clearInterval(timer);
+        } else {
+            if(t){
+                if(timeleft<=1){
+                    tituloEl.innerHTML = `O líder iniciou a partida! ${timeleft} segundo até a partida começar!`;
+                }else{
+                    tituloEl.innerHTML = `O líder iniciou a partida! ${timeleft} segundos até a partida começar!`;
+                }
+            }else{
+                if(timeleft<=1){
+                    tituloEl.innerHTML = `Todos os jogadores estão prontos! ${timeleft} segundo até a partida começar!`;
+                }else{
+                    tituloEl.innerHTML = `Todos os jogadores estão prontos! ${timeleft} segundos até a partida começar!`;
+                }
+            }
+        }
+        timeleft -= 1;
+    }, 1000);
+    
+    // location.href = 'http://localhost:3000/game';
     //redirecionar o cliente e comecar a gerenciar o jogo atraves do back-end
 
 }
 
+function avisarServer(){
+    fetch("/jogadores", { method: "POST", headers: headers, body: JSON.stringify({start: 1}) })
+}
 
 window.addEventListener("beforeunload", jogadorSaindo);
-readyEl.addEventListener("click",changeReadyState);
-  
+readyEl.addEventListener("click", changeReadyState);
+startEl.addEventListener("click", avisarServer);
+
 
 setInterval(buscarJogadores, 250);
-setInterval(iniciarPartida,250);
+let inicia = setInterval(iniciarPartida,250);
 
 
 

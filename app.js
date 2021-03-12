@@ -10,38 +10,52 @@ app.get("/game", (req, res) =>{
     res.sendFile(path.join(__dirname + "/views/desenho.html"));
 })
 
-let iniciar = 0;
 
 let gameStatus = {
     jogadores:[
-    {nome: "Coutinho",pronto:1},
-    {nome: "Helin",pronto:0}   
+    // {nome: "Coutinho",pronto:1},
+    // {nome: "Helin",pronto:0}   
 ],
 leader:"",
-start: 0};
+start: 0,
+startType:0};
 app.get("/jogadores", (req,res) =>{
-    gameStatus.leader = gameStatus.jogadores[0].nome;
+    if(gameStatus.jogadores.length){
+        gameStatus.leader = gameStatus.jogadores[0].nome;
+    }
+    let start = 1;
+    for (let i = 0; i < gameStatus.jogadores.length; i++) {
+        if(!gameStatus.jogadores[i].pronto){
+            start = 0;
+        }
+    }
+    if (start == 1 && gameStatus.jogadores.length)gameStatus.start = 1;
     res.send(gameStatus);
 
 });
 
 app.post("/jogadores", (req,res) =>{
-    const nomeJogador = req.body.nome;
-    let ok = 1;
-    for (let i = 0; i < gameStatus.jogadores.length; i++) {
-        if (gameStatus.jogadores[i].nome == nomeJogador) {
-            ok = 0;
-            res.send({changeUsername: 1});
+    if(req.body.start){
+        console.log("jogo iniciando");
+        gameStatus.start = 1;
+        gameStatus.startType = 1;
+    }else{
+        const nomeJogador = req.body.nome;
+        let ok = 1;
+        for (let i = 0; i < gameStatus.jogadores.length; i++) {
+            if (gameStatus.jogadores[i].nome == nomeJogador) {
+                ok = 0;
+                res.send({changeUsername: 1});
+            }
         }
+        if(ok){
+            gameStatus.jogadores.push({nome:nomeJogador,pronto: 0});
+            res.send(gameStatus);
+        }
+        //1. pegar o nome do jogador
+        //2. colocar o jogador no vetor
+        //3. responder o front end :thumbsup:
     }
-    if(ok){
-        gameStatus.jogadores.push({nome:nomeJogador,pronto: 0});
-        res.send(gameStatus);
-    }
-    //1. pegar o nome do jogador
-    //2. colocar o jogador no vetor
-    //3. responder o front end :thumbsup:
-
 })
 
 app.post("/changeReadyState", (req, res) => {
@@ -72,6 +86,10 @@ app.post("/saindo", (req,res) => {
         }
     }
 })
+
+
+
+
 
 
 app.listen(3000, () => console.log("server online"));
