@@ -52,9 +52,9 @@ while(true){
 
 
 
-for(let i=1;i<=jogadores;i++){
-    for(let j=0;j<jogadores-1;j++){
-        console.log(trocas[i][j]);
-    }
-    console.log("PROXIMO JOGADOR");
-}
+// for(let i=1;i<=jogadores;i++){
+//     for(let j=0;j<jogadores-1;j++){
+//         console.log(trocas[i][j]);
+//     }
+//     console.log("PROXIMO JOGADOR");
+// }
