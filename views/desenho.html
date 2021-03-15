@@ -60,10 +60,16 @@
 
           <div class="seletor-container">
             <input id = "seletor-espessura" min="1" max="50" value="5" type="range">
+            <div id="i-espessura" class="info">
+              <i class="gg-info"></i>
+            </div>
           </div>
           
           <div class="seletor-container" class="botao tolerancia-container">
             <input type="range" min="0" max="256" value="100" id="tolerancia">
+            <div id="i-tolerancia" class="info">
+              <i class="gg-info"></i>
+            </div>
           </div>
           
           <div class="seletor-desfazer-refazer">
@@ -115,6 +121,8 @@
           <button type="button" class="btn btn-success" id="enviar">NÃO PRONTO!</button>
         </div>
       </div>
+      <div id="m-espessura" class="modal-info">Arraste esta barra para a esquerda ou direita para ajustar a <strong>espessura</strong>.</div>
+      <div id="m-tolerancia" class="modal-info">Arraste esta barra para a esquerda ou direita para ajustar a <strong>sensibilidade do balde</strong>. Quanto menos sensível, ignora mais outras cores.</div>
     </main>
       <footer>
         Paticipantes: Gabriel Lucas, Helio Antunes, Leônidas José
