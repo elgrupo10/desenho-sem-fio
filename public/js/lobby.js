@@ -1,4 +1,3 @@
-
 const inputNomeEl = document.querySelector("#nomeJogador");
 const maskEl = document.querySelector(".mask");
 const modalNomeEl = document.querySelector("#nome");
@@ -6,11 +5,11 @@ const palyers = document.querySelectorAll(".jogador");
 const headers = new Headers({
     "Content-Type": "application/json"
 })
-let PlayersContainer = document.querySelector("#jogadores");
+let playersContainer = document.querySelector("#jogadores");
 let avisoNome = document.querySelector("#aviso-nome");
 let readyEl = document.querySelector("#ready");
 let tituloEl = document.querySelector("#tituloTelaDeJogadores");
-let startEl = document.querySelector("#leader-start");
+let startEl = document.querySelector("#iniciar-lider");
 let vJogadores = [];
 let ready = 0;
 let tipoDeInicio = 0;
@@ -54,19 +53,20 @@ inputNomeEl.addEventListener("change", () => {
 })
 
 function registrarJogadores(){
-    PlayersContainer.innerHTML = "";
+    playersContainer.innerHTML = "";
     for (let i = 0; i < vJogadores.length; i++) {
         let jogadorEl = document.createElement("span");
         if(vJogadores[i].pronto)jogadorEl.classList.add("pronto");
         if (lider == vJogadores[i].nome) {
-            jogadorEl.innerHTML = vJogadores[i].nome + `<i class="fas fa-crown"></i>`;
+            jogadorEl.innerHTML = vJogadores[i].nome + `<i class="fas fa-crown coroa"></i>`;
         }else{
             jogadorEl.innerHTML = vJogadores[i].nome;
         }
         jogadorEl.classList.add("jogador");
-        PlayersContainer.appendChild(jogadorEl);
+        playersContainer.appendChild(jogadorEl);
     }
     if(lider == localStorage.getItem("nome")){
+        console.log("eu sou");
         startEl.style.display = "inline";
     }
 }
@@ -82,15 +82,15 @@ function buscarJogadores() {
             return r.json();
         })
         .then(r => {
-            lider = r.leader;
+            lider = r.lider;
             for(let i=0;i<r.jogadores.length;i++){
                     vJogadores.push({"nome": r.jogadores[i].nome,"pronto":r.jogadores[i].pronto});
             }
             registrarJogadores();
-            if(r.state == "playing"){
+            if(r.estado == "jogando"){
                 comecar = 1;
             }
-            tipoDeInicio = r.startType;
+            tipoDeInicio = r.tipoDeInicio;
         });
     
 }
@@ -156,6 +156,4 @@ startEl.addEventListener("click", avisarServer);
 
 let busca = setInterval(buscarJogadores, 250);
 let inicia = setInterval(iniciarPartida,250);
-
-
 

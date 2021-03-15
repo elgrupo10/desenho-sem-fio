@@ -96,10 +96,7 @@ h2 {
     display:none;
 }
 
-i {
-    margin-left: 10px;
-    color:gold;
-}
+
 
 .botoes {
     
@@ -108,7 +105,7 @@ i {
    
 }
 
-#leader-start{
+#iniciar-lider{
 
     display: none;
 

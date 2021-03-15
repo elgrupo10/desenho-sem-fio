@@ -221,7 +221,7 @@ button:focus {
     width: 30px;
 }
 
-button.btn.btn-success {
+#enviar {
     justify-self: center;
     align-self: center;
     grid-column: 1 / 3;
@@ -256,7 +256,7 @@ i {
     color:white;
 }
 
-#progress-bar{
+#time-bar{
     
     background-color:green;
     display:block;
