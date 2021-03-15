@@ -258,3 +258,9 @@ i {
     color:white;
 }
 
+@media (max-width: 1400px){
+    .cor{
+        width: 1.5em;
+        height: 1.5em;
+    }
+}
