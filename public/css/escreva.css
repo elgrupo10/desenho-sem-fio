@@ -1,0 +1,38 @@
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.escreva{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #292929;
+    width: 70%;
+    border-radius: 10px;
+}
+
+.sem-aparecer{
+    display: none;
+}
+
+img{
+    max-width: 70%;
+    justify-self: center;
+    margin-top: 0.5em;
+}
+
+input {
+    width: 90%;
+    margin: 1em;
+    padding: 0.5em;
+}
+button {
+    margin-bottom: 0.5em;
+}
+
+h1 {
+    color: white;
+    margin: 0.5em;
+}
