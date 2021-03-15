@@ -123,7 +123,7 @@ function iniciarPartida(){
     let timer = setInterval(function () {
         if (timeleft <= 0) {
             clearInterval(timer);
-            // location.href = "/game";
+            location.href = "/game";
         } else {
             if(tipoDeInicio){
                 if(timeleft<=1){

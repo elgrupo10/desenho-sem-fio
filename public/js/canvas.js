@@ -106,7 +106,7 @@ function pare(e) {
             data: ctx.getImageData(0, 0, canvas.width, canvas.height)
         })
     }
-
+    console.log(canvas.toDataURL());
     estaPintando = false;
     estaPintandoLinha = false;
     estaPintandoRetangulo = false;

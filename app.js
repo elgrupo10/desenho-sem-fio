@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const sorteio = require("./public/js/sorteio");
 const { gerenciadorDoJogo, enviarNovaTarefa, rodada, inicializarJogo } = require("./back-end-game")
 const {jogo} = require("./variaveis");
 app.use(express.json());
@@ -68,6 +67,7 @@ app.post("/changeReadyState", (req, res) => {
 })
 
 app.post("/saindo", (req,res) => {
+    if(jogo.gameStatus.estado != "esperando")return;
     const nomeJogador = req.body.nome;
     for (let i = 0; i < jogo.gameStatus.jogadores.length; i++) {
         if (jogo.gameStatus.jogadores[i].nome == nomeJogador) {
@@ -78,7 +78,17 @@ app.post("/saindo", (req,res) => {
     }
 })
 
+app.post("/enviarJogada", (req,res) => {
+    const nomeJogador = req.body.nome;
+    const jogada = req.body.jogada;
+    jogo.desenhos[jogo.idJogadores[nomeJogador]][jogo.rodada] = jogada;
+})
 
+
+
+app.get('*' , (req,res) => {
+    res.redirect('/lobby');
+})
 
 
 

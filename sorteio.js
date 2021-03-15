@@ -52,4 +52,4 @@ function sorteio() {
     return trocas;
 }
 
-module.exports = sorteio;
+module.exports = {sorteio};

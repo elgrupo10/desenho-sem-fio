@@ -11,7 +11,9 @@ main{
     background-color: #292929;
     width: 70%;
     border-radius: 10px;
+    
 }
+
 
 .sem-aparecer{
     display: none;
@@ -24,9 +26,10 @@ img{
 }
 
 input {
-    width: 90%;
+    width: 100%;
     margin: 1em;
     padding: 0.5em;
+    margin-bottom:0;
 }
 button {
     margin-bottom: 0.5em;
@@ -35,4 +38,17 @@ button {
 h1 {
     color: white;
     margin: 0.5em;
+}
+.time-bar {
+    height:12px;
+    min-width: 100%;
+    background-color:green;
+    margin-bottom: 20px;
+}
+
+.input-time-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
 }

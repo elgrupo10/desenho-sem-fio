@@ -13,19 +13,27 @@
       <h1>📞DESENHO SEM FIO</h1>
     </header>
     <main>
-        <div id="primeiro" class="escreva">
-            <h1>Digite a frase que você quer que seja desenhada!</h1>
-            <input type="text" placeholder="Digite aqui...">
-            <button type="button" class="btn btn-success">PRONTO!</button>
+      <div id="primeiro" class="escreva">
+        <h1>Digite a frase que você quer que seja desenhada!</h1>
+        <div class="input-time-box">
+          <input type="text" placeholder="Digite aqui...">
+          <div class="time-bar"></div>
         </div>
-        <div class="escreva sem-aparecer">
-            <img src="https://abglt.org.br/wp-content/uploads/2020/10/wallpaper-pc-1024x576.jpg.webp" alt="">
-            <input type="text" placeholder="Digite o que você entende da imagem...">
-            <button type="button" class="btn btn-success">PRONTO!</button>
+        <button type="button" class="btn btn-success enviar">PRONTO!</button>
+      </div>
+      <div class="escreva sem-aparecer">
+        <img src="https://abglt.org.br/wp-content/uploads/2020/10/wallpaper-pc-1024x576.jpg.webp" alt="">
+            <div class="input-time-box">
+              <input type="text" placeholder="Digite o que você entende da imagem..." id="descricao">
+              <div class="time-bar"></div>
+            </div>
+        <button type="button" class="btn btn-success enviar">PRONTO!</button>
+
         </div>
     </main>
       <footer>
         Paticipantes: Gabriel Lucas, Helio Antunes, Leônidas José
     </footer>
+    <script src="js/game.js"></script>
   </body>
 </html>

@@ -221,7 +221,7 @@ button:focus {
     width: 30px;
 }
 
-#enviar {
+.enviar {
     justify-self: center;
     align-self: center;
     grid-column: 1 / 3;
@@ -263,7 +263,7 @@ i {
         height: 1.5em;
     }
 }
-#time-bar{
+.time-bar{
     background-color:green;
     display:block;
 }

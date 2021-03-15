@@ -1,4 +1,6 @@
 const { jogo } = require("./variaveis");
+const {sorteio} = require("./sorteio");
+
 function inicializarJogo(tipo) {
     console.log("jogo iniciando");
     jogo.gameStatus.estado = "jogando";
@@ -6,7 +8,16 @@ function inicializarJogo(tipo) {
     console.log(tipo);
     // gameStatus.rodadaAtual = Math.ceil(Math.random() * 2);
     jogo.trocas = sorteio()
-    console.log(trocas[1][1]);
+    
+    for (let i = 0; i < 11; i++) {
+        jogo.desenhos[i] = new Array(11);
+    }
+    let i = 1;
+    for(jogador in jogo.gameStatus.jogadores){
+        jogo.idJogadores[jogador.nome] = i;
+        i++;
+    }
+
 }
 
 function rodada() {
@@ -35,8 +46,8 @@ function enviarNovaTarefa() {
 }
 
 function gerenciadorDoJogo() {
-
     let rodadas = gameStatus.jogadores.length;
+    
     for (let i = 0; i < rodadas; i++) {
 
         for (jogador in gameStatus.jogadores) {
@@ -45,6 +56,7 @@ function gerenciadorDoJogo() {
         rodada();
 
     }
+    jogo.gameStatus.rodada++;
 }
 
 module.exports = {
