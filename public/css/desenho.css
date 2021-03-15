@@ -34,11 +34,9 @@ main{
 }
 
 #gridRecebido{
-    display: flex;
-    justify-content: center;
-    /* display: grid;
-    grid-column-gap: 50px;
-    grid-row-gap: 10px; */
+    display: grid;
+    grid-template-rows: 85% 15%;
+    /* justify-content: center; */
     background: #777777; 
     font-size:40px;
 }
@@ -263,4 +261,13 @@ i {
         width: 1.5em;
         height: 1.5em;
     }
+}
+#progress-bar{
+    
+    background-color:green;
+    display:block;
+}
+#instrucao-desenho{
+    
+    justify-self:center;
 }

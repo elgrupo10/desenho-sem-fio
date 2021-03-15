@@ -13,7 +13,7 @@ let tituloEl = document.querySelector("#tituloTelaDeJogadores");
 let startEl = document.querySelector("#leader-start");
 let vJogadores = [];
 let ready = 0;
-let id = undefined;
+let tipoDeInicio = 0;
 let buscar = 1;
 let comecar = 0;
 let lider = "";
@@ -28,8 +28,6 @@ if (localStorage.getItem("nome") == null) {
 
 }else{
     fetch("/jogadores", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), pronto: 0 }) })
-    // .then(r => r.json())
-    // .then(r => console.log(r));
     
 }
 
@@ -77,7 +75,6 @@ function registrarJogadores(){
 
 
 function buscarJogadores() {
-    let tipoDeStart;
     if(!buscar)return;
     vJogadores = [];
     fetch("/jogadores")
@@ -90,12 +87,12 @@ function buscarJogadores() {
                     vJogadores.push({"nome": r.jogadores[i].nome,"pronto":r.jogadores[i].pronto});
             }
             registrarJogadores();
-            if(r.start){
+            if(r.state == "playing"){
                 comecar = 1;
             }
-            tipoDeStart = r.startType;
+            tipoDeInicio = r.startType;
         });
-    return tipoDeStart;
+    
 }
 
 
@@ -119,16 +116,16 @@ function jogadorSaindo(){
 function iniciarPartida(){
     if(!comecar)return;
     clearInterval(inicia);
-    buscar = 0;
+    clearInterval(busca);
     readyEl.disabled = true;
     startEl.disabled = true;
-    let t = buscarJogadores();
     let timeleft = 3;
     let timer = setInterval(function () {
         if (timeleft <= 0) {
             clearInterval(timer);
+            // location.href = "/game";
         } else {
-            if(t){
+            if(tipoDeInicio){
                 if(timeleft<=1){
                     tituloEl.innerHTML = `O líder iniciou a partida! ${timeleft} segundo até a partida começar!`;
                 }else{
@@ -144,14 +141,12 @@ function iniciarPartida(){
         }
         timeleft -= 1;
     }, 1000);
-    
-    // location.href = 'http://localhost:3000/game';
-    //redirecionar o cliente e comecar a gerenciar o jogo atraves do back-end
 
 }
 
 function avisarServer(){
     fetch("/jogadores", { method: "POST", headers: headers, body: JSON.stringify({start: 1}) })
+    
 }
 
 window.addEventListener("beforeunload", jogadorSaindo);
@@ -159,10 +154,8 @@ readyEl.addEventListener("click", changeReadyState);
 startEl.addEventListener("click", avisarServer);
 
 
-setInterval(buscarJogadores, 250);
+let busca = setInterval(buscarJogadores, 250);
 let inicia = setInterval(iniciarPartida,250);
-
-
 
 
 
