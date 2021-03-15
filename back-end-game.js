@@ -1,28 +1,28 @@
-
+const { jogo } = require("./variaveis");
 function inicializarJogo(tipo) {
     console.log("jogo iniciando");
-    gameStatus.estado = "jogando";
-    gameStatus.tipoDeInicio = tipo;
+    jogo.gameStatus.estado = "jogando";
+    jogo.gameStatus.tipoDeInicio = tipo;
     console.log(tipo);
     // gameStatus.rodadaAtual = Math.ceil(Math.random() * 2);
-    trocas = sorteio()
+    jogo.trocas = sorteio()
     console.log(trocas[1][1]);
 }
 
 function rodada() {
     let tempos = [25, 50];
     let width = 100;
-    gameStatus.tempoRestante = width;
-    let id = setInterval(frame, tempos[gameStatus.rodadaAtual]);
+    jogo.gameStatus.tempoRestante = width;
+    let id = setInterval(frame, tempos[jogo.gameStatus.rodadaAtual]);
     function frame() {
         if (width <= 0 || acabouRodada) {
             clearInterval(id);
-            acabouRodada = 0;
-            gameStatus.estado = "nova-rodada";
-            gameStatus.rodadaAtual = 1 - gameStatus.rodadaAtual;
+            jogo.acabouRodada = 0;
+            jogo.gameStatus.estado = "nova-rodada";
+            jogo.gameStatus.rodadaAtual = 1 - jogo.gameStatus.rodadaAtual;
         } else {
             width -= 0.1;
-            gameStatus.tempoRestante = width;
+            jogo.gameStatus.tempoRestante = width;
         }
     }
 }
