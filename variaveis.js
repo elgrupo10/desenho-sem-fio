@@ -10,7 +10,7 @@ module.exports.jogo = {
             {nome: "Helin",pronto:1},   
             {nome: "pejunto",pronto:1},   
             {nome: "guima",pronto:1}, 
-            {nome: "lebraga",pronto:1}   
+            {nome: "lebraga",pronto:1},   
             {nome: "gordola",pronto:1}   
         ],
         lider: "",

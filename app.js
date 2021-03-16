@@ -19,9 +19,9 @@ app.get("/game", (req, res) => {
 })
 
 app.get("/aboutus", (req,res) => {
-
-    res.sendFile(path.join(__dirname+"/views/about.html"));
+    res.sendFile(path.join(__dirname + "/views/about.html"));
 })
+
 app.get("/jogadores", (req,res) => {
     if(jogo.gameStatus.jogadores.length){
         jogo.gameStatus.lider = jogo.gameStatus.jogadores[0].nome;
