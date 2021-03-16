@@ -66,27 +66,51 @@ function registrarJogadores(){
         playersContainer.appendChild(jogadorEl);
     }
     if(lider == localStorage.getItem("nome")){
-        console.log("eu sou");
         startEl.style.display = "inline";
     }
 }
 
 
-
+function inicio() {
+    fetch("/jogadores")
+        .then(r => r.json())
+        .then(r => {
+            lider = r.lider;
+            for (let i = 0; i < r.jogadores.length; i++) {
+                vJogadores.push({ "nome": r.jogadores[i].nome, "pronto": r.jogadores[i].pronto });
+            }
+            registrarJogadores();
+        })
+}
+inicio();
 
 function buscarJogadores() {
     if(!buscar)return;
-    vJogadores = [];
+    let v2Jogadores = [];
     fetch("/jogadores")
         .then(function (r) {
             return r.json();
         })
         .then(r => {
             lider = r.lider;
-            for(let i=0;i<r.jogadores.length;i++){
-                    vJogadores.push({"nome": r.jogadores[i].nome,"pronto":r.jogadores[i].pronto});
+            for (let i = 0; i < r.jogadores.length; i++) {
+                v2Jogadores.push({ "nome": r.jogadores[i].nome, "pronto": r.jogadores[i].pronto });
             }
-            registrarJogadores();
+            if(v2Jogadores.length!=vJogadores.length){
+                vJogadores = v2Jogadores;
+                registrarJogadores();
+            }else{
+
+                for (let i = 0; i < r.jogadores.length; i++) {
+                    if(vJogadores[i].pronto!=v2Jogadores.pronto){
+                        vJogadores = v2Jogadores
+                        registrarJogadores();
+                        break;
+                    }
+
+                }
+            }
+            
             if(r.estado == "jogando"){
                 comecar = 1;
             }

@@ -17,6 +17,10 @@ function inicio(){
     fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
+            lider = r.lider;
+            for (let i = 0; i < r.jogadores.length; i++) {
+                vJogadores.push({ "nome": r.jogadores[i].nome, "pronto": r.jogadores[i].pronto });
+            }
             rodadaAtual = r.rodadaAtual;
             if (r.rodada != 1) primeiraRodada = 0;
             if (rodadaAtual) {
@@ -29,6 +33,7 @@ function inicio(){
                    aparecaEl.classList.remove("sem-aparecer");
                 }
             }
+            registrarJogadores();
 
             if(!primeiraRodada){
                 fetch("/receberJogada")
@@ -48,16 +53,25 @@ function inicio(){
 inicio();
 
 function atualizarHUD() {
-    console.log(rodadaAtual);
-    vJogadores = [];
+    v2Jogadores = [];
     fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
             lider = r.lider;
             for (let i = 0; i < r.jogadores.length; i++) {
-                vJogadores.push({ "nome": r.jogadores[i].nome, "pronto": r.jogadores[i].pronto });
+                v2Jogadores.push({ "nome": r.jogadores[i].nome, "pronto": r.jogadores[i].pronto });
             }
-            registrarJogadores(r.tempoRestante);
+            atualizarTempo(r.tempoRestante);
+            if(!rodadaAtual){
+                for (let i = 0; i < r.jogadores.length; i++) {
+                    if (vJogadores[i].nome != v2Jogadores[i].nome || vJogadores[i].pronto != v2Jogadores[i].pronto) {
+                        vJogadores = v2Jogadores;
+                        registrarJogadores();
+                        break;
+                    }
+                }
+            }
+            
             
             if(r.estado=="nova-rodada"){
                finalizarRodada(); 
@@ -90,7 +104,7 @@ function enterFuncional() {
 
 }
 
-function registrarJogadores(tempoRestante) {
+function registrarJogadores() {
     if(!rodadaAtual){
         playersContainer.innerHTML = "";
         for (let i = 0; i < vJogadores.length; i++) {
@@ -105,11 +119,12 @@ function registrarJogadores(tempoRestante) {
             jogadorEl.style.display = "block";
             playersContainer.appendChild(jogadorEl);
         }
-        if (lider == localStorage.getItem("nome")) {
-            startEl.style.display = "inline";
-        }
+
     }
-    progressBarEl.style.transform = `scale(${tempoRestante/100}, 1)`;
+}
+
+function atualizarTempo(tempoRestante) {
+    progressBarEl.style.transform = `scale(${tempoRestante / 100}, 1)`;
     
     if (tempoRestante < 25) progressBarEl.style.background = "crimson";
 }

@@ -1,7 +1,13 @@
+const { jogo } = require("./variaveis");
+
 function sorteio() {
     let trocas = [];
-    const jogadores = 10;
-
+    let final = [];
+    const jogadores = jogo.gameStatus.jogadores.length;
+    
+    for(let i = 1; i <= jogadores;i++){
+        final[i] = [];
+    }
 
     while(true){
         let disponiveis = [];
@@ -40,10 +46,21 @@ function sorteio() {
         }
         if(!restart)break;
     }
-
+    for(let player = 1; player <=jogadores; player++){
+        final[player][1] = player;
+        for(rodada = 2 ; rodada <= jogadores; rodada++){
+            let ultimo = final[player][rodada - 1];
+            final[player][rodada] = trocas[ultimo][rodada];
+        }
     
+  
 
-    return trocas;
+        
+    }
+    
+      
+
+    return [trocas,final];
 }
 
 module.exports = {sorteio};
