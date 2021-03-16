@@ -68,6 +68,10 @@ async function rodada() {
 
 function finalizarJogo() {
 
+
+
+
+    
 }
 
 

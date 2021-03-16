@@ -40,6 +40,9 @@ function sorteio() {
         }
         if(!restart)break;
     }
+
+    
+
     return trocas;
 }
 

@@ -88,7 +88,7 @@ app.post("/enviarJogada", (req,res) => {
     const nomeJogador = req.body.nome;
     const jogada = req.body.jogada;
     // console.log(jogada);
-    jogo.desenhos[jogo.idJogadores[nomeJogador]][jogo.rodada] = jogada;
+    jogo.desenhos[jogo.idJogadores[nomeJogador]][jogo.rodada-1] = jogada;
     res.send("ok");
 })
 

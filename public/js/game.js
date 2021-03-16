@@ -11,7 +11,9 @@ const headers = new Headers({
 })
 
 function inicio(){
+
     progressBarEl.style.background = "green";
+
     fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
@@ -19,13 +21,26 @@ function inicio(){
             if (r.rodada != 1) primeiraRodada = 0;
             if (rodadaAtual) {
                 enterFuncional();
-                if(!primeiraRodada && rodadaAtual) {
+                if(!primeiraRodada) {
                    progressBarEl = document.querySelector("#tb2");
                    let desaparecaEl =  document.querySelector("#primeiro");
                    desaparecaEl.classList.add("sem-aparecer");
                    let aparecaEl = document.querySelector("#segundo");
                    aparecaEl.classList.remove("sem-aparecer");
                 }
+            }
+
+            if(!primeiraRodada){
+                fetch("/receberJogada")
+                .then(r => {
+                    if(!rodadaAtual){
+                        let fraseEl = document.querySelector("#comando-de-desenho");
+                        fraseEl.innerHTML = r;
+                    }else{
+                        let imagemEl = document.querySelector("#desenho");
+                        imagemEl.src = r;
+                    }
+                });
             }
             
 })
