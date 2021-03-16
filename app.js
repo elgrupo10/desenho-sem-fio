@@ -17,6 +17,11 @@ app.get("/game", (req, res) => {
         res.sendFile(path.join(__dirname + "/views/escreva.html"))
     }
 })
+
+app.get("/aboutus", (req,res) => {
+
+    res.sendFile(path.join(__dirname+"/views/about.html"));
+})
 app.get("/jogadores", (req,res) => {
     if(jogo.gameStatus.jogadores.length){
         jogo.gameStatus.lider = jogo.gameStatus.jogadores[0].nome;
@@ -96,7 +101,7 @@ app.post("/receberJogada", (req,res) => {
 app.get('*' , (req,res) => {
 
     res.redirect('/lobby');
-    
+
 })
 
 
