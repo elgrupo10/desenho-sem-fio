@@ -59,6 +59,12 @@
           
 
           <div class="seletor-container">
+            <div id="espessura-infobox">
+              <div id="fundo-indicador">
+                <div id="bolinha-indicado"></div>
+                <div id="seta-indicador"></div>
+              </div>
+            </div>
             <input id = "seletor-espessura" min="1" max="50" value="5" type="range">
             <div id="i-espessura" class="info">
               <i class="gg-info"></i>
@@ -118,17 +124,21 @@
             </label>
             
           </div>
-          <button type="button" class="btn btn-success enviar">NÃO PRONTO!</button>
+          <button type="button" class="btn btn-success enviar">PRONTO!</button>
         </div>
       </div>
-      <div id="m-espessura" class="modal-info">Arraste esta barra para a esquerda ou direita para ajustar a <strong>espessura</strong>.</div>
-      <div id="m-tolerancia" class="modal-info">Arraste esta barra para a esquerda ou direita para ajustar a <strong>sensibilidade do balde</strong>. Quanto menos sensível, ignora mais outras cores.</div>
     </main>
       <footer>
         Paticipantes: Gabriel Lucas, Helio Antunes, Leônidas José
     </footer>
+    
+    <div id="m-espessura" class="modal-info">Arraste esta barra para a esquerda ou direita para ajustar a <strong>espessura</strong>.</div>
+    <div id="m-tolerancia" class="modal-info">Arraste esta barra para a esquerda ou direita para ajustar a <strong>sensibilidade do balde</strong>. Quanto mais sensível, ignora mais outras cores.</div>
+    
+
     <script src="js/canvas.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/ranges.js"></script>
     <script src="https://kit.fontawesome.com/33818a5a1a.js" crossorigin="anonymous"></script>
   </body>
 </html>

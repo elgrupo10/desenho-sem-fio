@@ -14,6 +14,7 @@ module.exports.jogo = {
         rodadaAtual: 1,
         tempoRestante: 100,
         rodada: 1,
+        rodadaAtual: 0
     }
     
 }
