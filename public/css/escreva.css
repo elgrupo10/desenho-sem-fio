@@ -40,8 +40,11 @@ h1 {
     margin: 0.5em;
 }
 .time-bar {
+    transition: all 50ms linear;
+    transform-origin: left center; 
     height:12px;
-    min-width: 100%;
+    float:left;
+    width: 100%;
     background-color:green;
     margin-bottom: 20px;
 }
@@ -49,6 +52,10 @@ h1 {
 .input-time-box {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 90%;
+    /* align-items: center; */
+}
+
+#descricao1, #descricao2 {
+    align-self: center;
 }

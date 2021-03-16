@@ -1,30 +1,35 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const { gerenciadorDoJogo, enviarNovaTarefa, rodada, inicializarJogo } = require("./back-end-game")
+const { gerenciadorDoJogo, rodada, inicializarJogo } = require("./back-end-game")
 const {jogo} = require("./variaveis");
 app.use(express.json());
 app.use(express.static('public'));
 
-app.get("/lobby", (req,res) =>{
+app.get("/lobby", (req,res) => {
     
     res.sendFile(path.join(__dirname+"/views/lobby.html"));
 })
-app.get("/game", (req, res) =>{
+app.get("/game", (req, res) => {
     if(jogo.gameStatus.rodadaAtual==0){
         res.sendFile(path.join(__dirname + "/views/desenho.html"));
     }else{
         res.sendFile(path.join(__dirname + "/views/escreva.html"))
     }
 })
-app.get("/jogadores", (req,res) =>{
+
+app.get("/aboutus", (req,res) => {
+    res.sendFile(path.join(__dirname + "/views/about.html"));
+})
+
+app.get("/jogadores", (req,res) => {
     if(jogo.gameStatus.jogadores.length){
         jogo.gameStatus.lider = jogo.gameStatus.jogadores[0].nome;
     }
     res.send(jogo.gameStatus);
 });
 
-app.post("/jogadores", (req,res) =>{
+app.post("/jogadores", (req,res) => {
 
     if(req.body.start){
         inicializarJogo(1);
@@ -58,7 +63,7 @@ app.post("/changeReadyState", (req, res) => {
 
         inicializarJogo(0);
 
-    }else if(jogo.gameStatus.estado == "jogando" &&iniciar){
+    }else if(jogo.gameStatus.estado == "jogando" && iniciar) {
 
        jogo.acabouRodada = 1;
 
@@ -76,18 +81,27 @@ app.post("/saindo", (req,res) => {
             break;
         }
     }
+    res.send("ok");
 })
 
 app.post("/enviarJogada", (req,res) => {
     const nomeJogador = req.body.nome;
     const jogada = req.body.jogada;
+    // console.log(jogada);
     jogo.desenhos[jogo.idJogadores[nomeJogador]][jogo.rodada] = jogada;
+    res.send("ok");
 })
 
-
+app.post("/receberJogada", (req,res) => {
+    const nomeJogador = req.body.nome;
+    let id = jogo.idJogadores[nomeJogador];
+    res.send(jogo.desenhos[jogo.trocas[id][jogo.gameStatus.rodada-2]][jogo.gameStatus.rodada-2]);
+})
 
 app.get('*' , (req,res) => {
+
     res.redirect('/lobby');
+
 })
 
 
