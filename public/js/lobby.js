@@ -139,7 +139,7 @@ function iniciarPartida(){
                 }
             }
         }
-        timeleft -= 1;
+        timeleft--;
     }, 1000);
 
 }
@@ -154,6 +154,6 @@ readyEl.addEventListener("click", changeReadyState);
 startEl.addEventListener("click", avisarServer);
 
 
-let busca = setInterval(buscarJogadores, 250);
-let inicia = setInterval(iniciarPartida,250);
+let busca = setInterval(buscarJogadores, 50);
+let inicia = setInterval(iniciarPartida,50);
 

@@ -3,15 +3,6 @@ function sorteio() {
     const jogadores = 10;
 
 
-
-    let disponiveis = [];
-
-    for (let i = 1; i <= jogadores; i++) {
-        disponiveis[i] = [];
-        trocas[i] = [];
-    }
-
-
     while(true){
         let disponiveis = [];
         for (let i = 1; i <= jogadores; i++) {
