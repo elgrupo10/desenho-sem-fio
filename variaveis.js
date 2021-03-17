@@ -1,10 +1,9 @@
 module.exports.jogo = {
+    
     acabouRodada: 0,
-    trocas: null,
     idJogadores: {},
-    tempos: [1, 1],
-    desenhos: [],
-    final: [],
+    tempos: [25, 20],
+    desenhos: Array(11).fill(Array(11).fill(0)),
     gameStatus : {
         jogadores: [
             // {nome: "Coutinho",pronto:1},
@@ -16,12 +15,13 @@ module.exports.jogo = {
         ],
         lider: "",
         estado: "esperando",
-        tipoDeInicio: 1,
+        tipoDeInicio: 0,
         rodadaAtual: 0,
         tempoRestante: 100,
         rodada: 1,
         
-        
     }
     
 }
+
+

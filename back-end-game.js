@@ -1,31 +1,20 @@
 const { jogo } = require("./variaveis");
-const {sorteio} = require("./sorteio");
-
-
-
 
 async function inicializarJogo(tipo) {
     jogo.gameStatus.estado = "jogando";
     jogo.gameStatus.tipoDeInicio = tipo;
     // gameStatus.rodadaAtual = Math.ceil(Math.random() * 2);
-    let matrizes = sorteio();
-    jogo.trocas = matrizes[0];
-    jogo.final = matrizes[1];
-    
-    for (let i = 0; i < 11; i++) {
-        jogo.desenhos[i] = new Array(11);
-    }
-    console.log("Jogadores na partida:");
+    // console.log("Jogadores na partida:");
     for(let i=0;i<jogo.gameStatus.jogadores.length;i++){
-        console.log(jogo.gameStatus.jogadores[i].nome);
+        // console.log(jogo.gameStatus.jogadores[i].nome);
         jogo.idJogadores[jogo.gameStatus.jogadores[i].nome] = i+1;
         
     }
 
     setTimeout(() => {
         console.log("jogo iniciando");
-        console.log("iniciando rodada 1")
-        gerenciadorDoJogo(1)
+        console.log("iniciando rodada 1");
+        gerenciadorDoJogo();
     }, 4050);
     
 
@@ -75,14 +64,20 @@ function finalizarJogo() {
 
 
     
-async function gerenciadorDoJogo(i) {
-    
+async function gerenciadorDoJogo() {
+    for (let i = 1; i <= jogo.gameStatus.jogadores.length;i++){
+        for (let j = 1; j <= jogo.gameStatus.rodada;j++){
+            // console.log(jogo.desenhos[i][j]);
+        }
+
+    }
     rodada()
         .then(() => {
             console.log(`iniciando rodada ${jogo.gameStatus.rodada}`);
-            if (i <= jogo.gameStatus.jogadores.length) {
+            
+            if (jogo.gameStatus.rodada <= jogo.gameStatus.jogadores.length) {
             setTimeout(() =>{
-                gerenciadorDoJogo(i+1);
+                gerenciadorDoJogo();
             }, 100);
             
         } else {

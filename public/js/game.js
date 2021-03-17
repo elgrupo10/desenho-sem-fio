@@ -34,23 +34,25 @@ function inicio(){
                 }
             }
             registrarJogadores();
-
             if(!primeiraRodada){
+                console.log(r);
                 fetch("/receberJogada")
-                .then(r => JSON.stringify(r))
+                    .then(r => r.json())
                 .then(r => {
+                    console.log(r.response);
                     if(!rodadaAtual){
                         let fraseEl = document.querySelector("#comando-de-desenho");
-                        fraseEl.innerHTML = r;
+                        fraseEl.innerHTML = r.response;
                     }else{
                         let imagemEl = document.querySelector("#desenho");
-                        imagemEl.src = r;
+                        imagemEl.src = r.response;
                     }
                 });
             }
             
 })
 }
+
 inicio();
 
 function atualizarHUD() {

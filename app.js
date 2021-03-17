@@ -1,9 +1,12 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const { gerenciadorDoJogo, rodada, inicializarJogo } = require("./back-end-game")
 const {jogo} = require("./variaveis");
+const { sorteio } = require("./sorteio");
+const {inicializarJogo} = require("./back-end-game");
 const PORT = process.env.PORT || 3001;
+let trocas,final;
+let matrizes;
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -17,7 +20,7 @@ app.get("/game", (req, res) => {
     }else{
         res.sendFile(path.join(__dirname + "/views/escreva.html"))
     }
-})
+            })
 
 app.get("/aboutus", (req,res) => {
     res.sendFile(path.join(__dirname + "/views/about.html"));
@@ -33,6 +36,11 @@ app.get("/jogadores", (req,res) => {
 app.post("/jogadores", (req,res) => {
 
     if(req.body.start){
+        matrizes = sorteio();
+        trocas = matrizes[1];
+        
+        final = matrizes[0];
+        // console.log(final[1]);
         inicializarJogo(1);
     }else{
         const nomeJogador = req.body.nome;
@@ -61,7 +69,11 @@ app.post("/changeReadyState", (req, res) => {
         if(!jogo.gameStatus.jogadores[i].pronto)iniciar=0;
     }
     if(jogo.gameStatus.estado == "esperando" &&iniciar){
-
+         matrizes = sorteio();
+         trocas = matrizes[1];
+        //  console.log(trocas[1][4]);
+         final = matrizes[0];
+        //  console.log(final[1]);
         inicializarJogo(0);
 
     }else if(jogo.gameStatus.estado == "jogando" && iniciar) {
@@ -89,16 +101,15 @@ app.post("/enviarJogada", (req,res) => {
     const nomeJogador = req.body.nome;
     const jogada = req.body.jogada;
     let id = jogo.idJogadores[nomeJogador];
-    console.log(jogada);
-
-    jogo.desenhos[trocas[id][jogo.rodada]][jogo.rodada] = jogada;
+    jogo.desenhos[trocas[id][jogo.gameStatus.rodada]][jogo.gameStatus.rodada] = [jogada, id];
     res.send("ok");
 })
 
 app.post("/receberJogada", (req,res) => {
     const nomeJogador = req.body.nome;
     let id = jogo.idJogadores[nomeJogador];
-    res.send(jogo.desenhos[id][jogo.rodada-1]);
+    
+    res.send({response: jogo.desenhos[id][jogo.gameStatus.rodada-1][0]});
 })
 
 app.get('*' , (req,res) => {

@@ -4,7 +4,6 @@ function sorteio() {
     let trocas = [];
     let final = [];
     const jogadores = jogo.gameStatus.jogadores.length;
-
     for (let i = 1; i <= jogadores; i++) {
         final[i] = [];
     }
@@ -76,7 +75,7 @@ function sorteio() {
 
 
 
-    return [trocas, final];
+    return [final, trocas];
 }
 
 module.exports = {sorteio};
