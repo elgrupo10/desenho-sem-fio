@@ -87,15 +87,17 @@ app.post("/saindo", (req,res) => {
 app.post("/enviarJogada", (req,res) => {
     const nomeJogador = req.body.nome;
     const jogada = req.body.jogada;
-    // console.log(jogada);
-    jogo.desenhos[jogo.idJogadores[nomeJogador]][jogo.rodada-1] = jogada;
+    let id = jogo.idJogadores[nomeJogador];
+    console.log(jogada);
+
+    jogo.desenhos[trocas[id][jogo.rodada]][jogo.rodada] = jogada;
     res.send("ok");
 })
 
 app.post("/receberJogada", (req,res) => {
     const nomeJogador = req.body.nome;
     let id = jogo.idJogadores[nomeJogador];
-    res.send(jogo.desenhos[jogo.trocas[id][jogo.gameStatus.rodada-2]][jogo.gameStatus.rodada-2]);
+    res.send(jogo.desenhos[id][jogo.rodada-1]);
 })
 
 app.get('*' , (req,res) => {

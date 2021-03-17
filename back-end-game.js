@@ -8,8 +8,9 @@ async function inicializarJogo(tipo) {
     jogo.gameStatus.estado = "jogando";
     jogo.gameStatus.tipoDeInicio = tipo;
     // gameStatus.rodadaAtual = Math.ceil(Math.random() * 2);
-    jogo.trocas = sorteio()[0];
-    jogo.final = sorteio()[1];
+    let matrizes = sorteio();
+    jogo.trocas = matrizes[0];
+    jogo.final = matrizes[1];
     
     for (let i = 0; i < 11; i++) {
         jogo.desenhos[i] = new Array(11);

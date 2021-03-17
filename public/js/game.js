@@ -37,6 +37,7 @@ function inicio(){
 
             if(!primeiraRodada){
                 fetch("/receberJogada")
+                .then(r => JSON.stringify(r))
                 .then(r => {
                     if(!rodadaAtual){
                         let fraseEl = document.querySelector("#comando-de-desenho");
