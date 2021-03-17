@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 const { gerenciadorDoJogo, rodada, inicializarJogo } = require("./back-end-game")
 const {jogo} = require("./variaveis");
+const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -108,4 +109,4 @@ app.get('*' , (req,res) => {
 
 
 
-app.listen(3000, () => console.log("server online"));
+app.listen(PORT, () => console.log(`Hosting server on port ${PORT}`));
