@@ -49,7 +49,7 @@ app.get("/final", (req,res) => {
 })
 
 app.get("/indisponivel", (req,res) => {
-    res.sendFile(path.join(__dirname + "/views/mama.html"));
+    res.sendFile(path.join(__dirname + "/views/cheia.html"));
 })
 
 app.get("/jogadores", (req,res) => {

@@ -148,8 +148,9 @@ footer a{
 }
 footer a:hover{
     opacity:0.5;
+    color: white;
 }
 footer a:active{
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
