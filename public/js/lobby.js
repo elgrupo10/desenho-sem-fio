@@ -16,17 +16,26 @@ let tipoDeInicio = 0;
 let buscar = 1;
 let comecar = 0;
 let lider = "";
-buscarJogadores();
+buscarJogadores()
 
+window.addEventListener("click",e => {
+    console.log(e.target.id);
+    if(e.target.id == "pen-container")mudarNome();
+})
+function mudarNome(){
+    fetch("/trocandoNome", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome")}) });
+    localStorage.removeItem("nome");
+    location.reload();
+}
 if (localStorage.getItem("nome") == null) {
 
     maskEl.classList.add("aparecer");
     modalNomeEl.classList.add("aparecer");
     inputNomeEl.focus();
-    buscar = 0;
 
 }else{
     fetch("/jogadores", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), pronto: 0 }) })
+    buscarJogadores();
     
 }
 
@@ -55,18 +64,32 @@ inputNomeEl.addEventListener("change", () => {
 function registrarJogadores(){
     playersContainer.innerHTML = "";
     for (let i = 0; i < vJogadores.length; i++) {
+        
         let jogadorEl = document.createElement("span");
-        if(vJogadores[i].pronto)jogadorEl.classList.add("pronto");
+        if (vJogadores[i].pronto) jogadorEl.classList.add("pronto");
         if (lider == vJogadores[i].nome) {
-            jogadorEl.innerHTML = vJogadores[i].nome + `<i class="fas fa-crown coroa"></i>`;
-        }else{
-            jogadorEl.innerHTML = vJogadores[i].nome;
+
+            if (vJogadores[i].nome == localStorage.getItem("nome")) {
+                jogadorEl.innerHTML = `<span>${vJogadores[i].nome}</span> <div id="pen-container"> <i class="gg-pen" id="pincel">  </i> </div> <i class="fas fa-crown coroa fa-xs"> </i>`;
+
+            } else {
+                jogadorEl.innerHTML = `<span>${vJogadores[i].nome}</span> <i class="fas fa-crown coroa"> </i>`;
+            }
+
+        } else {
+            if (vJogadores[i].nome == localStorage.getItem("nome")) {
+                jogadorEl.innerHTML = `<span>${vJogadores[i].nome}</span> <div id="pen-container"> <i class="gg-pen" id="pincel"> </i> </div>`;
+
+            } else {
+                jogadorEl.innerHTML = `<span>${vJogadores[i].nome}</span>`;
+            }
         }
+
         jogadorEl.classList.add("jogador");
         playersContainer.appendChild(jogadorEl);
-    }
-    if(lider == localStorage.getItem("nome")){
-        startEl.style.display = "inline";
+        if(lider == localStorage.getItem("nome")){
+            startEl.style.display = "inline";
+        }
     }
 }
 
@@ -178,6 +201,6 @@ readyEl.addEventListener("click", changeReadyState);
 startEl.addEventListener("click", avisarServer);
 
 
-let busca = setInterval(buscarJogadores, 50);
+let busca = setInterval(buscarJogadores, 500);
 let inicia = setInterval(iniciarPartida,50);
 

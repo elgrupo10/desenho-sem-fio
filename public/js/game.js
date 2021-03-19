@@ -2,7 +2,10 @@ let playersContainer = document.querySelector("#display-jogadores");
 let progressBarEl = document.querySelector("#tb1");
 let readyEl = document.querySelectorAll(".enviar");
 let ready = 0;
+let enviou = 0;
+let vTempos = [];
 let vJogadores = [];
+let tempoRestante;
 let btns = Array.from(readyEl);
 let primeiraRodada = 1;
 let rodadaAtual = undefined;
@@ -17,11 +20,14 @@ function inicio(){
     fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
+            tempoRestante = r.tempoRestante;
+            vTempos = r.tempos;
+            rodadaAtual = r.rodadaAtual;
+            atualizarTempo();
             lider = r.lider;
             for (let i = 0; i < r.jogadores.length; i++) {
                 vJogadores.push({ "nome": r.jogadores[i].nome, "pronto": r.jogadores[i].pronto });
             }
-            rodadaAtual = r.rodadaAtual;
             if (r.rodada != 1) primeiraRodada = 0;
             if (rodadaAtual) {
                 enterFuncional();
@@ -34,23 +40,23 @@ function inicio(){
                 }
             }
             registrarJogadores();
-            if(!primeiraRodada){
-                console.log(r);
-                fetch("/receberJogada")
+            if (!primeiraRodada) {
+                // console.log(r);
+                fetch("/receberJogada", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome") }) })
                     .then(r => r.json())
-                .then(r => {
-                    console.log(r.response);
-                    if(!rodadaAtual){
-                        let fraseEl = document.querySelector("#comando-de-desenho");
-                        fraseEl.innerHTML = r.response;
-                    }else{
-                        let imagemEl = document.querySelector("#desenho");
-                        imagemEl.src = r.response;
-                    }
-                });
+                    .then(r => {
+                        console.log(r.response);
+                        if (!rodadaAtual) {
+                            console.log(r.response);
+                            let fraseEl = document.querySelector("#comando-de-desenho");
+                            fraseEl.innerHTML = r.response;
+                        } else {
+                            let imagemEl = document.querySelector("#desenho");
+                            imagemEl.src = r.response;
+                        }
+                    })
             }
-            
-})
+        })
 }
 
 inicio();
@@ -60,11 +66,16 @@ function atualizarHUD() {
     fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
+            // console.log(tempoRestante);
+            tempoRestante = r.tempoRestante;
+            // console.log(tempoRestante);
+            if (r.estado == "fim-da-rodada") {
+                finalizarRodada();
+            }
             lider = r.lider;
             for (let i = 0; i < r.jogadores.length; i++) {
                 v2Jogadores.push({ "nome": r.jogadores[i].nome, "pronto": r.jogadores[i].pronto });
             }
-            atualizarTempo(r.tempoRestante);
             if(!rodadaAtual){
                 for (let i = 0; i < r.jogadores.length; i++) {
                     if (vJogadores[i].nome != v2Jogadores[i].nome || vJogadores[i].pronto != v2Jogadores[i].pronto) {
@@ -76,9 +87,7 @@ function atualizarHUD() {
             }
             
             
-            if(r.estado=="nova-rodada"){
-               finalizarRodada(); 
-            }
+            
         });
 
 }
@@ -101,6 +110,7 @@ function enterFuncional() {
             btns[0].classList.remove("btn-success");
             btns[0].classList.add("btn-danger");
             btns[0].innerHTML = "NÃO PRONTO!";
+            fetch("/changeReadyState", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), semprePronto: 1 }) });
             enviarJogada();
         }
     })
@@ -126,13 +136,34 @@ function registrarJogadores() {
     }
 }
 
-function atualizarTempo(tempoRestante) {
-    progressBarEl.style.transform = `scale(${tempoRestante / 100}, 1)`;
+async function atualizarTempo() {
+
+    return new Promise(resolve => {
+        
+        let id = setInterval(frame, vTempos[rodadaAtual]);
+        console.log(vTempos[rodadaAtual]);
+        console.log(vTempos[0]);
+            function frame() {
+                console.log(tempoRestante);
+                if (tempoRestante < 25) progressBarEl.style.background = "crimson";
+                if (tempoRestante <= 0) {
+                    
+                    clearInterval(id);
+                    progressBarEl.style.transform = `scale(0, 1)`;
+                    resolve("acabou");
+                } else {
+                    tempoRestante -= 0.08;
+                    progressBarEl.style.transform = `scale(${tempoRestante / 100}, 1)`;
+
+                }
+            }
+        })
     
-    if (tempoRestante < 25) progressBarEl.style.background = "crimson";
+    
 }
 
-let busca = setInterval(atualizarHUD, 25);
+
+let busca = setInterval(atualizarHUD, 1300);
 readyEl.forEach(e => {
     e.addEventListener("click", () =>{
         changeReadyState(e);
@@ -144,7 +175,7 @@ function changeReadyState(e) {
     e.classList.toggle("btn-success");
     e.classList.toggle("btn-danger");
     e.innerHTML = ready ? "NÃO PRONTO!" : "PRONTO!";
-    fetch("/changeReadyState", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome") }) })
+    fetch("/changeReadyState", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), semprePronto: 0 }) })
     if(ready){
         enviarJogada();
     }
@@ -158,11 +189,13 @@ function jogadorSaindo() {
 
 function enviarJogada() {
     if(!rodadaAtual){
+        console.log("desenhar");
         let canvas = document.querySelector("#canvas");
         let url =canvas.toDataURL();
+        // console.log(url);
         fetch("/enviarJogada", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), jogada: url }) })
-
     }else{
+        console.log("descrever");
         let descricaoEl;
         if(primeiraRodada){
             descricaoEl = document.querySelector("#descricao1");
@@ -170,16 +203,31 @@ function enviarJogada() {
             descricaoEl = document.querySelector("#descricao2");
         }
         fetch("/enviarJogada", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), jogada: descricaoEl.value }) })
-
+            
     }
 }
 
 function finalizarRodada(){
-    if(!ready){
+
+    clearInterval(busca);
+    if (!ready) {
         enviarJogada();
     }
-    clearInterval(busca);
-    setTimeout(() =>{
-        location.reload();
-    },200);
-}
+    fetch("/changeReadyState", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), semprePronto: 1 }) });
+    function podeReiniciar(){
+        fetch("/jogadores")
+        .then(r => r.json())
+        .then(r => {
+            console.log(r.estado);
+            if (r.estado == "jogando"){
+                clearInterval(id);
+                location.reload();
+            }
+            if(r.estado == "mostrando-books"){
+                clearInterval(id);
+                location.href = "/final";
+            }
+        });
+    }
+    let id = setInterval(podeReiniciar,250);
+    }

@@ -8,10 +8,9 @@
     <title>Telefone sem Fio</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/estilosLobby.css">
+    <link rel="stylesheet" href="css/estilosIndisponivel.css">
     <link rel="stylesheet" href="css/estiloGeral.css">
     <link rel="icon" href="imgs/desenho.png">
-    <link rel="stylesheet" href="css/estilosImportados.css">
 </head>
 <body>
     <header>
@@ -24,23 +23,19 @@
             <div id="jogadores">
             </div>
             <div class ="botoes">
-                <button type="button" class="btn btn-success" id="iniciar-lider">INICIAR PARTIDA</button>
                 <button type="button" class="btn btn-success" id="ready">PRONTO!</button>
             </div>
         </div>
-        
     </main>
     <footer>
-        <a src="/aboutus">Participantes: Gabriel Lucas, Helio Antunes, Leônidas José</a>
+        Participantes: Gabriel Lucas, Helio Antunes, Leônidas José
     </footer>
     <div id= "nome" class="meuModal">
-        <h2>Insira seu nome!</h2>
-        <input id="nomeJogador" type="text" maxlength = "15"></input>
-        <p id="aviso-nome">Já existe uma pessoa com este nome na sala! Por favor, escolha outro nome.</p>
+        <h2>A partida está em andamento!</h2>
+        <h2 class="sem-aparecer">A partida está cheia!</h2>
     </div>
     <div class="mask">
     </div>
     <script src="https://kit.fontawesome.com/33818a5a1a.js" crossorigin="anonymous"></script>
-    <script src="js/lobby.js"></script>
 </body>
 </html>

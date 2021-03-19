@@ -57,7 +57,7 @@ h2 {
 }
 
 .meuModal {
-    opacity: 0;
+    opacity: 1;
     position: fixed;
     background-color: gray;
     width: 15em;
@@ -74,7 +74,7 @@ h2 {
 }
 
 .mask {
-    opacity: 0;
+    opacity: 1;
     position: fixed;
     top: 0;
     right: 0%;
@@ -85,22 +85,12 @@ h2 {
     pointer-events: none;
 }
 
-.aparecer {
-    opacity:1;
-    pointer-events: all;
-
-}
-
-
-
 #aviso-nome {
     display:none;
     margin-top: 1em;
     color: white;
 
 }
-
-
 
 .botoes {
     
@@ -109,47 +99,6 @@ h2 {
    
 }
 
-#iniciar-lider {
-
+.sem-aparecer{
     display: none;
-
 }
-
-#pen-container { 
-
-    display: flex;
-    width: 30px;
-    height: 30px;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-left: 0.3em;
-
-}
-
-#pen-container:hover{
-    opacity: 0.5;
-}
-#pincel{
-    pointer-events: none;
-}
-
-i.coroa{
-    height: 30px;
-    width: 30px;
-    margin-left: 0.3em;
-    align-items: center;
-    display: flex;
-}
-
-footer a{
-    color:white;
-}
-footer a:hover{
-    opacity:0.5;
-}
-footer a:active{
-    color: black;
-}
-

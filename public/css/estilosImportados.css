@@ -268,3 +268,105 @@
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   background-color: #D62929;
 }
+
+.gg-play-track-next {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs,1));
+  width: 3px;
+  height: 10px;
+  background: currentColor
+ }
+ 
+ .gg-play-track-next::after {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 0;
+  height: 10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid;
+  left: -7px
+ } 
+
+ .gg-play-track-prev {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs,1));
+  width: 3px;
+  height: 10px;
+  background: currentColor
+ }
+ 
+ .gg-play-track-prev::after {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 0;
+  height: 10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 6px solid;
+  right: -7px
+ } 
+
+ .gg-play-backwards {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs,1));
+  width: 3px;
+  height: 10px;
+  background: currentColor
+ }
+ 
+ .gg-play-backwards::after,
+ .gg-play-backwards::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 0;
+  height: 10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 6px solid;
+  right: -7px
+ }
+ 
+ .gg-play-backwards::before {
+  right: -14px
+ } 
+
+ .gg-play-forwards {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs,1));
+  width: 3px;
+  height: 10px;
+  background: currentColor
+ }
+ 
+ .gg-play-forwards::after,
+ .gg-play-forwards::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 0;
+  height: 10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid;
+  left: -7px
+ }
+ 
+ .gg-play-forwards::before {
+  left: -14px
+ } 

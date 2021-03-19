@@ -2,8 +2,7 @@ module.exports.jogo = {
     
     acabouRodada: 0,
     idJogadores: {},
-    tempos: [25, 20],
-    desenhos: Array(11).fill(Array(11).fill(0)),
+    desenhos:Array.from({ length: 11 }, e => Array(11).fill(null)),
     gameStatus : {
         jogadores: [
             // {nome: "Coutinho",pronto:1},
@@ -19,7 +18,13 @@ module.exports.jogo = {
         rodadaAtual: 0,
         tempoRestante: 100,
         rodada: 1,
+        tempos: [50, 25]
         
+    },
+
+    bookStatus: {
+        idJogadorAtual: 1,
+        rodadaAtual: 1
     }
     
 }
