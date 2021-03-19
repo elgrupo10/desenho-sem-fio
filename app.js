@@ -203,10 +203,10 @@ app.post("/mudarDisplay", (req,res) => {
         case 2:
             jogo.bookStatus.rodadaAtual++;
         case 3:
-            jogo.bookStatus.idJogadorAtual--;
+            jogo.bookStatus.jogadorAtual--;
             jogo.bookStatus.rodadaAtual = 1;
         case 4:
-            jogo.bookStatus.idJogadorAtual++;
+            jogo.bookStatus.jogadorAtual++;
             jogo.bookStatus.rodadaAtual = 1;
     } 
     res.send("ok");

@@ -15,7 +15,7 @@ module.exports.jogo = {
         lider: "",
         estado: "esperando",
         tipoDeInicio: 0,
-        rodadaAtual: 0,
+        rodadaAtual: 1,
         tempoRestante: 100,
         rodada: 1,
         tempos: [50, 25]
@@ -23,7 +23,7 @@ module.exports.jogo = {
     },
 
     bookStatus: {
-        idJogadorAtual: 1,
+        jogadorAtual: 1,
         rodadaAtual: 1
     }
     

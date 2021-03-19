@@ -31,23 +31,16 @@ async function rodada() {
 
         let width = 100;
         jogo.gameStatus.tempoRestante = width;
-        // console.log(jogo.gameStatus[jogo.gameStatus.rodadaAtual]);
         let id = setInterval(frame, jogo.gameStatus.tempos[jogo.gameStatus.rodadaAtual]);
 
         function frame() {
-            // console.log(width);
             if (width <= 0 || jogo.acabouRodada) {
 
                 clearInterval(id);
-                jogo.gameStatus.tempoRestante = 0;
                 jogo.gameStatus.estado = "fim-da-rodada";
                 let espereID = setInterval(() => {
                     let ok = 1;
                     for (let i = 1; i <= rodadas; i++) {
-                            // console.log(jogo.desenhos[i][jogo.gameStatus.rodada]);
-                            console.log(i);
-                            console.log(jogo.gameStatus.rodada);
-                            console.log(jogo.desenhos[i][jogo.gameStatus.rodada]);
                             if (jogo.desenhos[i][jogo.gameStatus.rodada] === null) {
                                 ok = 0;
                         }

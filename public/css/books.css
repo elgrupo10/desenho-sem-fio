@@ -86,7 +86,7 @@ button.btn.btn-success.enviar {
 }
 
 .sem-aparecer{
-    display: none;
+    display: none !important;
 }
 
 .impossivel{
