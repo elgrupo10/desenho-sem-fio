@@ -1,3 +1,4 @@
+
 const headers = new Headers({
     "Content-Type": "application/json"
 })
@@ -7,7 +8,7 @@ let rodadaAtual = 1;
 let inicio = 1;
 let ultimaRodadaAtual = 1;
 let ultimoJogadorAtual = 1;
-let desenhos, caminhos, lider, rodadas, itens = [], tipoDeRodada, idJogadores;
+let desenhos, caminhos, lider, rodadas, itens = [], tipoDeRodada;
 let bookEl = document.querySelector("#resultados");
 
 let proxBookEl = document.querySelector("#proximo-book");
@@ -15,16 +16,20 @@ let divsBotoes = document.querySelectorAll(".botoes");
 let bookAnteriorEl = document.querySelector("#book-anterior");
 let proxRodadaEl = document.querySelector("#proxima-rodada");
 let playersContainer = document.querySelector("#display-jogadores");
+let reiniciarJogoEl = document.querySelector("#reiniciar-jogo");
 
 proxRodadaEl.addEventListener("click", () => {
-    mudarDisplay(2)
+    mudarDisplay(1)
 });
 bookAnteriorEl.addEventListener("click", () => {
-    mudarDisplay(3)
+    mudarDisplay(2)
 });
 proxBookEl.addEventListener("click", () => {
-    mudarDisplay(4)
+    mudarDisplay(3)
 });
+reiniciarJogoEl.addEventListener("click", () =>{
+    reiniciarJogo();
+})
 function salvarDados() {
     return new Promise(resolve => {
         fetch("/gameData")
@@ -35,7 +40,6 @@ function salvarDados() {
                 lider = r.lider;
                 rodadas = r.rodadas;
                 tipoDeRodada = r.tipoDeRodada;
-                idJogadores = r.idJogadores;
                 if (!(rodadas % 2)) tipoDeRodada = 1 - tipoDeRodada;
                 resolve("ok");
             })
@@ -63,7 +67,6 @@ function buscarJogadores(){
         fetch("/jogadores")
             .then(r => r.json())
             .then(r => {
-                console.log(rodadas);
                 let vJogadores = [];
                 for (let i = 0; i < rodadas; i++) {
                     vJogadores.push({ "nome": r.jogadores[i].nome });
@@ -94,13 +97,18 @@ function atualizarHUD() {
     fetch("/books")
     .then(r => r.json())
     .then(r => {
+        if(r.reiniciarPartida){
+            location.href = "/lobby";
+        }
         if(inicio){
             inicio=0;
             registrarBook();
         }else{
             if (r.jogadorAtual != jogadorAtual) {
+                ultimoJogadorAtual = jogadorAtual;
                 jogadorAtual = r.jogadorAtual;
                 registrarBook();
+                return;
             }
             if (r.rodadaAtual != rodadaAtual) {
                 ultimaRodadaAtual = rodadaAtual;
@@ -116,8 +124,6 @@ function registrarBook() {
 
     let ultimo = playersContainer.children[ultimoJogadorAtual-1];
     let atual = playersContainer.children[jogadorAtual-1];
-    console.log(ultimoJogadorAtual);
-    console.log(jogadorAtual);
     ultimo.classList.remove("pronto");
     atual.classList.add("pronto");
     bookEl.innerHTML = "";
@@ -148,29 +154,21 @@ function registrarBook() {
             imagemEl.src = itens[i][0];;
             containerEl.appendChild(imagemEl);
         }
-        bookEl.appendChild(containerEl);
+        if(i==1){
+            bookEl.appendChild(containerEl);
+        }else{
+            bookEl.insertBefore(containerEl,bookEl.children[0]);
+        }
         tipoDeRodada = 1 - tipoDeRodada;
     }
 }
 
 
 function registrarRodada(){
-    console.log(ultimaRodadaAtual);
-    console.log(rodadaAtual);
-    if(ultimaRodadaAtual<rodadaAtual){
-        for (let i = ultimaRodadaAtual+1; i <= rodadaAtual; i++) {
-            let rodadaEl = bookEl.children[i - 1];
-            rodadaEl.classList.remove("sem-aparecer");
-        }
-
-    }else{
-        for(let i = ultimaRodadaAtual; i > rodadaAtual; i--) {
-            let rodadaEl = bookEl.children[i - 1];
-            rodadaEl.classList.add("sem-aparecer");
-        }
-
+    for (let i = ultimaRodadaAtual+1; i <= rodadaAtual; i++) {
+        let rodadaEl = bookEl.children[rodadas-i];
+        rodadaEl.classList.remove("sem-aparecer");
     }
-    
 }
 
 function liderHUD() {
@@ -182,59 +180,58 @@ function liderHUD() {
 
 function mudarDisplay(acao) {
 
-    switch(acao){
-
+    switch(acao){            
         case 1:
+            ultimaRodadaAtual = rodadaAtual;
+            rodadaAtual++;
+            if (rodadaAtual == rodadas) {
+                proxRodadaEl.classList.add("impossivel");
+                if(jogadorAtual==rodadas){
+                    proxRodadaEl.classList.add("sem-aparecer");
+                    reiniciarJogoEl.classList.remove("sem-aparecer");
+
+                }
+            }
+            registrarRodada();
             fetch("/mudarDisplay", { method: "POST", headers: headers, body: JSON.stringify({ tipo: 1 }) })
-            .then(() => {
-                ultimaRodadaAtual = rodadaAtual;
-                rodadaAtual--;
-                proxRodadaEl.classList.remove("impossivel");
-                registrarRodada();
-            })
+            .then(() => registrarRodada);
+            break;
             
         case 2:
+            ultimoJogadorAtual = jogadorAtual;
+            jogadorAtual--;
+            rodadaAtual = 1;
+            ultimaRodadaAtual = rodadaAtual;
+            proxRodadaEl.classList.remove("impossivel");
+            proxRodadaEl.classList.remove("sem-aparecer");
+            proxBookEl.classList.remove("impossivel");
+            reiniciarJogoEl.classList.add("sem-aparecer");
+            if (jogadorAtual == 1) {
+                bookAnteriorEl.classList.add("impossivel");
+            }
+            registrarBook();
             fetch("/mudarDisplay", { method: "POST", headers: headers, body: JSON.stringify({ tipo: 2 }) })
-            .then(() => {
-                ultimaRodadaAtual = rodadaAtual;
-                rodadaAtual++;
-                if (rodadaAtual == rodadas) {
-                    proxRodadaEl.classList.add("impossivel");
-                }
-                registrarRodada();
-            })
+            break;
             
         case 3:
+            ultimoJogadorAtual = jogadorAtual;
+            jogadorAtual++;
+            rodadaAtual = 1;
+            ultimaRodadaAtual = rodadaAtual;
+            proxRodadaEl.classList.remove("impossivel");
+            bookAnteriorEl.classList.remove("impossivel");
+            if (jogadorAtual == rodadas) {
+                proxBookEl.classList.add("impossivel");
+            }
+            registrarBook();
             fetch("/mudarDisplay", { method: "POST", headers: headers, body: JSON.stringify({ tipo: 3 }) })
-            .then(() => {
-                ultimoJogadorAtual = jogadorAtual;
-                jogadorAtual--;
-                rodadaAtual = 1;
-                ultimaRodadaAtual = rodadaAtual;
-                proxRodadaEl.classList.remove("impossivel");
-                proxBookEl.classList.remove("impossivel");
-                if (jogadorAtual == 1) {
-                    bookAnteriorEl.classList.add("impossivel");
-                }
-                registrarBook();
-            })
-            
-        case 4:
-            fetch("/mudarDisplay", { method: "POST", headers: headers, body: JSON.stringify({ tipo: 4 }) })
-            .then(() => {
-                ultimoJogadorAtual = jogadorAtual;
-                jogadorAtual++;
-                rodadaAtual = 1;
-                ultimaRodadaAtual = rodadaAtual;
-                proxRodadaEl.classList.remove("impossivel");
-                bookAnteriorEl.classList.remove("impossivel");
-                if (jogadorAtual == rodadas) {
-                    proxBookEl.classList.add("impossivel");
-                }
-                registrarBook();
-            })
-            
+            break;
     }
 }
 
-
+function reiniciarJogo() {
+    fetch("/reiniciar", {method: "POST", headers: headers, body: JSON.stringify({nome: lider})})
+    .then(() => {
+        location.href = "/lobby";
+    })
+}

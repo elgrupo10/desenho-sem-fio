@@ -27,8 +27,8 @@
             <div id="jogadores">
             </div>
             <div class ="botoes">
-                <button type="button" class="btn btn-success" id="iniciar-lider">INICIAR PARTIDA</button>
-                <button id="menu-opcoes"><i class="gg-time"></i></button>
+                <button type="button" class="btn btn-success invisivel" id="iniciar-lider">INICIAR PARTIDA</button>
+                <button id="menu-opcoes" class="invisivel"><i class="gg-time"></i></button>
                 <button type="button" class="btn btn-success" id="ready">PRONTO!</button>
             </div>
         </div>
@@ -40,7 +40,7 @@
 
     <div id= "nome" class="meuModal">
         <h2>Insira seu nome!</h2>
-        <input id="nomeJogador" type="text" maxlength = "15"></input>
+        <input id="nomeJogador" type="text" maxlength = "20"></input>
         <p id="aviso-nome">Já existe uma pessoa com este nome na sala! Por favor, escolha outro nome.</p>
     </div>
 
@@ -48,15 +48,16 @@
         <div>
             <label for="select-tempo"><i class="gg-time"></i></label>
             <select id="select-tempo">
-                <option value="longo">Devagar</option>
-                <option value="medio">Normal</option>
-                <option value="curto">Rápido</option>
+                <option value="0">Devagar</option>
+                <option value="1" selected="selected">Normal</option>
+                <option value="2">Rápido</option>
             </select>
         </div>
         <span><strong>Selecione como começar:</strong></span>
         <div id="radio">
-            <label><input type="radio" name="modo" id="desenho"> Desenho</label>
-            <label><input type="radio" name="modo" id="frase" checked> Frase</label>
+            <label><input type="radio" name="modo" id="0"> Desenho</label>
+            <label><input type="radio" name="modo" id="1" checked> Frase</label>
+            <label><input type="radio" name="modo" id="2"> Aleatório</label>
         </div>
     </div>
 

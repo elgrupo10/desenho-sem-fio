@@ -1,31 +1,37 @@
-const inputNomeEl = document.querySelector("#nomeJogador");
-const maskEl = document.querySelector(".mask");
-const mask2El = document.querySelectorAll(".mask")[1];
-const mask3El = document.querySelectorAll(".mask")[2];
-const botaoInfoEl = document.querySelector("#info-modal");
-const tutorialEl = document.querySelector("#tutorial");
-const modalNomeEl = document.querySelector("#nome");
-const botaoTempoEl = document.querySelector("#menu-opcoes");
-const menuOpcoesEl = document.querySelector("#menu");
-const palyers = document.querySelectorAll(".jogador");
-const headers = new Headers({
-    "Content-Type": "application/json"
-})
+let inputNomeEl = document.querySelector("#nomeJogador");
+let maskEl = document.querySelector(".mask");
+let mask2El = document.querySelectorAll(".mask")[1];
+let mask3El = document.querySelectorAll(".mask")[2];
+let botaoInfoEl = document.querySelector("#info-modal");
+let tutorialEl = document.querySelector("#tutorial");
+let modalNomeEl = document.querySelector("#nome");
+let botaoTempoEl = document.querySelector("#menu-opcoes");
+let menuOpcoesEl = document.querySelector("#menu");
+let palyers = document.querySelectorAll(".jogador");
 let playersContainer = document.querySelector("#jogadores");
 let avisoNome = document.querySelector("#aviso-nome");
 let readyEl = document.querySelector("#ready");
 let tituloEl = document.querySelector("#tituloTelaDeJogadores");
 let startEl = document.querySelector("#iniciar-lider");
+let radioInicio = document.querySelectorAll('input[name="modo"]');
+let selectVelocidade = document.querySelector("#select-tempo");
 let vJogadores = [];
 let ready = 0;
 let tipoDeInicio = 0;
 let buscar = 1;
+let tipoInicio = 1,tempo = 1;
 let comecar = 0;
 let lider = "";
+const headers = new Headers({
+    "Content-Type": "application/json"
+})
+radioInicio.forEach(e => {
+    e.addEventListener("change", mudarConfiguracao);
+})
+selectVelocidade.addEventListener("change", mudarConfiguracao);
 buscarJogadores()
 
 window.addEventListener("click",e => {
-    console.log(e.target.id);
     if(e.target.id == "pen-container")mudarNome();
 })
 function mudarNome(){
@@ -113,7 +119,8 @@ function registrarJogadores(){
         jogadorEl.classList.add("jogador");
         playersContainer.appendChild(jogadorEl);
         if(lider == localStorage.getItem("nome")){
-            startEl.style.display = "inline";
+            botaoTempoEl.classList.remove("invisivel");
+            startEl.classList.remove("invisivel");
         }
     }
 }
@@ -187,6 +194,9 @@ function jogadorSaindo(){
 
 function iniciarPartida(){
     if(!comecar)return;
+    if(lider == localStorage.getItem("nome")){
+        fetch("/configuracoes", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), tempo: tempo, tipoInicio: tipoInicio }) });
+    }
     clearInterval(inicia);
     clearInterval(busca);
     readyEl.disabled = true;
@@ -221,11 +231,22 @@ function avisarServer(){
     
 }
 
+function mudarConfiguracao(e){
+    let mudanca = e.target.id;
+    if(mudanca == "select-tempo"){
+        tempo = e.target.value;
+    }else{
+        tipoInicio = mudanca;
+    }
+    console.log(tipoInicio);
+    console.log(tempo);
+}
+
 window.addEventListener("beforeunload", jogadorSaindo);
 readyEl.addEventListener("click", changeReadyState);
 startEl.addEventListener("click", avisarServer);
 
 
 let busca = setInterval(buscarJogadores, 500);
-let inicia = setInterval(iniciarPartida,50);
+let inicia = setInterval(iniciarPartida,150);
 

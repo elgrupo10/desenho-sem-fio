@@ -3,20 +3,22 @@ const { jogo } = require("./variaveis");
 async function inicializarJogo(tipo) {
     jogo.gameStatus.estado = "jogando";
     jogo.gameStatus.tipoDeInicio = tipo;
-    // gameStatus.rodadaAtual = Math.ceil(Math.random() * 2);
-    // console.log("Jogadores na partida:");
     for(let i=0;i<jogo.gameStatus.jogadores.length;i++){
-        // console.log(jogo.gameStatus.jogadores[i].nome);
-        jogo.idJogadores[jogo.gameStatus.jogadores[i].nome] = i+1;
-        
+        jogo.idJogadores[jogo.gameStatus.jogadores[i].nome] = i+1;    
     }
-
-    setTimeout(() => {
-        console.log("iniciando rodada 1");
-        gerenciadorDoJogo();
-    }, 4050);
-    
-
+    let espereID = setInterval(() => {
+        let ok = 0;
+        if(jogo.gameStatus.tempos!=undefined&&jogo.gameStatus.rodadaAtual!=undefined)ok=1;
+        if (ok) {
+            clearInterval(espereID);
+            setTimeout(() => {
+                console.log("iniciando rodada 1");
+                console.log(jogo.gameStatus.tempos);
+                console.log(jogo.gameStatus.rodadaAtual);
+                gerenciadorDoJogo();
+            }, 4050);
+        }
+    }, 50);
 }
 
 async function rodada() {
@@ -97,6 +99,21 @@ async function gerenciadorDoJogo() {
 
 }
 
+function reiniciar(){
+    console.log("reiniciando jogo");
+    jogo.gameStatus.jogadores = [];
+    idJogadores = {};
+    acabouRodada = 0;
+    jogo.desenhos = Array.from({ length: 11 }, e => Array(11).fill(null));
+    jogo.gameStatus.rodada = 1;
+    jogo.bookStatus.jogadorAtual = 1;
+    jogo.bookStatus.rodadaAtual = 1;
+    jogo.gameStatus.tempos = [50,25];
+    jogo.gameStatus.tipoDeInicio = 0;
+    jogo.gameStatus.rodadaAtual = 1;
+    jogo.gameStatus.estado = "esperando";
+}
+
 module.exports = {    
-    gerenciadorDoJogo, rodada, inicializarJogo  
+    reiniciar, inicializarJogo  
 }

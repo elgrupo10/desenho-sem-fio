@@ -3,7 +3,7 @@ const app = express();
 const path = require("path");
 const {jogo} = require("./variaveis");
 const { sorteio } = require("./sorteio");
-const {inicializarJogo} = require("./back-end-game");
+const {inicializarJogo, reiniciar} = require("./back-end-game");
 const PORT = process.env.PORT || 3001;
 let trocas,final;
 let matrizes;
@@ -63,6 +63,7 @@ app.post("/jogadores", (req,res) => {
 
     if(req.body.start){
         matrizes = sorteio();
+        jogo.bookStatus.reiniciarPartida = 0;
         trocas = matrizes[1];
         
         final = matrizes[0];
@@ -101,6 +102,7 @@ app.post("/changeReadyState", (req, res) => {
     }
     if(jogo.gameStatus.estado == "esperando" &&iniciar){
          matrizes = sorteio();
+         jogo.bookStatus.reiniciarPartida = 0;
          trocas = matrizes[1];
          final = matrizes[0];
         inicializarJogo(0);
@@ -142,12 +144,13 @@ app.post("/saindoGame", (req,res) => {
 
 app.post("/enviarJogada", (req,res) => {
     const nomeJogador = req.body.nome;
-    const jogada = req.body.jogada;
+    let jogada = req.body.jogada;
     let id = jogo.idJogadores[nomeJogador];
     if(id === undefined){
         res.send("nome inválido");
         return;
     }
+    if(jogada=="")jogada="que vergonha! o jogador não escreveu nada...";
     console.log(`jogador numero ${id} mandando para jogador ${trocas[id][jogo.gameStatus.rodada]}`);
     if(jogo.gameStatus.rodada!=jogo.gameStatus.jogadores.length){
         jogo.desenhos[trocas[id][jogo.gameStatus.rodada]][jogo.gameStatus.rodada] = [jogada,nomeJogador];
@@ -191,7 +194,6 @@ app.get("/gameData", (req,res) => {
         lider: jogo.gameStatus.lider,
         rodadas: jogo.gameStatus.jogadores.length,
         tipoDeRodada: jogo.gameStatus.rodadaAtual,
-        idJogadores: jogo.idJogadores
         });
 })
 
@@ -199,19 +201,39 @@ app.post("/mudarDisplay", (req,res) => {
     const tipo = req.body.tipo;
     switch(tipo){
         case 1:
-            jogo.bookStatus.rodadaAtual--;
-        case 2:
             jogo.bookStatus.rodadaAtual++;
-        case 3:
+            break;
+        case 2:
             jogo.bookStatus.jogadorAtual--;
             jogo.bookStatus.rodadaAtual = 1;
-        case 4:
+            break;
+        case 3:
             jogo.bookStatus.jogadorAtual++;
             jogo.bookStatus.rodadaAtual = 1;
+            break;
     } 
     res.send("ok");
 })
 
+app.post("/reiniciar", (req,res) => {
+    const nomeJogador = req.body.nome;
+    if(nomeJogador != jogo.gameStatus.lider)return;
+    jogo.bookStatus.reiniciarPartida = 1;
+    reiniciar();
+    res.send("ok");
+})
+
+app.post("/configuracoes", (req,res) => {
+    let tempos = [[90, 35], [60, 25], [30, 15]];
+    let tempo = parseInt(req.body.tempo,10);
+    let inicio = parseInt(req.body.tipoInicio,10);
+    jogo.gameStatus.tempos = tempos[tempo];
+    if(inicio!=2){
+        jogo.gameStatus.rodadaAtual = inicio;
+    }else{
+        jogo.gameStatus.rodadaAtual = Math.floor(Math.random()*2);
+    }
+})
 
 app.get('*' , (req,res) => {
 

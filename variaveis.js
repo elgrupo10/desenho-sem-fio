@@ -18,13 +18,14 @@ module.exports.jogo = {
         rodadaAtual: 1,
         tempoRestante: 100,
         rodada: 1,
-        tempos: [50, 25]
+        tempos: undefined,
         
     },
 
     bookStatus: {
         jogadorAtual: 1,
-        rodadaAtual: 1
+        rodadaAtual: 1,
+        reiniciarPartida: 0
     }
     
 }

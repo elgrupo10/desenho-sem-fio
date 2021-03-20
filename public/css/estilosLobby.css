@@ -111,9 +111,9 @@ h2 {
    
 }
 
-#iniciar-lider {
+.invisivel {
 
-    display: none;
+    display: none !important;
 
 }
 

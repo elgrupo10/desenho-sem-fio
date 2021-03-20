@@ -66,9 +66,7 @@ function atualizarHUD() {
     fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
-            // console.log(tempoRestante);
             tempoRestante = r.tempoRestante;
-            // console.log(tempoRestante);
             if (r.estado == "fim-da-rodada") {
                 finalizarRodada();
             }
@@ -139,12 +137,15 @@ function registrarJogadores() {
 async function atualizarTempo() {
 
     return new Promise(resolve => {
-        
+        if(vTempos[0]==60)rate = .08;
+        if(vTempos[0]==30)rate = .092;
+        if(vTempos[0]==90)rate = .075;
+        console.log(rate);
         let id = setInterval(frame, vTempos[rodadaAtual]);
         console.log(vTempos[rodadaAtual]);
         console.log(vTempos[0]);
             function frame() {
-                console.log(tempoRestante);
+                
                 if (tempoRestante < 25) progressBarEl.style.background = "crimson";
                 if (tempoRestante <= 0) {
                     
@@ -152,7 +153,7 @@ async function atualizarTempo() {
                     progressBarEl.style.transform = `scale(0, 1)`;
                     resolve("acabou");
                 } else {
-                    tempoRestante -= 0.08;
+                    tempoRestante -= rate;
                     progressBarEl.style.transform = `scale(${tempoRestante / 100}, 1)`;
 
                 }
