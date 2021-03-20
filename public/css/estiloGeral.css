@@ -50,3 +50,9 @@ footer{
 .pronto {
     color:#28a745;
 }
+
+.info{
+    width: fit-content;
+    border-radius: 50%;
+    color: white;
+}

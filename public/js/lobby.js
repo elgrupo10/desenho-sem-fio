@@ -1,6 +1,12 @@
 const inputNomeEl = document.querySelector("#nomeJogador");
 const maskEl = document.querySelector(".mask");
+const mask2El = document.querySelectorAll(".mask")[1];
+const mask3El = document.querySelectorAll(".mask")[2];
+const botaoInfoEl = document.querySelector("#info-modal");
+const tutorialEl = document.querySelector("#tutorial");
 const modalNomeEl = document.querySelector("#nome");
+const botaoTempoEl = document.querySelector("#menu-opcoes");
+const menuOpcoesEl = document.querySelector("#menu");
 const palyers = document.querySelectorAll(".jogador");
 const headers = new Headers({
     "Content-Type": "application/json"
@@ -39,10 +45,29 @@ if (localStorage.getItem("nome") == null) {
     
 }
 
+botaoInfoEl.addEventListener("click", e =>{
+    tutorialEl.classList.add("aparecer");
+    mask3El.classList.add("aparecer");
+})
+
+mask3El.addEventListener("click", e => {
+    tutorialEl.classList.remove("aparecer");
+    mask3El.classList.remove("aparecer");
+})
+
 maskEl.addEventListener("click", () => {
     inputNomeEl.focus();
 })
 
+botaoTempoEl.addEventListener("click", e => {
+    menuOpcoesEl.classList.add("aparecer");
+    mask2El.classList.add("aparecer");
+})
+
+mask2El.addEventListener("click", e =>{
+    menuOpcoesEl.classList.remove("aparecer");
+    mask2El.classList.remove("aparecer")
+})
 
 inputNomeEl.addEventListener("change", () => {   
     fetch("/jogadores", { method: "POST", headers: headers, body: JSON.stringify({nome: inputNomeEl.value, pronto:0 })})

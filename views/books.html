@@ -21,15 +21,18 @@
           <div id="display-jogadores">
           </div>
           <div class="botoes sem-aparecer">
-            <button type="button" class="btn btn-success enviar impossivel " id="rodada-anterior"><i class="gg-play-track-prev"></i></button>
-            <button type="button" class="btn btn-success enviar " id="proxima-rodada"><i class="gg-play-track-next"></i></button>
-          </div>
-          <div class="botoes sem-aparecer">
             <button type="button" class="btn btn-success enviar impossivel " id="book-anterior"><i class="gg-play-backwards"></i></button>
             <button type="button" class="btn btn-success enviar " id="proximo-book"><i class="gg-play-forwards
               "></i></button>
           </div>
-          
+          <div class="botoes sem-aparecer">
+            <button type="button" class="btn btn-success enviar" id="proxima-rodada"><i class="gg-play-track-next"></i></button>
+            <button type="button" class="btn btn-success enviar sem-aparecer" id="reiniciar-jogo"><i class="gg-redo"></i></button>
+            <div id="i-botoes" class="info">
+              <i class="gg-info"></i>
+            </div>
+          </div>
+      
         </div>
         <div id="resultados">
             <!-- <div class="frase">
@@ -46,7 +49,17 @@
       <footer>
         Participantes: Gabriel Lucas, Helio Antunes, Leônidas José
     </footer>
+
+    <div id="infobox-botoes" class="infobox">
+      <div><strong>Legenda botões:</strong></div>
+      <div><i class="gg-play-backwards informacoes"> </i> Voltar ao álbum anterior.</div>
+      <div><i class="gg-play-forwards informacoes"></i>Ir para o próximo álbum.</div>
+      <div><i class="gg-play-track-next informacoes"></i>Mostrar próximo item.</div>
+      <div><i class="gg-redo informacoes"></i>Reiniciar o jogo.</div>
+    </div>
+
     <script src="js/books.js"></script>
+    <script src="js/infoboxbooks.js"></script>
     <script src="https://kit.fontawesome.com/33818a5a1a.js" crossorigin="anonymous"></script>
   </body>
 </html>

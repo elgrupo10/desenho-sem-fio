@@ -20,11 +20,15 @@
     <main>
         
         <div id="telaDeJogadores">
+            <div id="info-modal" class="info">
+                <i class="gg-info"></i>
+            </div>
             <h2 id="tituloTelaDeJogadores"> Jogadores </h2>
             <div id="jogadores">
             </div>
             <div class ="botoes">
                 <button type="button" class="btn btn-success" id="iniciar-lider">INICIAR PARTIDA</button>
+                <button id="menu-opcoes"><i class="gg-time"></i></button>
                 <button type="button" class="btn btn-success" id="ready">PRONTO!</button>
             </div>
         </div>
@@ -33,13 +37,44 @@
     <footer>
         <a href="/aboutus">Participantes: Gabriel Lucas, Helio Antunes, Leônidas José</a>
     </footer>
+
     <div id= "nome" class="meuModal">
         <h2>Insira seu nome!</h2>
         <input id="nomeJogador" type="text" maxlength = "15"></input>
         <p id="aviso-nome">Já existe uma pessoa com este nome na sala! Por favor, escolha outro nome.</p>
     </div>
-    <div class="mask">
+
+    <div id="menu" class="meuModal ">
+        <div>
+            <label for="select-tempo"><i class="gg-time"></i></label>
+            <select id="select-tempo">
+                <option value="longo">Devagar</option>
+                <option value="medio">Normal</option>
+                <option value="curto">Rápido</option>
+            </select>
+        </div>
+        <span><strong>Selecione como começar:</strong></span>
+        <div id="radio">
+            <label><input type="radio" name="modo" id="desenho"> Desenho</label>
+            <label><input type="radio" name="modo" id="frase" checked> Frase</label>
+        </div>
     </div>
+
+    <div id="tutorial" class="meuModal">
+        <h2>Como jogar o jogo?</h2>
+        <div>
+            Este jogo é muito simples, cada jogador deverá escrever uma frase ou fazer um desenho no início.
+            o Jogador que receber esta entrada deverá também fazer um desenho ou escrever o que enxerga.
+        </div>
+        <div>
+            No fim do jogo, todos desenhos e frases são mostradas em sequência para saber o resultado final!
+        </div>
+    </div>
+    
+    <div class="mask"></div>
+    <div class="mask"></div>
+    <div class="mask"></div>
+
     <script src="https://kit.fontawesome.com/33818a5a1a.js" crossorigin="anonymous"></script>
     <script src="js/lobby.js"></script>
 </body>

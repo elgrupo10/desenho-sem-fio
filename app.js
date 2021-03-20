@@ -12,7 +12,7 @@ app.use(express.static('public'));
 
 app.get("/lobby", (req,res) => {
     if(jogo.gameStatus.estado!="esperando"){
-        res.send("mama");
+        res.redirect("/indisponivel");
         return;
     }
     res.sendFile(path.join(__dirname+"/views/lobby.html"));
@@ -25,7 +25,7 @@ app.get("/game", (req, res) => {
     if(jogo.gameStatus.rodadaAtual==0){
         res.sendFile(path.join(__dirname + "/views/desenho.html"));
     }else{
-        res.sendFile(path.join(__dirname + "/views/escreva.html"))
+        res.sendFile(path.join(__dirname + "/views/escreva.html"));
     }
             })
 

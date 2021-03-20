@@ -14,12 +14,8 @@ let proxBookEl = document.querySelector("#proximo-book");
 let divsBotoes = document.querySelectorAll(".botoes");
 let bookAnteriorEl = document.querySelector("#book-anterior");
 let proxRodadaEl = document.querySelector("#proxima-rodada");
-let rodadaAnteriorEl = document.querySelector("#rodada-anterior");
 let playersContainer = document.querySelector("#display-jogadores");
 
-rodadaAnteriorEl.addEventListener("click",() =>{
-    mudarDisplay(1)
-});
 proxRodadaEl.addEventListener("click", () => {
     mudarDisplay(2)
 });
@@ -194,9 +190,6 @@ function mudarDisplay(acao) {
                 ultimaRodadaAtual = rodadaAtual;
                 rodadaAtual--;
                 proxRodadaEl.classList.remove("impossivel");
-                if (rodadaAtual == 1) {
-                    rodadaAnteriorEl.classList.add("impossivel");
-                }
                 registrarRodada();
             })
             
@@ -205,7 +198,6 @@ function mudarDisplay(acao) {
             .then(() => {
                 ultimaRodadaAtual = rodadaAtual;
                 rodadaAtual++;
-                rodadaAnteriorEl.classList.remove("impossivel");
                 if (rodadaAtual == rodadas) {
                     proxRodadaEl.classList.add("impossivel");
                 }
@@ -219,7 +211,6 @@ function mudarDisplay(acao) {
                 jogadorAtual--;
                 rodadaAtual = 1;
                 ultimaRodadaAtual = rodadaAtual;
-                rodadaAnteriorEl.classList.add("impossivel");
                 proxRodadaEl.classList.remove("impossivel");
                 proxBookEl.classList.remove("impossivel");
                 if (jogadorAtual == 1) {
@@ -235,7 +226,6 @@ function mudarDisplay(acao) {
                 jogadorAtual++;
                 rodadaAtual = 1;
                 ultimaRodadaAtual = rodadaAtual;
-                rodadaAnteriorEl.classList.add("impossivel");
                 proxRodadaEl.classList.remove("impossivel");
                 bookAnteriorEl.classList.remove("impossivel");
                 if (jogadorAtual == rodadas) {

@@ -13,6 +13,7 @@ main{
     display:grid;
     grid-template-rows: 25% 60% 15%;
     grid-template-columns: 100%;
+    position: relative;
 
 }
 
@@ -50,7 +51,6 @@ h2 {
 
     font-size: 25px;
     height: 2em;
-    width: auto;
     /* color: rgb(8, 46, 7); */
     /* background-color: rgb(30, 218, 24); */
     font-weight: 700;
@@ -58,6 +58,7 @@ h2 {
 
 .meuModal {
     opacity: 0;
+    transform: translateY(-1000px);
     position: fixed;
     background-color: gray;
     width: 15em;
@@ -69,7 +70,7 @@ h2 {
     padding: 10px;
     border-radius: 10px;
     z-index: 2;
-    transition: linear 500ms;
+    transition: cubic-bezier(0.2, -0.65, 0, 1.52) 1000ms;
     pointer-events: none;
 }
 
@@ -88,6 +89,7 @@ h2 {
 .aparecer {
     opacity:1;
     pointer-events: all;
+    transform: translateY(0px);
 
 }
 
@@ -154,3 +156,70 @@ footer a:active{
     color: rgb(255, 255, 255);
 }
 
+#menu-opcoes{
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+}
+
+#menu-opcoes:focus{
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    outline: none;
+}
+
+#menu{
+    color:white
+}
+
+#menu > *{
+    margin-bottom: 1em;
+}
+
+#menu > div {
+    display: flex;
+    align-items: center;
+}
+
+#menu > div > *{
+    margin-left: 5px;
+}
+
+#select-tempo{
+    margin-left: 7px;
+    border-radius: 20px;
+    flex: 1;
+}
+
+#menu > div > label{
+    margin-bottom: 0;
+}
+
+#radio{
+    display: flex;
+    justify-content: space-around;
+}
+
+#mask2{
+    display: none;
+}
+
+.info{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    cursor: pointer;
+}
+
+#tutorial{
+    width: 30%;
+    left: calc(50% - 15%);
+    color: white;
+}
+
+#tutorial > div{
+    margin-bottom: 1em;
+}
