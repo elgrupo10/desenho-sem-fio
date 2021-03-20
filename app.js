@@ -18,16 +18,20 @@ app.get("/lobby", (req,res) => {
     res.sendFile(path.join(__dirname+"/views/lobby.html"));
 })
 app.get("/game", (req, res) => {
-    // if(jogo.gameStatus.estado=="esperando"||jogo.gameStatus.estado=="mostrando-books"){
-    //     res.redirect("/lobby");
-    //     return;
-    // }
+    if(jogo.gameStatus.estado=="esperando"){
+        res.redirect("/lobby");
+        return;
+    }
+    if(jogo.gameStatus.estado == "mostrando-books"){
+        res.redirect("/final");
+        return;
+    }
     if(jogo.gameStatus.rodadaAtual==0){
         res.sendFile(path.join(__dirname + "/views/desenho.html"));
     }else{
         res.sendFile(path.join(__dirname + "/views/escreva.html"));
     }
-            })
+})
 
 app.get("/aboutus", (req,res) => {
     if(jogo.gameStatus.estado=="jogando"||jogo.gameStatus.estado=="fim-da-rodada"){
@@ -37,14 +41,14 @@ app.get("/aboutus", (req,res) => {
     res.sendFile(path.join(__dirname + "/views/about.html"));
 })
 app.get("/final", (req,res) => {
-    // if(jogo.gameStatus.estado!="mostrando-books"){
-    //     if(jogo.gameStatus.estado=="esperando"){
-    //         res.redirect("/lobby");
-    //     }else{
-    //         res.redirect("/game");
-    //     }
-    //     return;
-    // }
+    if(jogo.gameStatus.estado!="mostrando-books"){
+        if(jogo.gameStatus.estado=="esperando"){
+            res.redirect("/lobby");
+        }else{
+            res.redirect("/game");
+        }
+        return;
+    }
     res.sendFile(path.join(__dirname + "/views/books.html"));
 })
 
@@ -108,7 +112,6 @@ app.post("/changeReadyState", (req, res) => {
         inicializarJogo(0);
 
     }else if(jogo.gameStatus.estado == "jogando" && iniciar) {
-
        jogo.acabouRodada = 1;
 
     }
@@ -217,13 +220,19 @@ app.post("/mudarDisplay", (req,res) => {
 
 app.post("/reiniciar", (req,res) => {
     const nomeJogador = req.body.nome;
-    if(nomeJogador != jogo.gameStatus.lider)return;
+    if(nomeJogador != jogo.gameStatus.lider){
+        return;
+    }
     jogo.bookStatus.reiniciarPartida = 1;
     reiniciar();
     res.send("ok");
 })
 
 app.post("/configuracoes", (req,res) => {
+
+    if(req.body.nome!=lider){
+        return;
+    }
     let tempos = [[90, 35], [60, 25], [30, 15]];
     let tempo = parseInt(req.body.tempo,10);
     let inicio = parseInt(req.body.tipoInicio,10);
@@ -233,12 +242,21 @@ app.post("/configuracoes", (req,res) => {
     }else{
         jogo.gameStatus.rodadaAtual = Math.floor(Math.random()*2);
     }
+    res.send("ok");
 })
 
 app.get('*' , (req,res) => {
-
-    res.redirect('/lobby');
-
+    if(jogo.gameStatus.estado=="esperando"){
+        res.redirect('/lobby');
+        return;
+    }
+    if(jogo.gameStatus.estado=="jogando"||jogo.gameStatus.estado=="fim-da-rodada"){
+        res.redirect("/game");
+        return;
+    }
+    if (jogo.gameStatus.estado=="mostrando-books"){
+        res.redirect("/final");
+    }
 })
 
 

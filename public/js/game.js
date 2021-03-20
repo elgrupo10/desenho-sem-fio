@@ -41,13 +41,10 @@ function inicio(){
             }
             registrarJogadores();
             if (!primeiraRodada) {
-                // console.log(r);
                 fetch("/receberJogada", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome") }) })
                     .then(r => r.json())
                     .then(r => {
-                        console.log(r.response);
                         if (!rodadaAtual) {
-                            console.log(r.response);
                             let fraseEl = document.querySelector("#comando-de-desenho");
                             fraseEl.innerHTML = r.response;
                         } else {
@@ -140,10 +137,7 @@ async function atualizarTempo() {
         if(vTempos[0]==60)rate = .08;
         if(vTempos[0]==30)rate = .092;
         if(vTempos[0]==90)rate = .075;
-        console.log(rate);
         let id = setInterval(frame, vTempos[rodadaAtual]);
-        console.log(vTempos[rodadaAtual]);
-        console.log(vTempos[0]);
             function frame() {
                 
                 if (tempoRestante < 25) progressBarEl.style.background = "crimson";
@@ -190,13 +184,10 @@ function jogadorSaindo() {
 
 function enviarJogada() {
     if(!rodadaAtual){
-        console.log("desenhar");
         let canvas = document.querySelector("#canvas");
         let url =canvas.toDataURL();
-        // console.log(url);
         fetch("/enviarJogada", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), jogada: url }) })
     }else{
-        console.log("descrever");
         let descricaoEl;
         if(primeiraRodada){
             descricaoEl = document.querySelector("#descricao1");
@@ -219,7 +210,6 @@ function finalizarRodada(){
         fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
-            console.log(r.estado);
             if (r.estado == "jogando"){
                 clearInterval(id);
                 location.reload();

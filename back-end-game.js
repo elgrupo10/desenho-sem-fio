@@ -77,12 +77,6 @@ async function rodada() {
 
     
 async function gerenciadorDoJogo() {
-    // for (let i = 1; i <= jogo.gameStatus.jogadores.length;i++){
-    //     for (let j = 1; j <= jogo.gameStatus.rodada;j++){
-    //         console.log(jogo.desenhos[i][j]);
-    //     }
-
-    // }
     rodada()
         .then(() => {
             
@@ -110,6 +104,7 @@ function reiniciar(){
     jogo.bookStatus.rodadaAtual = 1;
     jogo.gameStatus.tempos = [50,25];
     jogo.gameStatus.tipoDeInicio = 0;
+    jogo.acabouRodada = 0;
     jogo.gameStatus.rodadaAtual = 1;
     jogo.gameStatus.estado = "esperando";
 }
