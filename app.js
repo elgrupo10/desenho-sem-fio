@@ -3,10 +3,9 @@ const app = express();
 const path = require("path");
 const {jogo} = require("./variaveis");
 const { sorteio } = require("./sorteio");
-const {inicializarJogo, reiniciar} = require("./back-end-game");
+const {inicializarJogo, reiniciar, vigiarJogador} = require("./back-end-game");
 const PORT = process.env.PORT || 3001;
 let trocas,final;
-let podeComecar = 0;
 let matrizes;
 app.use(express.json());
 app.use(express.static('public'));
@@ -19,14 +18,14 @@ app.get("/lobby", (req,res) => {
     res.sendFile(path.join(__dirname+"/views/lobby.html"));
 })
 app.get("/game", (req, res) => {
-    if(jogo.gameStatus.estado=="esperando"){
-        res.redirect("/lobby");
-        return;
-    }
-    if(jogo.gameStatus.estado == "mostrando-books"){
-        res.redirect("/final");
-        return;
-    }
+    // if(jogo.gameStatus.estado=="esperando"){
+    //     res.redirect("/lobby");
+    //     return;
+    // }
+    // if(jogo.gameStatus.estado == "mostrando-books"){
+    //     res.redirect("/final");
+    //     return;
+    // }
     if(jogo.gameStatus.rodadaAtual==0){
         res.sendFile(path.join(__dirname + "/views/desenho.html"));
     }else{
@@ -54,6 +53,14 @@ app.get("/final", (req,res) => {
 })
 
 app.get("/indisponivel", (req,res) => {
+    if(jogo.gameStatus.estado=="esperando") {
+        res.redirect("/lobby");
+        return;
+    }
+    if(jogo.gameStatus.estado=="mostrando-books") {
+        res.redirect("/final");
+        return;
+    }
     res.sendFile(path.join(__dirname + "/views/cheia.html"));
 })
 
@@ -120,7 +127,6 @@ app.post("/changeReadyState", (req, res) => {
 })
 
 app.post("/saindo", (req,res) => {
-    if(jogo.gameStatus.estado != "esperando")return;
     const nomeJogador = req.body.nome;
     for (let i = 0; i < jogo.gameStatus.jogadores.length; i++) {
         if (jogo.gameStatus.jogadores[i].nome == nomeJogador) {
@@ -133,16 +139,15 @@ app.post("/saindo", (req,res) => {
 })
 
 app.post("/saindoGame", (req,res) => {
-    if (jogo.gameStatus.estado != "esperando")return;
-
     const nomeJogador = req.body.nome;
-    for (let i = 0; i < jogo.gameStatus.jogadores.length; i++) {
-        if (jogo.gameStatus.jogadores[i].nome == nomeJogador) {
-            jogo.gameStatus.jogadores.splice(i,1);
-            console.log(`player ${nomeJogador} left the lobby`);
-            break;
-        }
-    }
+    jogo.presentes[nomeJogador] = 0;
+    // vigiarJogador(nomeJogador);
+    res.send("ok");
+})
+
+app.post("/marcarPresenca", (req,res) => {
+    const nomeJogador = req.body.nome;
+    jogo.presentes[nomeJogador] = 1;
     res.send("ok");
 })
 
@@ -154,7 +159,7 @@ app.post("/enviarJogada", (req,res) => {
         res.send("nome inválido");
         return;
     }
-    if(jogada=="")jogada="que vergonha! o jogador não escreveu nada...";
+    if(jogada=="")jogada="Que vergonha! O jogador não escreveu nada...";
     console.log(`jogador numero ${id} mandando para jogador ${trocas[id][jogo.gameStatus.rodada]}`);
     if(jogo.gameStatus.rodada!=jogo.gameStatus.jogadores.length){
         jogo.desenhos[trocas[id][jogo.gameStatus.rodada]][jogo.gameStatus.rodada] = [jogada,nomeJogador];
@@ -226,7 +231,7 @@ app.post("/reiniciar", (req,res) => {
     }
     jogo.bookStatus.reiniciarPartida = 1;
     reiniciar();
-    podeComecar = 0;
+    jogo.podeComecar = 0;
     res.send("ok");
 })
 
@@ -244,12 +249,12 @@ app.post("/configuracoes", (req,res) => {
     }else{
         jogo.gameStatus.rodadaAtual = Math.floor(Math.random()*2);
     }
-    podeComecar = 1;
+    jogo.podeComecar = 1;
     res.send("ok");
 })
 
 app.get("/podeIniciar", (req,res) => {
-    res.send({podeIniciar: podeComecar});
+    res.send({podeIniciar: jogo.podeComecar});
 })
 
 app.get('*' , (req,res) => {

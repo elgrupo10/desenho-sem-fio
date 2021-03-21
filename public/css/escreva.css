@@ -21,6 +21,7 @@ main{
 
 img{
     max-width: 70%;
+    max-height: 50vh;
     justify-self: center;
     margin-top: 0.5em;
 }
@@ -58,4 +59,8 @@ h1 {
 
 #descricao1, #descricao2 {
     align-self: center;
+}
+
+#saiu-partida > h2{
+    text-align: center;
 }

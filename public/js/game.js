@@ -1,3 +1,6 @@
+let jogadorSaiuEl = document.querySelector("saiu-pagina");
+let maskEl = document.querySelector(".mask");
+let nomeJogadorSaindoEl = document.querySelector("#nome-player");
 let playersContainer = document.querySelector("#display-jogadores");
 let progressBarEl = document.querySelector("#tb1");
 let readyEl = document.querySelectorAll(".enviar");
@@ -13,10 +16,16 @@ const headers = new Headers({
     "Content-Type": "application/json"
 })
 
+function aparecerModalSair(jogador) {
+    maskEl.classList.add("aparecer");
+    jogadorSaiuElList.add("aparecer");
+    nomeJogadorSaindoEl.innerHTML = jogador;
+}
+
 function inicio(){
 
     progressBarEl.style.background = "green";
-
+    fetch("/marcarPresenca",{ method:"POST", headers:headers, body:JSON.stringify({ nome:localStorage.getItem("nome") })} );
     fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
@@ -63,6 +72,12 @@ function atualizarHUD() {
     fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
+            if(r.estado == "esperando"){
+                aparecerModalSair(r.vacilao);
+                setTimeout(() => {
+                    location.href("/lobby");
+                }, 5000);
+            }
             tempoRestante = r.tempoRestante;
             if (r.estado == "fim-da-rodada") {
                 finalizarRodada();
@@ -96,6 +111,7 @@ function enterFuncional() {
             btns[1].classList.remove("btn-success");
             btns[1].classList.add("btn-danger");
             btns[1].innerHTML = "NÃO PRONTO!";
+            fetch("/changeReadyState", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), semprePronto: 1 }) })
             enviarJogada();
         }
     })
@@ -105,7 +121,7 @@ function enterFuncional() {
             btns[0].classList.remove("btn-success");
             btns[0].classList.add("btn-danger");
             btns[0].innerHTML = "NÃO PRONTO!";
-            fetch("/changeReadyState", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), semprePronto: 1 }) });
+            fetch("/changeReadyState", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), semprePronto: 1 }) })
             enviarJogada();
         }
     })
@@ -176,10 +192,10 @@ function changeReadyState(e) {
     }
 
 }
+window.addEventListener("beforeunload", jogadorSaindo);
 
 function jogadorSaindo() {
-    if (!localStorage.getItem("nome")) return;
-    fetch("/saindo", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome") }) })
+    fetch("/saindoGame", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome") }) })
 }
 
 function enviarJogada() {

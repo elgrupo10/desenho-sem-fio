@@ -1,4 +1,3 @@
-
 const headers = new Headers({
     "Content-Type": "application/json"
 })
@@ -10,8 +9,6 @@ let ultimaRodadaAtual = 1;
 let ultimoJogadorAtual = 1;
 let desenhos, caminhos, lider, rodadas, itens = [], tipoDeRodada;
 let bookEl = document.querySelector("#resultados");
-
-let proxBookEl = document.querySelector("#proximo-book");
 let divsBotoes = document.querySelectorAll(".botoes");
 let bookAnteriorEl = document.querySelector("#book-anterior");
 let proxRodadaEl = document.querySelector("#proxima-rodada");
@@ -54,7 +51,7 @@ salvarDados()
             liderHUD();
             atualizarHUD();
         } else {
-            setInterval(atualizarHUD, 1000);
+            setInterval(atualizarHUD, 100);
         }
     });
 })
@@ -111,6 +108,8 @@ function atualizarHUD() {
                 return;
             }
             if (r.rodadaAtual != rodadaAtual) {
+                console.log(ultimaRodadaAtual);
+                console.log(rodadaAtual);
                 ultimaRodadaAtual = rodadaAtual;
                 rodadaAtual = r.rodadaAtual;
                 registrarRodada();
@@ -121,9 +120,10 @@ function atualizarHUD() {
 }
 
 function registrarBook() {
-
     let ultimo = playersContainer.children[ultimoJogadorAtual-1];
     let atual = playersContainer.children[jogadorAtual-1];
+    ultimaRodadaAtual = 1;
+    rodadaAtual = 1;
     ultimo.classList.remove("pronto");
     atual.classList.add("pronto");
     bookEl.innerHTML = "";
@@ -132,8 +132,9 @@ function registrarBook() {
     }
 
     itens[rodadas] = desenhos[caminhos[jogadorAtual][rodadas-1]][rodadas];
-
+    let temp = tipoDeRodada;
     for(let i = 1; i<= rodadas; i++){
+        
         let autor = itens[i][1];
         let containerEl = document.createElement("div");
         let autorEl = document.createElement("h2");
@@ -142,7 +143,7 @@ function registrarBook() {
         if(i>1){
             containerEl.classList.add("sem-aparecer");
         }
-        if(tipoDeRodada){
+        if(temp){
             containerEl.classList.add("frase");
             let fraseEl = document.createElement("span");
             fraseEl.innerHTML = itens[i][0];
@@ -159,12 +160,12 @@ function registrarBook() {
         }else{
             bookEl.insertBefore(containerEl,bookEl.children[0]);
         }
-        tipoDeRodada = 1 - tipoDeRodada;
+        temp = 1 - temp;
     }
 }
 
 
-function registrarRodada(){
+function registrarRodada(){ //2 3 5-2 (rodadas-i)
     for (let i = ultimaRodadaAtual+1; i <= rodadaAtual; i++) {
         let rodadaEl = bookEl.children[rodadas-i];
         rodadaEl.classList.remove("sem-aparecer");
@@ -200,8 +201,6 @@ function mudarDisplay(acao) {
         case 2:
             ultimoJogadorAtual = jogadorAtual;
             jogadorAtual--;
-            rodadaAtual = 1;
-            ultimaRodadaAtual = rodadaAtual;
             proxRodadaEl.classList.remove("impossivel");
             proxRodadaEl.classList.remove("sem-aparecer");
             proxBookEl.classList.remove("impossivel");
@@ -216,8 +215,6 @@ function mudarDisplay(acao) {
         case 3:
             ultimoJogadorAtual = jogadorAtual;
             jogadorAtual++;
-            rodadaAtual = 1;
-            ultimaRodadaAtual = rodadaAtual;
             proxRodadaEl.classList.remove("impossivel");
             bookAnteriorEl.classList.remove("impossivel");
             if (jogadorAtual == rodadas) {

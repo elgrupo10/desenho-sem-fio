@@ -1,8 +1,10 @@
 module.exports.jogo = {
     
     acabouRodada: 0,
+    podeComecar: 0,
     idJogadores: {},
     desenhos:Array.from({ length: 11 }, e => Array(11).fill(null)),
+    presentes: {},
     gameStatus : {
         jogadores: [
             // {nome: "Coutinho",pronto:1},
@@ -19,7 +21,7 @@ module.exports.jogo = {
         tempoRestante: 100,
         rodada: 1,
         tempos: undefined,
-        
+        vacilao: ""
     },
 
     bookStatus: {

@@ -56,45 +56,6 @@ h2 {
     font-weight: 700;
 }
 
-.meuModal {
-    opacity: 0;
-    transform: translateY(-1000px);
-    position: fixed;
-    background-color: gray;
-    width: 15em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    top: calc(50% - 97px);
-    left: calc(50% - 120px);
-    padding: 10px;
-    border-radius: 10px;
-    z-index: 2;
-    transition: cubic-bezier(0.2, -0.65, 0, 1.52) 1000ms;
-    pointer-events: none;
-}
-
-.mask {
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    right: 0%;
-    left: 0;
-    bottom: 0;
-    background-color: rgba(109, 109, 109, 0.418);
-    z-index: 1;
-    pointer-events: none;
-}
-
-.aparecer {
-    opacity:1;
-    pointer-events: all;
-    transform: translateY(0px);
-
-}
-
-
-
 #aviso-nome {
     display:none;
     margin-top: 1em;
@@ -222,4 +183,46 @@ footer a:active{
 
 #tutorial > div{
     margin-bottom: 1em;
+}
+
+img {
+    margin-top:1.5em;
+    width:13em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+}
+
+#Helio-modal{
+    top: calc(50% - 193px);
+    left: calc( 50% - 155px);
+    width: 20em;
+    color: white;
+}
+
+#Leonidas-modal{
+    top: calc(50% - 210px);
+    left: calc( 50% - 155px);
+    color: white;
+    width: 20em;
+}
+
+#Leonidas-modal > p > a{
+    color: black;
+}
+
+#Gabriel-modal{
+    width: 20em;
+    left: calc(50% - 155px);
+    color: white;
+    top: calc(50% - 217px);
+}
+
+footer > span{
+    cursor: pointer;
+}
+
+footer > span:hover{
+    opacity: 0.5;
 }

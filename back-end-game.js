@@ -36,11 +36,17 @@ async function rodada() {
         let id = setInterval(frame, jogo.gameStatus.tempos[jogo.gameStatus.rodadaAtual]);
 
         function frame() {
-            if (width <= 0 || jogo.acabouRodada) {
+            if (width <= 0 || jogo.acabouRodada || jogo.estado=="esperando") {
 
+                if(jogo.estado=="esperando"){
+                    resolve("reiniciar");
+                }
                 clearInterval(id);
                 jogo.gameStatus.estado = "fim-da-rodada";
                 let espereID = setInterval(() => {
+                    if (jogo.estado == "esperando") {
+                        resolve("reiniciar");
+                    }
                     let ok = 1;
                     for (let i = 1; i <= rodadas; i++) {
                             if (jogo.desenhos[i][jogo.gameStatus.rodada] === null) {
@@ -78,8 +84,9 @@ async function rodada() {
     
 async function gerenciadorDoJogo() {
     rodada()
-        .then(() => {
-            
+        .then(r => {
+            console.log(r);
+            if(r=="reiniciar")return;
             if (jogo.gameStatus.rodada <= jogo.gameStatus.jogadores.length) {
                 console.log(`iniciando rodada ${jogo.gameStatus.rodada}`);
                 gerenciadorDoJogo();
@@ -88,9 +95,6 @@ async function gerenciadorDoJogo() {
                 console.log("Começando a mostrar os books");
         }
         })
-
-    
-
 }
 
 function reiniciar(){
@@ -107,8 +111,27 @@ function reiniciar(){
     jogo.acabouRodada = 0;
     jogo.gameStatus.rodadaAtual = 1;
     jogo.gameStatus.estado = "esperando";
+    jogo.presentes = {};
+}
+
+async function vigiarJogador(nome) {
+    let tolerancia = 50;
+    let id = setInterval(vigia, 100);
+    function vigia() {
+        if(jogo.presentes[nome]){
+            clearInterval(id);
+        }else{
+            if(!tolerancia){
+                clearInterval(id);
+                reiniciar();
+                jogo.vacilao = nome;
+                jogo.podeComecar = 0;
+            }
+            tolerancia--;
+        }
+    }
 }
 
 module.exports = {    
-    reiniciar, inicializarJogo  
+    reiniciar, inicializarJogo, vigiarJogador  
 }

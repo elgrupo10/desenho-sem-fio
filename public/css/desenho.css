@@ -339,3 +339,7 @@ div#bolinha-indicado {
     z-index: 100;
     align-self: center;
 }
+
+#saiu-partida > h2{
+    text-align: center;
+}

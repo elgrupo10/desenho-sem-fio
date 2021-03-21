@@ -1,12 +1,21 @@
 let inputNomeEl = document.querySelector("#nomeJogador");
 let maskEl = document.querySelector(".mask");
 let mask2El = document.querySelectorAll(".mask")[1];
-let mask3El = document.querySelectorAll(".mask")[2];
+let helioEl = document.querySelector("#Helio");
+let gabrielEl = document.querySelector("#Gabriel");
+let leonidasEl = document.querySelector("#Leonidas");
+let helioModalEl = document.querySelector("#Helio-modal");
+let gabrielModalEl = document.querySelector("#Gabriel-modal");
+let leonidasModalEl = document.querySelector("#Leonidas-modal");
+
+let modalArr = document.querySelectorAll(".meuModal");
+
 let botaoInfoEl = document.querySelector("#info-modal");
 let tutorialEl = document.querySelector("#tutorial");
 let modalNomeEl = document.querySelector("#nome");
 let botaoTempoEl = document.querySelector("#menu-opcoes");
 let menuOpcoesEl = document.querySelector("#menu");
+
 let palyers = document.querySelectorAll(".jogador");
 let playersContainer = document.querySelector("#jogadores");
 let avisoNome = document.querySelector("#aviso-nome");
@@ -51,28 +60,46 @@ if (localStorage.getItem("nome") == null) {
     
 }
 
-botaoInfoEl.addEventListener("click", e =>{
-    tutorialEl.classList.add("aparecer");
-    mask3El.classList.add("aparecer");
+// masks
+function removerCliqueMask(elementoEl){
+    elementoEl.classList.remove("aparecer");
+    mask2El.classList.remove("aparecer");
+}
+
+function aparecerModal(modalEl) {
+    mask2El.classList.add("aparecer");
+    modalEl.classList.add("aparecer");
+}
+
+botaoInfoEl.addEventListener("click",() => {
+    aparecerModal(tutorialEl)
+});
+botaoTempoEl.addEventListener("click", () => {
+    aparecerModal(menuOpcoesEl);
+});
+
+leonidasEl.addEventListener("click", () => {
+    aparecerModal(leonidasModalEl)
 })
 
-mask3El.addEventListener("click", e => {
-    tutorialEl.classList.remove("aparecer");
-    mask3El.classList.remove("aparecer");
+helioEl.addEventListener("click", () => {
+    aparecerModal(helioModalEl)
+})
+
+gabrielEl.addEventListener("click", () => {
+    aparecerModal(gabrielModalEl)
 })
 
 maskEl.addEventListener("click", () => {
     inputNomeEl.focus();
 })
 
-botaoTempoEl.addEventListener("click", e => {
-    menuOpcoesEl.classList.add("aparecer");
-    mask2El.classList.add("aparecer");
-})
-
 mask2El.addEventListener("click", e =>{
-    menuOpcoesEl.classList.remove("aparecer");
-    mask2El.classList.remove("aparecer")
+    for (let modalAtualEl of modalArr) {
+        if (modalAtualEl.classList.contains("aparecer")) {
+            removerCliqueMask(modalAtualEl);
+        }
+    }
 })
 
 inputNomeEl.addEventListener("change", () => {   
