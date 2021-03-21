@@ -9,7 +9,7 @@ let trocas,final;
 let matrizes;
 app.use(express.json());
 app.use(express.static('public'));
-app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({extended:true, limit: '25mb' }));
 app.get("/lobby", (req,res) => {
     if(jogo.gameStatus.estado!="esperando"){
         res.redirect("/indisponivel");

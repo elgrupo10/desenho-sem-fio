@@ -42,13 +42,19 @@ async function rodada() {
                 let tolerancia = new Array(11);
 
                 for (let i = 0; i < rodadas; i++) {
-                    tolerancia[jogo.trocas[i+1][jogo.gameStatus.rodada]] = { nomeJogador: jogo.gameStatus.jogadores[i].nome, tempo: 400 };
+                    if(jogo.gameStatus.rodada==rodadas){
+                        tolerancia[i] = { nomeJogador: jogo.gameStatus.jogadores[i].nome, tempo: 400 };
+                    }else{
+                        tolerancia[jogo.trocas[i + 1][jogo.gameStatus.rodada]] = { nomeJogador: jogo.gameStatus.jogadores[i].nome, tempo: 400 };
+                    }
+                    
                 }
                 
                 let espereID = setInterval(() => {
                     let ok = 1;
                     
                     for (let i = 1; i <= rodadas; i++) {
+                        console.log(tolerancia);
                             if (jogo.desenhos[i][jogo.gameStatus.rodada] === null) {
                                 if(!tolerancia[i].tempo){
                                     clearInterval(espereID);
