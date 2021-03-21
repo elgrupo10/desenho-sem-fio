@@ -194,35 +194,53 @@ function jogadorSaindo(){
 
 function iniciarPartida(){
     if(!comecar)return;
-    if(lider == localStorage.getItem("nome")){
-        fetch("/configuracoes", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), tempo: tempo, tipoInicio: tipoInicio }) });
-    }
-    clearInterval(inicia);
-    clearInterval(busca);
     readyEl.disabled = true;
     startEl.disabled = true;
-    let timeleft = 3;
-    let timer = setInterval(function () {
-        if (timeleft <= 0) {
-            clearInterval(timer);
-            location.href = "/game";
-        } else {
-            if(tipoDeInicio){
-                if(timeleft<=1){
-                    tituloEl.innerHTML = `O líder iniciou a partida! ${timeleft} segundo até a partida começar!`;
-                }else{
-                    tituloEl.innerHTML = `O líder iniciou a partida! ${timeleft} segundos até a partida começar!`;
-                }
-            }else{
-                if(timeleft<=1){
-                    tituloEl.innerHTML = `Todos os jogadores estão prontos! ${timeleft} segundo até a partida começar!`;
-                }else{
-                    tituloEl.innerHTML = `Todos os jogadores estão prontos! ${timeleft} segundos até a partida começar!`;
+    clearInterval(inicia);
+    clearInterval(busca);
+    if(lider == localStorage.getItem("nome")) {
+        fetch("/configuracoes", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), tempo: tempo, tipoInicio: tipoInicio }) })
+        .then(() => {
+            contador();
+        });
+    }else {
+        let id = setInterval(() =>{
+            fetch("/podeIniciar")
+                .then(r => r.json())
+                .then(r => {
+                    if (r.podeIniciar) {
+                        clearInterval(id);
+                        contador();
+                    }
+                })
+        }, 100);
+        
+    }
+    function contador(){        
+        let timeleft = 3;
+        let timer = setInterval(function () {
+            if (timeleft <= 0) {
+                clearInterval(timer);
+                location.href = "/game";
+            } else {
+                if (tipoDeInicio) {
+                    if (timeleft <= 1) {
+                        tituloEl.innerHTML = `O líder iniciou a partida! ${timeleft} segundo até a partida começar!`;
+                    } else {
+                        tituloEl.innerHTML = `O líder iniciou a partida! ${timeleft} segundos até a partida começar!`;
+                    }
+                } else {
+                    if (timeleft <= 1) {
+                        tituloEl.innerHTML = `Todos os jogadores estão prontos! ${timeleft} segundo até a partida começar!`;
+                    } else {
+                        tituloEl.innerHTML = `Todos os jogadores estão prontos! ${timeleft} segundos até a partida começar!`;
+                    }
                 }
             }
-        }
-        timeleft--;
-    }, 1000);
+            timeleft--;
+        }, 1000);
+    }
+    
 
 }
 

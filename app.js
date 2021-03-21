@@ -6,6 +6,7 @@ const { sorteio } = require("./sorteio");
 const {inicializarJogo, reiniciar} = require("./back-end-game");
 const PORT = process.env.PORT || 3001;
 let trocas,final;
+let podeComecar = 0;
 let matrizes;
 app.use(express.json());
 app.use(express.static('public'));
@@ -225,12 +226,13 @@ app.post("/reiniciar", (req,res) => {
     }
     jogo.bookStatus.reiniciarPartida = 1;
     reiniciar();
+    podeComecar = 0;
     res.send("ok");
 })
 
 app.post("/configuracoes", (req,res) => {
 
-    if(req.body.nome!=lider){
+    if(req.body.nome!=jogo.gameStatus.lider){
         return;
     }
     let tempos = [[90, 35], [60, 25], [30, 15]];
@@ -242,7 +244,12 @@ app.post("/configuracoes", (req,res) => {
     }else{
         jogo.gameStatus.rodadaAtual = Math.floor(Math.random()*2);
     }
+    podeComecar = 1;
     res.send("ok");
+})
+
+app.get("/podeIniciar", (req,res) => {
+    res.send({podeIniciar: podeComecar});
 })
 
 app.get('*' , (req,res) => {
