@@ -12,6 +12,7 @@ let bookEl = document.querySelector("#resultados");
 let divsBotoes = document.querySelectorAll(".botoes");
 let bookAnteriorEl = document.querySelector("#book-anterior");
 let proxRodadaEl = document.querySelector("#proxima-rodada");
+let proxBookEl = document.querySelector("#proximo-book");
 let playersContainer = document.querySelector("#display-jogadores");
 let reiniciarJogoEl = document.querySelector("#reiniciar-jogo");
 
@@ -108,8 +109,6 @@ function atualizarHUD() {
                 return;
             }
             if (r.rodadaAtual != rodadaAtual) {
-                console.log(ultimaRodadaAtual);
-                console.log(rodadaAtual);
                 ultimaRodadaAtual = rodadaAtual;
                 rodadaAtual = r.rodadaAtual;
                 registrarRodada();

@@ -112,11 +112,12 @@ inputNomeEl.addEventListener("change", () => {
             }else{
                 maskEl.classList.remove("aparecer");
                 modalNomeEl.classList.remove("aparecer");
+                buscarJogadores();
+                buscar = 1;
+                localStorage.setItem("nome", inputNomeEl.value);
             }
         });
-    buscarJogadores();
-    buscar = 1;
-    localStorage.setItem("nome",inputNomeEl.value);
+
 })
 
 function registrarJogadores(){
@@ -283,8 +284,6 @@ function mudarConfiguracao(e){
     }else{
         tipoInicio = mudanca;
     }
-    console.log(tipoInicio);
-    console.log(tempo);
 }
 
 window.addEventListener("beforeunload", jogadorSaindo);

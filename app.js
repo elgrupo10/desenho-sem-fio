@@ -3,13 +3,13 @@ const app = express();
 const path = require("path");
 const {jogo} = require("./variaveis");
 const { sorteio } = require("./sorteio");
-const {inicializarJogo, reiniciar, vigiarJogador} = require("./back-end-game");
+const {inicializarJogo, reiniciar} = require("./back-end-game");
 const PORT = process.env.PORT || 3001;
 let trocas,final;
 let matrizes;
 app.use(express.json());
 app.use(express.static('public'));
-
+app.use(express.json({ limit: '1mb' }));
 app.get("/lobby", (req,res) => {
     if(jogo.gameStatus.estado!="esperando"){
         res.redirect("/indisponivel");
@@ -77,8 +77,8 @@ app.post("/jogadores", (req,res) => {
         matrizes = sorteio();
         jogo.bookStatus.reiniciarPartida = 0;
         trocas = matrizes[1];
-        
         final = matrizes[0];
+        jogo.trocas = trocas;
         inicializarJogo(1);
     }else{
         const nomeJogador = req.body.nome;
@@ -117,6 +117,7 @@ app.post("/changeReadyState", (req, res) => {
          jogo.bookStatus.reiniciarPartida = 0;
          trocas = matrizes[1];
          final = matrizes[0];
+         jogo.trocas = trocas;
         inicializarJogo(0);
 
     }else if(jogo.gameStatus.estado == "jogando" && iniciar) {
@@ -127,6 +128,9 @@ app.post("/changeReadyState", (req, res) => {
 })
 
 app.post("/saindo", (req,res) => {
+    if(jogo.gameStatus.estado!="esperando"){
+        return;
+    }
     const nomeJogador = req.body.nome;
     for (let i = 0; i < jogo.gameStatus.jogadores.length; i++) {
         if (jogo.gameStatus.jogadores[i].nome == nomeJogador) {
@@ -138,15 +142,27 @@ app.post("/saindo", (req,res) => {
     res.send("ok");
 })
 
-app.post("/saindoGame", (req,res) => {
-    const nomeJogador = req.body.nome;
-    jogo.presentes[nomeJogador] = 0;
-    // vigiarJogador(nomeJogador);
-    res.send("ok");
-})
+// app.post("/saindoGame", (req,res) => {
+//     const nomeJogador = req.body.nome;
+//     jogo.presentes[nomeJogador] = 0;
+//     console.log(`jogador ${nomeJogador} esta saindo da sala`);
+//     vigiarJogador(nomeJogador);
+//     res.send("ok");
+// })
 
 app.post("/marcarPresenca", (req,res) => {
     const nomeJogador = req.body.nome;
+    let estaPresente = 0;
+    for (let i = 0; i < jogo.gameStatus.jogadores.length; i++) {
+        if (jogo.gameStatus.jogadores[i].nome == nomeJogador) {
+            estaPresente = 1;
+            break;
+        }
+    }
+    if(!estaPresente){
+        res.redirect("/indisponivel");
+        return;
+    }
     jogo.presentes[nomeJogador] = 1;
     res.send("ok");
 })

@@ -165,6 +165,10 @@ input[type="color"] {
     /* left: 85%; */
 }
 
+.nao-desenhe {
+    pointer-events: none;
+}
+
 #borracha{
     /* position: absolute; */
     border-radius: 8px;

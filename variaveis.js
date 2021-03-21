@@ -4,6 +4,7 @@ module.exports.jogo = {
     podeComecar: 0,
     idJogadores: {},
     desenhos:Array.from({ length: 11 }, e => Array(11).fill(null)),
+    trocas: [],
     presentes: {},
     gameStatus : {
         jogadores: [
@@ -17,7 +18,7 @@ module.exports.jogo = {
         lider: "",
         estado: "esperando",
         tipoDeInicio: 0,
-        rodadaAtual: 1,
+        rodadaAtual: undefined,
         tempoRestante: 100,
         rodada: 1,
         tempos: undefined,

@@ -1,4 +1,4 @@
-let jogadorSaiuEl = document.querySelector("saiu-pagina");
+let jogadorSaiuEl = document.querySelector("#saiu-partida");
 let maskEl = document.querySelector(".mask");
 let nomeJogadorSaindoEl = document.querySelector("#nome-player");
 let playersContainer = document.querySelector("#display-jogadores");
@@ -18,7 +18,7 @@ const headers = new Headers({
 
 function aparecerModalSair(jogador) {
     maskEl.classList.add("aparecer");
-    jogadorSaiuElList.add("aparecer");
+    jogadorSaiuEl.classList.add("aparecer");
     nomeJogadorSaindoEl.innerHTML = jogador;
 }
 
@@ -72,12 +72,6 @@ function atualizarHUD() {
     fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
-            if(r.estado == "esperando"){
-                aparecerModalSair(r.vacilao);
-                setTimeout(() => {
-                    location.href("/lobby");
-                }, 5000);
-            }
             tempoRestante = r.tempoRestante;
             if (r.estado == "fim-da-rodada") {
                 finalizarRodada();
@@ -189,18 +183,24 @@ function changeReadyState(e) {
     fetch("/changeReadyState", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), semprePronto: 0 }) })
     if(ready){
         enviarJogada();
+    }else{
+        if(!rodadaAtual){
+            let canvas = document.querySelector("#canvas");
+            canvas.classList.remove("nao-desenhe");
+        }
     }
 
 }
-window.addEventListener("beforeunload", jogadorSaindo);
+// window.addEventListener("beforeunload", jogadorSaindo);
 
-function jogadorSaindo() {
-    fetch("/saindoGame", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome") }) })
-}
+// function jogadorSaindo() {
+//     fetch("/saindoGame", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome") }) })
+// }
 
 function enviarJogada() {
     if(!rodadaAtual){
         let canvas = document.querySelector("#canvas");
+        canvas.classList.add("nao-desenhe");
         let url =canvas.toDataURL();
         fetch("/enviarJogada", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome"), jogada: url }) })
     }else{
@@ -226,6 +226,13 @@ function finalizarRodada(){
         fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
+            if (r.estado == "esperando") {
+                clearInterval(id);
+                aparecerModalSair(r.vacilao);
+                setTimeout(() => {
+                    location.href = "/lobby";
+                }, 4000);
+            }
             if (r.estado == "jogando"){
                 clearInterval(id);
                 location.reload();

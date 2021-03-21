@@ -37,19 +37,26 @@ async function rodada() {
 
         function frame() {
             if (width <= 0 || jogo.acabouRodada || jogo.estado=="esperando") {
-
-                if(jogo.estado=="esperando"){
-                    resolve("reiniciar");
-                }
                 clearInterval(id);
                 jogo.gameStatus.estado = "fim-da-rodada";
+                let tolerancia = new Array(11);
+
+                for (let i = 0; i < rodadas; i++) {
+                    tolerancia[jogo.trocas[i+1][jogo.gameStatus.rodada]] = { nomeJogador: jogo.gameStatus.jogadores[i].nome, tempo: 400 };
+                }
+                
                 let espereID = setInterval(() => {
-                    if (jogo.estado == "esperando") {
-                        resolve("reiniciar");
-                    }
                     let ok = 1;
+                    
                     for (let i = 1; i <= rodadas; i++) {
                             if (jogo.desenhos[i][jogo.gameStatus.rodada] === null) {
+                                if(!tolerancia[i].tempo){
+                                    clearInterval(espereID);
+                                    jogo.gameStatus.vacilao = tolerancia[i].nomeJogador;
+                                    reiniciar();
+                                    resolve("reiniciar");
+                                }
+                                tolerancia[i].tempo--;
                                 ok = 0;
                         }
                     }
@@ -106,32 +113,32 @@ function reiniciar(){
     jogo.gameStatus.rodada = 1;
     jogo.bookStatus.jogadorAtual = 1;
     jogo.bookStatus.rodadaAtual = 1;
-    jogo.gameStatus.tempos = [50,25];
+    jogo.gameStatus.tempos = undefined;
     jogo.gameStatus.tipoDeInicio = 0;
     jogo.acabouRodada = 0;
-    jogo.gameStatus.rodadaAtual = 1;
+    jogo.gameStatus.rodadaAtual = undefined;
     jogo.gameStatus.estado = "esperando";
     jogo.presentes = {};
 }
 
-async function vigiarJogador(nome) {
-    let tolerancia = 50;
-    let id = setInterval(vigia, 100);
-    function vigia() {
-        if(jogo.presentes[nome]){
-            clearInterval(id);
-        }else{
-            if(!tolerancia){
-                clearInterval(id);
-                reiniciar();
-                jogo.vacilao = nome;
-                jogo.podeComecar = 0;
-            }
-            tolerancia--;
-        }
-    }
-}
+// async function vigiarJogador(nome) {
+//     let tolerancia = 50;
+//     let id = setInterval(vigia, 100);
+//     function vigia() {
+//         if(jogo.presentes[nome]){
+//             clearInterval(id);
+//         }else{
+//             if(!tolerancia){
+//                 clearInterval(id);
+//                 reiniciar();
+//                 jogo.vacilao = nome;
+//                 jogo.podeComecar = 0;
+//             }
+//             tolerancia--;
+//         }
+//     }
+// }
 
 module.exports = {    
-    reiniciar, inicializarJogo, vigiarJogador  
+    reiniciar, inicializarJogo
 }
