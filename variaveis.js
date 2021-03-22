@@ -3,9 +3,11 @@ module.exports.jogo = {
     acabouRodada: 0,
     podeComecar: 0,
     idJogadores: {},
-    desenhos:Array.from({ length: 11 }, e => Array(11).fill(null)),
+    desenhos: Array.from({ length: 11 }, e => Array(11).fill(null)),
     trocas: [],
+    final: Array.from({ length: 11 }, e => Array(11).fill(null)),
     presentes: {},
+    desenhosFinal: Array.from({ length: 11 }, e => Array(11).fill(null)),
     gameStatus : {
         jogadores: [
             // {nome: "Coutinho",pronto:1},

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download</title>
+</head>
+
+<body>
+    <div id="resultado">
+    </div>
+<script>
+    let desenhos = Array.from({ length: 11 }, e => Array(11).fill(null));
+    desenhos = JSON.parse("<%=matrix%>");
+    console.log(desenhos);
+    let resultado = document.querySelector("resultado");
+     for (let i = 1; i <= desenhos[1].length; i++) { 
+            let jogador = document.createElement("h1");
+            jogador.innerHTML = `Book do jogador ${desenhos[i][1][1]}`;
+            
+            for (let j = 1; j <= desenhos[1].length; j++) { 
+            let jogador = document.createElement("h1");
+            jogador.innerHTML = desenhos[i][1][1];
+            resultado.appendChild(jogador);
+                 if (desenhos[i][j][0].length > 100) { 
+                     let imagem = document.createElement("img");
+                     imagem.src = desenhos[i][j][0];
+                     resultado.appendChild(imagem);
+                    }else{ 
+                   let frase = document.createElement("h3");
+                   frase.src = desenhos[i][j][0];
+                   resultado.appendChild(frase);
+                }
+            }
+        }
+</script>
+</body>
+
+</html>

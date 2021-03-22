@@ -7,9 +7,17 @@ const {inicializarJogo, reiniciar} = require("./back-end-game");
 const PORT = process.env.PORT || 3001;
 let trocas,final;
 let matrizes;
+app.set("view engine", "ejs");
+app.set("views", "views");
 app.use(express.json());
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:true, limit: '25mb' }));
+
+app.get("/download", (req,res) => {
+    if(jogo.gameStatus.estado!="mostrando-books")return;
+    console.log(jogo.desenhosFinal)
+    res.render("download", {matrix: JSON.stringify(jogo.desenhosFinal)});
+})
 app.get("/lobby", (req,res) => {
     if(jogo.gameStatus.estado!="esperando"){
         res.redirect("/indisponivel");
@@ -78,6 +86,7 @@ app.post("/jogadores", (req,res) => {
         jogo.bookStatus.reiniciarPartida = 0;
         trocas = matrizes[1];
         final = matrizes[0];
+        jogo.final = final;
         jogo.trocas = trocas;
         inicializarJogo(1);
     }else{
@@ -117,6 +126,7 @@ app.post("/changeReadyState", (req, res) => {
          jogo.bookStatus.reiniciarPartida = 0;
          trocas = matrizes[1];
          final = matrizes[0];
+         jogo.final = final;
          jogo.trocas = trocas;
         inicializarJogo(0);
 
@@ -214,8 +224,7 @@ app.get("/books", (req,res) => {
 
 app.get("/gameData", (req,res) => {
     res.send({
-        desenhos:jogo.desenhos,
-        caminhos:final,
+        desenhos:jogo.desenhosFinal,
         lider: jogo.gameStatus.lider,
         rodadas: jogo.gameStatus.jogadores.length,
         tipoDeRodada: jogo.gameStatus.rodadaAtual,

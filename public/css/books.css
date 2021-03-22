@@ -101,12 +101,12 @@ div#display-jogadores {
     align-items: flex-end;
 }
 
-button.btn.btn-success.enviar {
+button.btn.btn-light.enviar {
     flex: 1;
     justify-content: center;
     display: flex;
     margin: 0.2em;
-    color: #155724;
+    color: #000000;
 }
 
 .botoes{

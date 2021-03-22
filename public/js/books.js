@@ -7,7 +7,7 @@ let rodadaAtual = 1;
 let inicio = 1;
 let ultimaRodadaAtual = 1;
 let ultimoJogadorAtual = 1;
-let desenhos, caminhos, lider, rodadas, itens = [], tipoDeRodada;
+let lider, rodadas, itens = [], tipoDeRodada;
 let bookEl = document.querySelector("#resultados");
 let divsBotoes = document.querySelectorAll(".botoes");
 let bookAnteriorEl = document.querySelector("#book-anterior");
@@ -33,8 +33,7 @@ function salvarDados() {
         fetch("/gameData")
             .then(r => r.json())
             .then(r => {
-                desenhos = r.desenhos;
-                caminhos = r.caminhos;
+                itens = r.desenhos;
                 lider = r.lider;
                 rodadas = r.rodadas;
                 tipoDeRodada = r.tipoDeRodada;
@@ -126,15 +125,10 @@ function registrarBook() {
     ultimo.classList.remove("pronto");
     atual.classList.add("pronto");
     bookEl.innerHTML = "";
-    for(let i = 1 ; i < rodadas ; i++){
-        itens[i] = desenhos[caminhos[jogadorAtual][i]][i];
-    }
-
-    itens[rodadas] = desenhos[caminhos[jogadorAtual][rodadas-1]][rodadas];
     let temp = tipoDeRodada;
     for(let i = 1; i<= rodadas; i++){
         
-        let autor = itens[i][1];
+        let autor = itens[jogadorAtual][i][1];
         let containerEl = document.createElement("div");
         let autorEl = document.createElement("h2");
         autorEl.innerHTML = autor;
@@ -145,13 +139,13 @@ function registrarBook() {
         if(temp){
             containerEl.classList.add("frase");
             let fraseEl = document.createElement("span");
-            fraseEl.innerHTML = itens[i][0];
+            fraseEl.innerHTML = itens[jogadorAtual][i][0];
             containerEl.appendChild(fraseEl);
 
         }else{
             containerEl.classList.add("desenho");
             let imagemEl = document.createElement("img");
-            imagemEl.src = itens[i][0];;
+            imagemEl.src = itens[jogadorAtual][i][0];;
             containerEl.appendChild(imagemEl);
         }
         if(i==1){

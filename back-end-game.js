@@ -36,14 +36,14 @@ async function rodada() {
         let id = setInterval(frame, jogo.gameStatus.tempos[jogo.gameStatus.rodadaAtual]);
 
         function frame() {
-            if (width <= 0 || jogo.acabouRodada || jogo.estado=="esperando") {
+            if (width <= 0 || jogo.acabouRodada) {
                 clearInterval(id);
                 jogo.gameStatus.estado = "fim-da-rodada";
                 let tolerancia = new Array(11);
 
                 for (let i = 0; i < rodadas; i++) {
                     if(jogo.gameStatus.rodada==rodadas){
-                        tolerancia[i] = { nomeJogador: jogo.gameStatus.jogadores[i].nome, tempo: 400 };
+                        tolerancia[i+1] = { nomeJogador: jogo.gameStatus.jogadores[i].nome, tempo: 400 };
                     }else{
                         tolerancia[jogo.trocas[i + 1][jogo.gameStatus.rodada]] = { nomeJogador: jogo.gameStatus.jogadores[i].nome, tempo: 400 };
                     }
@@ -70,7 +70,16 @@ async function rodada() {
                         clearInterval(espereID);
                         setTimeout(() =>{
                             jogo.gameStatus.rodada++;
+                            let rodadas = jogo.gameStatus.jogadores.length;
                             if(jogo.gameStatus.rodada>rodadas){
+                                for(let j = 1; j <= rodadas; j++){
+                                    for (let i = 1; i < rodadas; i++) {
+                                        jogo.desenhosFinal[j][i] = jogo.desenhos[jogo.final[j][i]][i];
+                                    }
+                                    jogo.desenhosFinal[j][rodadas] = jogo.desenhos[jogo.final[j][rodadas - 1]][rodadas];
+                                }
+                                
+
                                 jogo.gameStatus.estado = "mostrando-books";
                             }else{
                                 jogo.gameStatus.estado = "jogando";
