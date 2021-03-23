@@ -54,7 +54,7 @@ async function rodada() {
                     let ok = 1;
                     
                     for (let i = 1; i <= rodadas; i++) {
-                        console.log(tolerancia);
+                        // console.log(tolerancia);
                             if (jogo.desenhos[i][jogo.gameStatus.rodada] === null) {
                                 if(!tolerancia[i].tempo){
                                     clearInterval(espereID);

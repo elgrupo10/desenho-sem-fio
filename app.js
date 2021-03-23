@@ -15,7 +15,7 @@ app.use(express.urlencoded({extended:true, limit: '25mb' }));
 
 app.get("/download", (req,res) => {
     if(jogo.gameStatus.estado!="mostrando-books")return;
-    console.log(jogo.desenhosFinal)
+    // console.log(jogo.desenhosFinal)
     res.render("download", {matrix: JSON.stringify(jogo.desenhosFinal)});
 })
 app.get("/lobby", (req,res) => {
@@ -186,10 +186,11 @@ app.post("/enviarJogada", (req,res) => {
         return;
     }
     if(jogada=="")jogada="Que vergonha! O jogador não escreveu nada...";
-    console.log(`jogador numero ${id} mandando para jogador ${trocas[id][jogo.gameStatus.rodada]}`);
     if(jogo.gameStatus.rodada!=jogo.gameStatus.jogadores.length){
+        console.log(`jogador numero ${id} mandando para jogador ${trocas[id][jogo.gameStatus.rodada]}`);
         jogo.desenhos[trocas[id][jogo.gameStatus.rodada]][jogo.gameStatus.rodada] = [jogada,nomeJogador];
     }else{
+        console.log(`jogador numero ${id} finalizou seu jogo.`);
         jogo.desenhos[id][jogo.gameStatus.rodada] = [jogada,nomeJogador];
     }
     res.send("ok");
