@@ -47,7 +47,7 @@ h2 {
     align-self: center;
 }
 
-#telaDeJogadores button {
+.botoes button {
 
     font-size: 25px;
     height: 2em;
@@ -78,7 +78,7 @@ h2 {
 
 }
 
-#pen-container { 
+#pen-container, .kickar { 
 
     display: flex;
     width: 30px;
@@ -225,4 +225,9 @@ footer > span{
 
 footer > span:hover{
     opacity: 0.5;
+}
+
+.kickar {
+    font-weight: bolder;
+    margin-right: 5px;
 }

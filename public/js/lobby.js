@@ -40,9 +40,15 @@ radioInicio.forEach(e => {
 selectVelocidade.addEventListener("change", mudarConfiguracao);
 buscarJogadores()
 
-window.addEventListener("click",e => {
-    if(e.target.id == "pen-container")mudarNome();
+window.addEventListener("click", e => {
+    if(e.target.id == "pen-container"){
+        mudarNome();
+    }
+    if(e.target.classList.contains("kickar")){
+        kickarJogador(e.target.id);
+    }
 })
+
 function mudarNome(){
     fetch("/trocandoNome", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome")}) });
     localStorage.removeItem("nome");
@@ -140,12 +146,18 @@ function registrarJogadores(){
                 jogadorEl.innerHTML = `<span>${vJogadores[i].nome}</span> <div id="pen-container"> <i class="gg-pen" id="pincel"> </i> </div>`;
 
             } else {
-                jogadorEl.innerHTML = `<span>${vJogadores[i].nome}</span>`;
+                jogadorEl.innerHTML = `<span>${vJogadores[i].nome}</span><button id="${vJogadores[i].nome}" class="kickar btn btn-danger invisivel">X</button>`;
             }
         }
-
         jogadorEl.classList.add("jogador");
         playersContainer.appendChild(jogadorEl);
+        if(localStorage.getItem("nome")==lider&&vJogadores[i].nome!=lider){
+           let jogadorKickarEl = document.querySelector(`#${vJogadores[i].nome}`);
+           jogadorKickarEl.parentNode.addEventListener("mouseover", e => {
+                jogadorKickarEl.classList.toggle("invisivel");
+                
+            })
+        }
         if(lider == localStorage.getItem("nome")){
             botaoTempoEl.classList.remove("invisivel");
             startEl.classList.remove("invisivel");
@@ -155,6 +167,16 @@ function registrarJogadores(){
 
 
 function inicio() {
+    if(localStorage.getItem("nome")){
+        fetch("/checkBanStatus", {method: "POST", headers:headers, body:JSON.stringify(nome, localStorage.getItem("nome"))})
+        .then(r => r.json())
+        .then(r => {
+            
+            if(r==1){
+                location.href = "https://www.youtube.com/watch?v=1UDYlkNZQcI";
+            }
+        })
+    }
     fetch("/jogadores")
         .then(r => r.json())
         .then(r => {
@@ -175,8 +197,15 @@ function buscarJogadores() {
             return r.json();
         })
         .then(r => {
+            if(r.banidos.includes(localStorage.getItem("nome"))){
+                jogadorSaindo()
+                .then(() => {
+                    location.href = "https://www.youtube.com/watch?v=1UDYlkNZQcI"
+                })
+            }
             lider = r.lider;
             for (let i = 0; i < r.jogadores.length; i++) {
+                
                 v2Jogadores.push({ "nome": r.jogadores[i].nome, "pronto": r.jogadores[i].pronto });
             }
             if(v2Jogadores.length!=vJogadores.length){
@@ -215,9 +244,13 @@ function changeReadyState(){
 
 
 function jogadorSaindo(){
-    if(!localStorage.getItem("nome"))return;
+    return new Promise(resolve => {
+    if(!localStorage.getItem("nome"))resolve("ok");
     fetch("/saindo", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome")}) })
-    
+    .then(() => {
+        resolve("ok");
+    })
+    })
 }
 
 function iniciarPartida(){
@@ -284,6 +317,11 @@ function mudarConfiguracao(e){
     }else{
         tipoInicio = mudanca;
     }
+}
+
+function kickarJogador(e){
+    fetch("/kickarJogador", {method: "POST", headers: headers, body: JSON.stringify({nomeJogador: e})});
+
 }
 
 window.addEventListener("beforeunload", jogadorSaindo);

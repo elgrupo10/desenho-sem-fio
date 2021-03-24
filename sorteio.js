@@ -7,24 +7,24 @@ function sorteio() {
     for (let i = 1; i <= jogadores; i++) {
         final[i] = [];
     }
-
+    
     while (true) {
         let disponiveis = [];
         for (let i = 1; i <= jogadores; i++) {
             disponiveis[i] = [];
             trocas[i] = [];
         }
-
+        
         for (let i = 1; i <= jogadores; i++) {
             for (let j = 1; j <= jogadores; j++) {
                 if (i == j) disponiveis[i][j] = 0;
                 else
-                    disponiveis[i][j] = 1;
+                disponiveis[i][j] = 1;
             }
         }
         let restart = 0;
         for (let w = 1; w < jogadores; w++) {
-
+            
             jogadorDisponivel = new Array(jogadores + 1);
             for (let i = 1; i <= jogadores; i++)jogadorDisponivel[i] = 1;
             for (let i = 1; i <= jogadores; i++) {
@@ -32,7 +32,7 @@ function sorteio() {
                 for (let j = 1; j <= jogadores; j++) {
                     if (disponiveis[i][j] && jogadorDisponivel[j]) disponiveisNestaRodada.push(j);
                 }
-
+                
                 let randomI = Math.floor(Math.random() * disponiveisNestaRodada.length);
                 let jogadorEscolhido = disponiveisNestaRodada[randomI];
                 disponiveis[i][jogadorEscolhido] = 0;
@@ -40,8 +40,8 @@ function sorteio() {
                 final[i][w] = jogadorEscolhido;
                 if (typeof final[i][w] == "undefined") restart = 1;
             }
-
-
+            
+            
         }
         if (!restart) break;
     }
@@ -67,14 +67,14 @@ function sorteio() {
             trocas[player][rodada] = final[recebido][rodada];
             // console.log(final[player][rodada]);
         }
-
-
-
-
+        
+        
+        
+        
     }
-
-
-
+    
+    
+    
     return [final, trocas];
 }
 

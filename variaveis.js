@@ -24,7 +24,8 @@ module.exports.jogo = {
         tempoRestante: 100,
         rodada: 1,
         tempos: undefined,
-        vacilao: ""
+        vacilao: "",
+        banidos: []
     },
 
     bookStatus: {

@@ -7,16 +7,15 @@ const {inicializarJogo, reiniciar} = require("./back-end-game");
 const PORT = process.env.PORT || 3001;
 let trocas,final;
 let matrizes;
+let html;
 app.set("view engine", "ejs");
 app.set("views", "views");
-app.use(express.json());
+app.use(express.json({limit: '25mb' }));
 app.use(express.static('public'));
-app.use(express.urlencoded({extended:true, limit: '25mb' }));
 
 app.get("/download", (req,res) => {
-    if(jogo.gameStatus.estado!="mostrando-books")return;
-    // console.log(jogo.desenhosFinal)
-    res.render("download", {matrix: JSON.stringify(jogo.desenhosFinal)});
+    console.log(jogo.desenhosFinal)
+    res.render("download", {matrix: JSON.stringify(jogo.desenhosFinal),nJogadores:jogo.gameStatus.jogadores.length});
 })
 app.get("/lobby", (req,res) => {
     if(jogo.gameStatus.estado!="esperando"){
@@ -99,7 +98,7 @@ app.post("/jogadores", (req,res) => {
             }
         }
         if(ok){
-            jogo.gameStatus.jogadores.push({nome:nomeJogador,pronto: 0});
+            jogo.gameStatus.jogadores.push({nome:nomeJogador,pronto: 0,kickado:0});
             console.log(`player ${nomeJogador} joined the lobby`);
             res.send(jogo.gameStatus);
         }
@@ -151,14 +150,6 @@ app.post("/saindo", (req,res) => {
     }
     res.send("ok");
 })
-
-// app.post("/saindoGame", (req,res) => {
-//     const nomeJogador = req.body.nome;
-//     jogo.presentes[nomeJogador] = 0;
-//     console.log(`jogador ${nomeJogador} esta saindo da sala`);
-//     vigiarJogador(nomeJogador);
-//     res.send("ok");
-// })
 
 app.post("/marcarPresenca", (req,res) => {
     const nomeJogador = req.body.nome;
@@ -281,6 +272,18 @@ app.post("/configuracoes", (req,res) => {
 
 app.get("/podeIniciar", (req,res) => {
     res.send({podeIniciar: jogo.podeComecar});
+})
+
+app.post("/kickarJogador", (req,res) => {
+    const nomeJogador = req.body.nomeJogador;
+    jogo.gameStatus.banidos.push(nomeJogador);
+    console.log(`player ${nomeJogador} was banned from the lobby`);
+    res.send("ok");
+})
+
+app.post("/checkBanStatus", (req,res) => {
+    const nomeJogador = req.body.nome;
+    res.send(jogo.gameStatus.banidos.includes(nomeJogador));
 })
 
 app.get('*' , (req,res) => {
