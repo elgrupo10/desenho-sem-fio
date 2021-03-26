@@ -176,13 +176,29 @@ footer a:active{
 }
 
 #tutorial{
-    width: 30%;
-    left: calc(50% - 15%);
+    width: 80vw;
+    left: calc(50% - 40vw);
+    top: calc(50% - 50vh);
     color: white;
+    height: 100vh;
+
 }
 
 #tutorial > div{
     margin-bottom: 1em;
+}
+
+#tutorial img{
+    width: 90%;
+    border-radius: 0;
+}
+
+#tutorial h2{
+    font-size: 6vh;
+}
+
+#tutorial p{
+    font-size: 3vh;
 }
 
 img {

@@ -12,7 +12,7 @@ async function inicializarJogo(tipo) {
       jogo.gameStatus.tempos != undefined &&
       jogo.gameStatus.rodadaAtual != undefined
     )
-    ok = 1;
+      ok = 1;
     if (ok) {
       clearInterval(espereID);
       setTimeout(() => {
