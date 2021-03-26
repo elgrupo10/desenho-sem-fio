@@ -121,10 +121,22 @@ inputNomeEl.addEventListener("change", () => {
                 buscarJogadores();
                 buscar = 1;
                 localStorage.setItem("nome", inputNomeEl.value);
+                aparecerModal(tutorialEl);
             }
         });
 
 })
+
+// Alterar para
+/*
+ Receber dois vetores de jogadores como parâmetro, sendo que
+o primeiro é o vetor atual de jogadores e o segundo é o novo
+vetor atualizado que foi retornado pelo último fetch feito (pode
+ser que sejam iguais).
+
+ Esta função deve então, em vez de remover todos elementos de "player-container" e criá-los novamente,
+percorrer os dois vetores, comparando jogador a jogador e verificando minucuisamente as alterações que 
+de fato precisam ser feitas no DOM (evitar ao máximo usar El.innerHTML = qualquer coisa) */
 
 function registrarJogadores(){
     playersContainer.innerHTML = "";
@@ -146,18 +158,12 @@ function registrarJogadores(){
                 jogadorEl.innerHTML = `<span>${vJogadores[i].nome}</span> <div id="pen-container"> <i class="gg-pen" id="pincel"> </i> </div>`;
 
             } else {
-                jogadorEl.innerHTML = `<span>${vJogadores[i].nome}</span><button id="${vJogadores[i].nome}" class="kickar btn btn-danger invisivel">X</button>`;
+                jogadorEl.innerHTML = `<span>${vJogadores[i].nome}</span><button id="${vJogadores[i].nome}" class="kickar btn btn-danger">X</button>`;
             }
         }
         jogadorEl.classList.add("jogador");
         playersContainer.appendChild(jogadorEl);
-        if(localStorage.getItem("nome")==lider&&vJogadores[i].nome!=lider){
-           let jogadorKickarEl = document.querySelector(`#${vJogadores[i].nome}`);
-           jogadorKickarEl.parentNode.addEventListener("mouseover", e => {
-                jogadorKickarEl.classList.toggle("invisivel");
-                
-            })
-        }
+
         if(lider == localStorage.getItem("nome")){
             botaoTempoEl.classList.remove("invisivel");
             startEl.classList.remove("invisivel");
