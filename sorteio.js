@@ -65,12 +65,13 @@ function sorteio() {
   }
 
   //a matriz trocas é definida aqui
+  /* Excluíndo o caso onde estamos na primeira rodada, é possível definir para quem o jogador i deve enviar sua jogada na rodada j descobrindo qual álbum o jogador i editou na rodada anterior e salvando seu índice. Com isso, veja que final[índice do álbum][j] é exatamente o jogador que deve receber a j-ésima jogada do jogador i.*/
   for (let player = 1; player <= jogadores; player++) {
-    trocas[player][1] = final[player][1];
+    trocas[player][1] = final[player][1]; //A primeira troca feita por todo jogador consiste em passar o álbum que acabaram de criar para outro jogador. É exatamente o caminho descrito pelo álbum na segunda rodada, que está salvo em final[player][1].
 
     for (let rodada = 2; rodada < jogadores; rodada++) {
       let recebido;
-      for (let i = 1; i <= jogadores; i++) {
+      for (let i = 1; i <= jogadores; i++) { 
         if (final[i][rodada - 1] == player) {
           recebido = i;
           break;
@@ -80,7 +81,9 @@ function sorteio() {
     }
   }
 
-  return [final, trocas];
+  return [final, trocas]; /*final será utilizada apenas no fim do jogo (daí vem o seu nome), pois é ela que registra as "páginas" de cada um dos álbuns. Trocas é usada no back-end para organizar a logística de enviar e receber as jogadas. Veja mais explicações sobre as trocas (app.js linha 175-197) e final (back-end-game.js linha)
+  OBS: ver explicações sobre final apenas depois de ver sobre as trocas.
+  */
 }
 
 module.exports = { sorteio };

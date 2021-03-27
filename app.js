@@ -175,23 +175,27 @@ app.post("/marcarPresenca", (req, res) => {
 app.post("/enviarJogada", (req, res) => {
   const nomeJogador = req.body.nome;
   let jogada = req.body.jogada;
-  let id = jogo.idJogadores[nomeJogador];
+  let id = jogo.idJogadores[nomeJogador]; //transforma o nome do jogador em número
   if (id === undefined) {
     res.send("nome inválido");
     return;
   }
   if (jogada == "") jogada = "Que vergonha! O jogador não escreveu nada...";
-  if (jogo.gameStatus.rodada != jogo.gameStatus.jogadores.length) {
+  if (jogo.gameStatus.rodada != jogo.gameStatus.jogadores.length) { // se o jogo não está na última rodada
     console.log(
       `jogador numero ${id} mandando para jogador ${
         trocas[id][jogo.gameStatus.rodada]
       }`
     );
-    jogo.desenhos[trocas[id][jogo.gameStatus.rodada]][
-      jogo.gameStatus.rodada
-    ] = [jogada, nomeJogador];
+    /*
+    desenhos[i][j] representa a jogada enviada ao jogador i na rodada j. Além de salvar a jogada, desenhos[i][j] também salva o remetente da jogada. O jogador que deve receber a jogada do jogador id está salvo em trocas[id][gameStatus.rodada].
+    */
+    jogo.desenhos[trocas[id][jogo.gameStatus.rodada]][jogo.gameStatus.rodada] = [jogada, nomeJogador];
   } else {
     console.log(`jogador numero ${id} finalizou seu jogo.`);
+    /*
+    a última rodada é um caso especial. Não há mais trocas a serem feitas, então podemos simplesmente adicionar a jogada ao vetor de seu próprio autor.  
+    */
     jogo.desenhos[id][jogo.gameStatus.rodada] = [jogada, nomeJogador];
   }
   res.send("ok");
@@ -199,12 +203,12 @@ app.post("/enviarJogada", (req, res) => {
 
 app.post("/receberJogada", (req, res) => {
   const nomeJogador = req.body.nome;
-  let id = jogo.idJogadores[nomeJogador];
+  let id = jogo.idJogadores[nomeJogador]; //transforma o nome do jogador em número
   if (id === undefined) {
     res.send("nome inválido");
     return;
   }
-  // console.log(`jogador ${nomeJogador} esta recebendo ${jogo.desenhos[id][jogo.gameStatus.rodada - 1][0]} do jogador ${jogo.desenhos[id][jogo.gameStatus.rodada - 1][1]}`);
+  /* o tratamento feito no envio das jogadas serve para simplificar o recebimento. Aqui, basta pegar o que foi enviado ao jogador id na última rodada. */
   res.send({ response: jogo.desenhos[id][jogo.gameStatus.rodada - 1][0] });
 });
 
@@ -267,9 +271,9 @@ app.post("/configuracoes", (req, res) => {
     return;
   }
   let tempos = [
-    [90, 35],
-    [60, 25],
-    [30, 15],
+    [150, 40],
+    [100, 35],
+    [60, 20],
   ];
   let tempo = parseInt(req.body.tempo, 10);
   let inicio = parseInt(req.body.tipoInicio, 10);

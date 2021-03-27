@@ -64,7 +64,6 @@ async function rodada() {
           let ok = 1;
 
           for (let i = 1; i <= rodadas; i++) {
-            // console.log(tolerancia);
             if (jogo.desenhos[i][jogo.gameStatus.rodada] === null) {
               if (!tolerancia[i].tempo) {
                 clearInterval(espereID);
@@ -82,13 +81,28 @@ async function rodada() {
               jogo.gameStatus.rodada++;
               let rodadas = jogo.gameStatus.jogadores.length;
               if (jogo.gameStatus.rodada > rodadas) {
-                for (let j = 1; j <= rodadas; j++) {
-                  for (let i = 1; i < rodadas; i++) {
-                    jogo.desenhosFinal[j][i] =
-                      jogo.desenhos[jogo.final[j][i]][i];
+                //se o jogo acabou
+
+                /*
+                Para mostrar os álbuns, precisamos transformar a matriz de desenhos (que salva o que cada jogador recebeu em cada rodada) em uma matriz baseada na matriz final, salvando as "páginas" de cada álbum. Essa nova matriz é a desenhosFinal.
+                */
+                console.log(jogo.final);
+                for (let i = 1; i <= rodadas; i++) {
+                  // para cada jogador
+                  for (let j = 1; j < rodadas; j++) {
+                    // para cada rodada
+                    console.log(`i ${i} j ${j}`);
+                    jogo.desenhosFinal[i][j] =
+                      jogo.desenhos[jogo.final[i][j]][j];
+                    /*
+                      na rodada j, o jogador final[i][j] recebe a página j-1 do álbum i (lembre-se de que a matriz final registra os seus "editores" a partir da segunda rodada. Isso implica que o jogador final[i][1] recebe a primeira página do álbum, e não a página zero.). Com isso, desenhos[final[i][j]][j] representa a página j do álbum i.
+                      */
                   }
-                  jogo.desenhosFinal[j][rodadas] =
-                    jogo.desenhos[jogo.final[j][rodadas - 1]][rodadas];
+                  /*
+                  Veja que desenhos[i][rodadas-1] é a penúltima página de um dos álbuns. A última página desse mesmo álbum, ou seja, a resposta a desenhos[i][rodadas-1], está salva em desenhos[i][rodadas], então basta reutilizar final[álbum][rodadas-1].
+                  */
+                  jogo.desenhosFinal[i][rodadas] =
+                    jogo.desenhos[jogo.final[i][rodadas - 1]][rodadas];
                 }
 
                 jogo.gameStatus.estado = "mostrando-books";
