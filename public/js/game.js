@@ -5,10 +5,9 @@ let playersContainer = document.querySelector("#display-jogadores");
 let progressBarEl = document.querySelector("#tb1");
 let readyEl = document.querySelectorAll(".enviar");
 let ready = 0;
-let enviou = 0;
 let vTempos = [];
 let vJogadores = [];
-let tempoRestante;
+let tempoRestante = 100;
 let btns = Array.from(readyEl);
 let primeiraRodada = 1;
 let rodadaAtual = undefined;
@@ -82,9 +81,10 @@ function atualizarHUD() {
   fetch("/jogadores")
     .then((r) => r.json())
     .then((r) => {
-      tempoRestante = r.tempoRestante;
       if (r.estado == "fim-da-rodada") {
         finalizarRodada();
+      }else{
+        tempoRestante = r.tempoRestante;
       }
       lider = r.lider;
       for (let i = 0; i < r.jogadores.length; i++) {
@@ -168,15 +168,11 @@ function registrarJogadores() {
 
 async function atualizarTempo() {
   return new Promise((resolve) => {
-    // if (vTempos[0] == 60) rate = 0.08;
-    // if (vTempos[0] == 30) rate = 0.092;
-    // if (vTempos[0] == 90) rate = 0.075;
     let id = setInterval(frame, vTempos[rodadaAtual]);
     function frame() {
       if (tempoRestante < 25) progressBarEl.style.background = "crimson";
       if (tempoRestante <= 0) {
-        clearInterval(id);
-        progressBarEl.style.transform = `scale(0, 1)`;
+        clearInterval(id);        
         resolve("acabou");
       } else {
         tempoRestante -= 0.1;
