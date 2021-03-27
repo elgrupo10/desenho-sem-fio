@@ -1,4 +1,5 @@
 module.exports.jogo = {
+  data: new Date(),
   acabouRodada: 0, //avisa que a rodada acabou para o back-end
   podeComecar: 0, //avisa ao front-end que a partida deve começar
   idJogadores: {}, //transforma o nome de cada jogador em um número

@@ -16,6 +16,7 @@ app.get("/download", (req, res) => {
   res.render("download", {
     matrix: JSON.stringify(jogo.desenhosFinal),
     nJogadores: jogo.gameStatus.jogadores.length,
+    data: jogo.data
   });
 });
 app.get("/lobby", (req, res) => {

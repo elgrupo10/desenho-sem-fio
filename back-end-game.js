@@ -110,6 +110,13 @@ async function rodada() {
                 }
 
                 jogo.gameStatus.estado = "mostrando-books";
+                let today = new Date();
+                let dd = String(today.getDate()).padStart(2, "0");
+                let mm = String(today.getMonth() + 1).padStart(2, "0"); 
+                let yyyy = today.getFullYear();
+                let data = dd + "/" + mm + "/" + yyyy;
+                let horario = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                jogo.data = data+'-'+horario;
               } else {
                 jogo.gameStatus.estado = "jogando";
                 jogo.gameStatus.rodadaAtual = 1 - jogo.gameStatus.rodadaAtual;
