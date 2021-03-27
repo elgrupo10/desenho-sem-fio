@@ -179,7 +179,7 @@ async function atualizarTempo() {
         progressBarEl.style.transform = `scale(0, 1)`;
         resolve("acabou");
       } else {
-        tempoRestante -= .1;
+        tempoRestante -= 0.1;
         progressBarEl.style.transform = `scale(${tempoRestante / 100}, 1)`;
       }
     }
@@ -215,11 +215,6 @@ function changeReadyState(e) {
     }
   }
 }
-// window.addEventListener("beforeunload", jogadorSaindo);
-
-// function jogadorSaindo() {
-//     fetch("/saindoGame", { method: "POST", headers: headers, body: JSON.stringify({ nome: localStorage.getItem("nome") }) })
-// }
 
 function enviarJogada() {
   if (!rodadaAtual) {

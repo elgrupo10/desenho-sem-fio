@@ -149,7 +149,6 @@ function registrarBook() {
 }
 
 function registrarRodada() {
-  //2 3 5-2 (rodadas-i)
   for (let i = ultimaRodadaAtual + 1; i <= rodadaAtual; i++) {
     let rodadaEl = bookEl.children[rodadas - i];
     rodadaEl.classList.remove("sem-aparecer");

@@ -7,6 +7,7 @@ async function inicializarJogo(tipo) {
     jogo.idJogadores[jogo.gameStatus.jogadores[i].nome] = i + 1;
   }
   let espereID = setInterval(() => {
+    //esperar o líder enviar as configurações da partida
     let ok = 0;
     if (
       jogo.gameStatus.tempos != undefined &&
@@ -17,8 +18,12 @@ async function inicializarJogo(tipo) {
       clearInterval(espereID);
       setTimeout(() => {
         console.log("iniciando rodada 1");
-        console.log(jogo.gameStatus.tempos);
-        console.log(jogo.gameStatus.rodadaAtual);
+        console.log(
+          `configurações de tempo: ${jogo.gameStatus.tempos[0]} segundos para desenhar e ${jogo.gameStatus.tempos[1]} segundos para escrever.`
+        );
+        console.log(
+          `primeira rodada será do tipo ${jogo.gameStatus.rodadaAtual}`
+        );
         gerenciadorDoJogo();
       }, 4050);
     }
@@ -65,6 +70,7 @@ async function rodada() {
 
           for (let i = 1; i <= rodadas; i++) {
             if (jogo.desenhos[i][jogo.gameStatus.rodada] === null) {
+              //esperar todos os jogadores enviarem suas jogadas, com uma tolerância máxima de 10 segundos após o fim da rodada
               if (!tolerancia[i].tempo) {
                 clearInterval(espereID);
                 jogo.gameStatus.vacilao = tolerancia[i].nomeJogador;
@@ -86,12 +92,10 @@ async function rodada() {
                 /*
                 Para mostrar os álbuns, precisamos transformar a matriz de desenhos (que salva o que cada jogador recebeu em cada rodada) em uma matriz baseada na matriz final, salvando as "páginas" de cada álbum. Essa nova matriz é a desenhosFinal.
                 */
-                console.log(jogo.final);
                 for (let i = 1; i <= rodadas; i++) {
                   // para cada jogador
                   for (let j = 1; j < rodadas; j++) {
                     // para cada rodada
-                    console.log(`i ${i} j ${j}`);
                     jogo.desenhosFinal[i][j] =
                       jogo.desenhos[jogo.final[i][j]][j];
                     /*
@@ -153,24 +157,6 @@ function reiniciar() {
   jogo.gameStatus.banidos = [];
   jogo.presentes = {};
 }
-
-// async function vigiarJogador(nome) {
-//     let tolerancia = 50;
-//     let id = setInterval(vigia, 100);
-//     function vigia() {
-//         if(jogo.presentes[nome]){
-//             clearInterval(id);
-//         }else{
-//             if(!tolerancia){
-//                 clearInterval(id);
-//                 reiniciar();
-//                 jogo.vacilao = nome;
-//                 jogo.podeComecar = 0;
-//             }
-//             tolerancia--;
-//         }
-//     }
-// }
 
 module.exports = {
   reiniciar,

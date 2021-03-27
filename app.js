@@ -13,7 +13,6 @@ app.use(express.json({ limit: "25mb" }));
 app.use(express.static("public"));
 
 app.get("/download", (req, res) => {
-  console.log(jogo.desenhosFinal);
   res.render("download", {
     matrix: JSON.stringify(jogo.desenhosFinal),
     nJogadores: jogo.gameStatus.jogadores.length,
@@ -27,14 +26,14 @@ app.get("/lobby", (req, res) => {
   res.sendFile(path.join(__dirname + "/views/lobby.html"));
 });
 app.get("/game", (req, res) => {
-  // if(jogo.gameStatus.estado=="esperando"){
-  //     res.redirect("/lobby");
-  //     return;
-  // }
-  // if(jogo.gameStatus.estado == "mostrando-books"){
-  //     res.redirect("/final");
-  //     return;
-  // }
+  if (jogo.gameStatus.estado == "esperando") {
+    res.redirect("/lobby");
+    return;
+  }
+  if (jogo.gameStatus.estado == "mostrando-books") {
+    res.redirect("/final");
+    return;
+  }
   if (jogo.gameStatus.rodadaAtual == 0) {
     res.sendFile(path.join(__dirname + "/views/desenho.html"));
   } else {
@@ -181,7 +180,8 @@ app.post("/enviarJogada", (req, res) => {
     return;
   }
   if (jogada == "") jogada = "Que vergonha! O jogador não escreveu nada...";
-  if (jogo.gameStatus.rodada != jogo.gameStatus.jogadores.length) { // se o jogo não está na última rodada
+  if (jogo.gameStatus.rodada != jogo.gameStatus.jogadores.length) {
+    // se o jogo não está na última rodada
     console.log(
       `jogador numero ${id} mandando para jogador ${
         trocas[id][jogo.gameStatus.rodada]
@@ -190,7 +190,9 @@ app.post("/enviarJogada", (req, res) => {
     /*
     desenhos[i][j] representa a jogada enviada ao jogador i na rodada j. Além de salvar a jogada, desenhos[i][j] também salva o remetente da jogada. O jogador que deve receber a jogada do jogador id está salvo em trocas[id][gameStatus.rodada].
     */
-    jogo.desenhos[trocas[id][jogo.gameStatus.rodada]][jogo.gameStatus.rodada] = [jogada, nomeJogador];
+    jogo.desenhos[trocas[id][jogo.gameStatus.rodada]][
+      jogo.gameStatus.rodada
+    ] = [jogada, nomeJogador];
   } else {
     console.log(`jogador numero ${id} finalizou seu jogo.`);
     /*

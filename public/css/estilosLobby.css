@@ -1,249 +1,237 @@
-
-main{
-    display:grid;
-    grid-template-rows: 5% 88% 7%;
-    grid-template-columns: 5% 90% 5%;
+main {
+  display: grid;
+  grid-template-rows: 5% 88% 7%;
+  grid-template-columns: 5% 90% 5%;
 }
 
-#telaDeJogadores{
-    grid-column: 2;
-    grid-row: 2;
-    background-color: #292929;
-    border-radius: 10px;
-    display:grid;
-    grid-template-rows: 25% 60% 15%;
-    grid-template-columns: 100%;
-    position: relative;
-
+#telaDeJogadores {
+  grid-column: 2;
+  grid-row: 2;
+  background-color: #292929;
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: 25% 60% 15%;
+  grid-template-columns: 100%;
+  position: relative;
 }
 
-#jogadores{
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 3;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    row-gap: 5px;
-    column-gap: 15px;
-    overflow-y: auto;
+#jogadores {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 5px;
+  column-gap: 15px;
+  overflow-y: auto;
 }
 
 .jogador {
-    margin: 5px;
-    align-self: center;
-    font-size: 25px;
-    color: white;
-    transition: linear 500ms;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  margin: 5px;
+  align-self: center;
+  font-size: 25px;
+  color: white;
+  transition: linear 500ms;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 h2 {
-    color: white;
-    font-size: 40px;
-    text-align: center;
-    align-self: center;
+  color: white;
+  font-size: 40px;
+  text-align: center;
+  align-self: center;
 }
 
 .botoes button {
-
-    font-size: 25px;
-    height: 2em;
-    /* color: rgb(8, 46, 7); */
-    /* background-color: rgb(30, 218, 24); */
-    font-weight: 700;
+  font-size: 25px;
+  height: 2em;
+  /* color: rgb(8, 46, 7); */
+  /* background-color: rgb(30, 218, 24); */
+  font-weight: 700;
 }
 
 #aviso-nome {
-    display:none;
-    margin-top: 1em;
-    color: white;
-
+  display: none;
+  margin-top: 1em;
+  color: white;
 }
 
-
-
 .botoes {
-    
-    display:flex;
-    justify-content: space-evenly;
-   
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .invisivel {
-
-    display: none !important;
-
+  display: none !important;
 }
 
-#pen-container, .kickar { 
-
-    display: flex;
-    width: 30px;
-    height: 30px;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-left: 0.3em;
-
+#pen-container,
+.kickar {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 0.3em;
 }
 
-#pen-container:hover{
-    opacity: 0.5;
+#pen-container:hover {
+  opacity: 0.5;
 }
-#pincel{
-    pointer-events: none;
-}
-
-i.coroa{
-    height: 30px;
-    width: 30px;
-    margin-left: 0.3em;
-    align-items: center;
-    display: flex;
+#pincel {
+  pointer-events: none;
 }
 
-footer a{
-    color:white;
-}
-footer a:hover{
-    opacity:0.5;
-    color: white;
-}
-footer a:active{
-    color: rgb(255, 255, 255);
+i.coroa {
+  height: 30px;
+  width: 30px;
+  margin-left: 0.3em;
+  align-items: center;
+  display: flex;
 }
 
-#menu-opcoes{
-    border-radius: 50%;
-    height: 50px;
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid black;
+footer a {
+  color: white;
+}
+footer a:hover {
+  opacity: 0.5;
+  color: white;
+}
+footer a:active {
+  color: rgb(255, 255, 255);
 }
 
-#menu-opcoes:focus{
-    border: 2px solid rgba(0, 0, 0, 0.5);
-    outline: none;
+#menu-opcoes {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
 }
 
-#menu{
-    color:white
+#menu-opcoes:focus {
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  outline: none;
 }
 
-#menu > *{
-    margin-bottom: 1em;
+#menu {
+  color: white;
+}
+
+#menu > * {
+  margin-bottom: 1em;
 }
 
 #menu > div {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-#menu > div > *{
-    margin-left: 5px;
+#menu > div > * {
+  margin-left: 5px;
 }
 
-#select-tempo{
-    margin-left: 7px;
-    border-radius: 20px;
-    flex: 1;
+#select-tempo {
+  margin-left: 7px;
+  border-radius: 20px;
+  flex: 1;
 }
 
-#menu > div > label{
-    margin-bottom: 0;
+#menu > div > label {
+  margin-bottom: 0;
 }
 
-#radio{
-    display: flex;
-    justify-content: space-around;
+#radio {
+  display: flex;
+  justify-content: space-around;
 }
 
-#mask2{
-    display: none;
+#mask2 {
+  display: none;
 }
 
-.info{
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    cursor: pointer;
+.info {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
 }
 
-#tutorial{
-    width: 80vw;
-    left: calc(50% - 40vw);
-    top: calc(50% - 50vh);
-    color: white;
-    height: 100vh;
-
+#tutorial {
+  width: 80vw;
+  left: calc(50% - 40vw);
+  top: calc(50% - 50vh);
+  color: white;
+  height: 100vh;
 }
 
-#tutorial > div{
-    margin-bottom: 1em;
+#tutorial > div {
+  margin-bottom: 1em;
 }
 
-#tutorial img{
-    width: 90%;
-    border-radius: 0;
+#tutorial img {
+  width: 90%;
+  border-radius: 0;
 }
 
-#tutorial h2{
-    font-size: 6vh;
+#tutorial h2 {
+  font-size: 6vh;
 }
 
-#tutorial p{
-    font-size: 3vh;
+#tutorial p {
+  font-size: 3vh;
 }
 
 img {
-    margin-top:1.5em;
-    width:13em;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 50%;
+  margin-top: 1.5em;
+  width: 13em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
 }
 
-#Helio-modal{
-    top: calc(50% - 193px);
-    left: calc( 50% - 155px);
-    width: 20em;
-    color: white;
+#Helio-modal {
+  top: calc(50% - 193px);
+  left: calc(50% - 155px);
+  width: 20em;
+  color: white;
 }
 
-#Leonidas-modal{
-    top: calc(50% - 210px);
-    left: calc( 50% - 155px);
-    color: white;
-    width: 20em;
+#Leonidas-modal {
+  top: calc(50% - 210px);
+  left: calc(50% - 155px);
+  color: white;
+  width: 20em;
 }
 
-#Leonidas-modal > p > a{
-    color: black;
+#Leonidas-modal > p > a {
+  color: black;
 }
 
-#Gabriel-modal{
-    width: 20em;
-    left: calc(50% - 155px);
-    color: white;
-    top: calc(50% - 217px);
+#Gabriel-modal {
+  width: 20em;
+  left: calc(50% - 155px);
+  color: white;
+  top: calc(50% - 217px);
 }
 
-footer > span{
-    cursor: pointer;
+footer > span {
+  cursor: pointer;
 }
 
-footer > span:hover{
-    opacity: 0.5;
+footer > span:hover {
+  opacity: 0.5;
 }
 
 .kickar {
-    font-weight: bolder;
-    margin-right: 5px;
+  font-weight: bolder;
+  margin-right: 5px;
 }

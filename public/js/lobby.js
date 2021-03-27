@@ -27,10 +27,8 @@ let selectVelocidade = document.querySelector("#select-tempo");
 let vJogadores = [];
 let ready = 0;
 let tipoDeInicio = 0;
-let buscar = 1;
-let tipoInicio = 1,
-  tempo = 1;
-let comecar = 0;
+let tipoInicio = 1;
+let tempo = 1;
 let lider = "";
 const headers = new Headers({
   "Content-Type": "application/json",
@@ -39,7 +37,6 @@ radioInicio.forEach((e) => {
   e.addEventListener("change", mudarConfiguracao);
 });
 selectVelocidade.addEventListener("change", mudarConfiguracao);
-buscarJogadores();
 
 window.addEventListener("click", (e) => {
   if (e.target.id == "pen-container") {
@@ -69,7 +66,6 @@ if (localStorage.getItem("nome") == null) {
     headers: headers,
     body: JSON.stringify({ nome: localStorage.getItem("nome"), pronto: 0 }),
   });
-  buscarJogadores();
 }
 
 // masks
@@ -127,24 +123,11 @@ inputNomeEl.addEventListener("change", () => {
       } else {
         maskEl.classList.remove("aparecer");
         modalNomeEl.classList.remove("aparecer");
-        buscarJogadores();
-        buscar = 1;
         localStorage.setItem("nome", inputNomeEl.value);
         aparecerModal(tutorialEl);
       }
     });
 });
-
-// Alterar para
-/*
- Receber dois vetores de jogadores como parâmetro, sendo que
-o primeiro é o vetor atual de jogadores e o segundo é o novo
-vetor atualizado que foi retornado pelo último fetch feito (pode
-ser que sejam iguais).
-
- Esta função deve então, em vez de remover todos elementos de "player-container" e criá-los novamente,
-percorrer os dois vetores, comparando jogador a jogador e verificando minucuisamente as alterações que 
-de fato precisam ser feitas no DOM (evitar ao máximo usar El.innerHTML = qualquer coisa) */
 
 function registrarJogadores() {
   playersContainer.innerHTML = "";
@@ -209,7 +192,6 @@ function inicio() {
 inicio();
 
 function buscarJogadores() {
-  if (!buscar) return;
   let v2Jogadores = [];
   fetch("/jogadores")
     .then(function (r) {
@@ -240,11 +222,10 @@ function buscarJogadores() {
           }
         }
       }
-
-      if (r.estado == "jogando") {
-        comecar = 1;
-      }
       tipoDeInicio = r.tipoDeInicio;
+      if (r.estado == "jogando") {
+        iniciarPartida();
+      }
     });
 }
 
@@ -274,11 +255,9 @@ function jogadorSaindo() {
 }
 
 function iniciarPartida() {
-  if (!comecar) return;
+  clearInterval(busca);
   readyEl.disabled = true;
   startEl.disabled = true;
-  clearInterval(inicia);
-  clearInterval(busca);
   if (lider == localStorage.getItem("nome")) {
     fetch("/configuracoes", {
       method: "POST",
@@ -359,4 +338,3 @@ readyEl.addEventListener("click", changeReadyState);
 startEl.addEventListener("click", avisarServer);
 
 let busca = setInterval(buscarJogadores, 500);
-let inicia = setInterval(iniciarPartida, 150);

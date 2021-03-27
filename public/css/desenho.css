@@ -1,87 +1,87 @@
+main {
+  display: flex;
+}
+.grid-container {
+  margin: 50px;
+  display: grid;
+  flex: 1;
+  grid-template-columns: 15% 70% 15%;
+  grid-template-rows: auto 1fr;
+  border-radius: 10px;
+  border: solid 10px #292929;
+}
+#gridJogadores {
+  /* font-size:50; */
+  grid-area: 1 / 1 / 3 / 1;
 
-main{
-    display:flex;
-}
-.grid-container{
-    margin: 50px;
-    display: grid;
-    flex:1;
-    grid-template-columns: 15% 70% 15%;
-    grid-template-rows: auto 1fr;
-    border-radius: 10px;
-    border: solid 10px #292929;
-}
-#gridJogadores{
-    /* font-size:50; */
-    grid-area: 1 / 1 / 3 / 1;
-    
-    background: #292929;
-    color:white;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    text-align: center;
+  background: #292929;
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  text-align: center;
 }
 
-#gridJogadores > *{
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    margin: 0;
+#gridJogadores > * {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  margin: 0;
 }
 
 div#display-jogadores {
-    flex: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-#gridRecebido{
-    display: grid;
-    grid-template-rows: 85% 15%;
-    background: #777777; 
-    font-size:40px;
+#gridRecebido {
+  display: grid;
+  grid-template-rows: 85% 15%;
+  background: #777777;
+  font-size: 40px;
 }
 
-#gridRecebido span{
-    justify-self:center;
+#gridRecebido span {
+  justify-self: center;
 }
 
-.seletor-ferramentas-basicas{
-    color:white;
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
-    grid-column: 1 / 3;
-    align-items: center;
-    height: 100%;
+.seletor-ferramentas-basicas {
+  color: white;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-column: 1 / 3;
+  align-items: center;
+  height: 100%;
 }
 
-#gridCanvas{
-    display:grid;
-    border: 1px solid black;
+#gridCanvas {
+  display: grid;
+  border: 1px solid black;
 }
 
-#canvas,#canvas-transparente{
-    grid-row:1;
-    grid-column:1;
-    cursor: crosshair;
+#canvas,
+#canvas-transparente {
+  grid-row: 1;
+  grid-column: 1;
+  cursor: crosshair;
 }
 
-.aparece{
-    z-index:1;
+.aparece {
+  z-index: 1;
 }
 
-#gridControles{
-    grid-column-start: 3;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 3;
-    background: #292929;
-    display: grid;
-    grid-template-rows: auto 2em auto auto auto auto;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
+#gridControles {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  background: #292929;
+  display: grid;
+  grid-template-rows: auto 2em auto auto auto auto;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
 }
 .cor-container {
   border: rgba();
@@ -96,24 +96,24 @@ div#display-jogadores {
   position: relative;
 }
 
-#pack-de-cores{
-    justify-self: center;
-    row-gap: .25em;
-    column-gap: .25em;
-    grid-area: 3 / 1 / 3 / 3;
-    display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+#pack-de-cores {
+  justify-self: center;
+  row-gap: 0.25em;
+  column-gap: 0.25em;
+  grid-area: 3 / 1 / 3 / 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
 }
 
-.cores-dir{
+.cores-dir {
   justify-self: start;
 }
-.cores-esq{
+.cores-esq {
   justify-self: end;
 }
-.cores-centro{
-    justify-self: center;
+.cores-centro {
+  justify-self: center;
 }
 .cor {
   cursor: pointer;
@@ -124,20 +124,20 @@ div#display-jogadores {
 }
 
 .cor-container:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-radius: 5px;
-    border: 2px solid rgb(255, 255, 255);
-    pointer-events: none;
-  }
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 5px;
+  border: 2px solid rgb(255, 255, 255);
+  pointer-events: none;
+}
 
 .tolerancia-container {
-    grid-row: 3 / 4;
+  grid-row: 3 / 4;
 }
 
 input[type="color"] {
@@ -146,204 +146,199 @@ input[type="color"] {
   width: 200%;
   height: 200%;
   cursor: pointer;
-  transform: translate(-25%, -25%)
-
+  transform: translate(-25%, -25%);
 }
 
-#refazer{
-    /* position: absolute; */
-    border-radius: 8px;
-    /* bottom: 67%; */
-    /* left: 90%; */
+#refazer {
+  /* position: absolute; */
+  border-radius: 8px;
+  /* bottom: 67%; */
+  /* left: 90%; */
 }
 
-#desfazer{
-    /* position: absolute; */
-    border-radius: 8px;
-    margin-right: 1em;
-    /* bottom: 67%; */
-    /* left: 85%; */
+#desfazer {
+  /* position: absolute; */
+  border-radius: 8px;
+  margin-right: 1em;
+  /* bottom: 67%; */
+  /* left: 85%; */
 }
 
 .nao-desenhe {
-    pointer-events: none;
+  pointer-events: none;
 }
 
-#borracha{
-    /* position: absolute; */
-    border-radius: 8px;
-    /* bottom: 70%; */
-    /* left: 85%;  */
+#borracha {
+  /* position: absolute; */
+  border-radius: 8px;
+  /* bottom: 70%; */
+  /* left: 85%;  */
 }
 
-#seletor-container{
-    /* position: relative; */
-    border-radius: 8px;
-    /* top: 10%; */
-    /* left: 85%;  */
+#seletor-container {
+  /* position: relative; */
+  border-radius: 8px;
+  /* top: 10%; */
+  /* left: 85%;  */
 }
- 
+
 #seletor-espessura {
-    width: 100%;
+  width: 100%;
 }
 
 #tolerancia {
-    width: 100%;
+  width: 100%;
 }
 
 .seletor-desfazer-refazer {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    display: flex;
-    justify-content: center;
-    height: 2em;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  display: flex;
+  justify-content: center;
+  height: 2em;
 }
 
 button:focus {
-    outline: none;
+  outline: none;
 }
 
-[type=radio] { 
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
-  
-[type=radio] + div {
-    cursor: pointer;
+
+[type="radio"] + div {
+  cursor: pointer;
 }
-  
-[type=radio]:checked + div {
-    background-color: #218221;
-    border-radius: 5px;
-    box-shadow: black 1px 1px;
+
+[type="radio"]:checked + div {
+  background-color: #218221;
+  border-radius: 5px;
+  box-shadow: black 1px 1px;
 }
-  
 
 .seletor-container {
-    grid-column: 1 / 3;
-    display: flex;
-    position: relative;
+  grid-column: 1 / 3;
+  display: flex;
+  position: relative;
 }
 
-.botao{
-    justify-self: center;
-    height: 30px;
-    width: 30px;
+.botao {
+  justify-self: center;
+  height: 30px;
+  width: 30px;
 }
 
 .enviar {
-    justify-self: center;
-    align-self: center;
-    grid-column: 1 / 3;
+  justify-self: center;
+  align-self: center;
+  grid-column: 1 / 3;
 }
 
-.botao div{
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0);
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
+.botao div {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 }
 
 i {
-    align-self: center;
+  align-self: center;
 }
 
-#refazer.impossivel{
-    cursor: default;
-    opacity: 0.5;
+#refazer.impossivel {
+  cursor: default;
+  opacity: 0.5;
 }
 
-#desfazer.impossivel{
-    cursor: default;
-    opacity: 0.5;
+#desfazer.impossivel {
+  cursor: default;
+  opacity: 0.5;
 }
 
-#sozinho{
-    grid-area: 2 / 1 / 2 / 3;
-    justify-self: center;
-    color:white;
+#sozinho {
+  grid-area: 2 / 1 / 2 / 3;
+  justify-self: center;
+  color: white;
 }
 
-
-@media (max-width: 1400px){
-    .cor{
-        width: 1.5em;
-        height: 1.5em;
-    }
+@media (max-width: 1400px) {
+  .cor {
+    width: 1.5em;
+    height: 1.5em;
+  }
 }
-.time-bar{
-    transition: all 50ms linear;
-    transform-origin: left center; 
-    background-color:green;
-    display:block;
+.time-bar {
+  transition: all 50ms linear;
+  transform-origin: left center;
+  background-color: green;
+  display: block;
 }
-#instrucao-desenho{
-    
-    justify-self:center;
+#instrucao-desenho {
+  justify-self: center;
 }
-
 
 /* modals de informação */
 
-.modal-info{
-    display: none;
-    pointer-events: none;
-    position: absolute;
-    background-color: #3f3f3f;
-    border: 2px solid black;
-    color: white;
-    font-size: 12px;
-    width: 120px;
-    padding: 0.5em;
-    border-radius: 5px;
+.modal-info {
+  display: none;
+  pointer-events: none;
+  position: absolute;
+  background-color: #3f3f3f;
+  border: 2px solid black;
+  color: white;
+  font-size: 12px;
+  width: 120px;
+  padding: 0.5em;
+  border-radius: 5px;
 }
 
 /* indicador espessura */
 
 #espessura-infobox {
-    display: none;
-    position: absolute;
-    pointer-events: none;
-    z-index: 99;
-    left: -80px;
-    top: -20px;
+  display: none;
+  position: absolute;
+  pointer-events: none;
+  z-index: 99;
+  left: -80px;
+  top: -20px;
 }
 
 #fundo-indicador {
-    background-color: #3f3f3f;
-    border: solid 2px black;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    z-index: 99;
-    border-radius: 10px;
+  background-color: #3f3f3f;
+  border: solid 2px black;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 99;
+  border-radius: 10px;
 }
 
 #seta-indicador {
-    background-color: #3f3f3f;
-    width: 35px;
-    height: 35px;
-    transform: translate(25px, 10px) rotate(45deg);
-    z-index: 98;
-    position: absolute;
+  background-color: #3f3f3f;
+  width: 35px;
+  height: 35px;
+  transform: translate(25px, 10px) rotate(45deg);
+  z-index: 98;
+  position: absolute;
 }
 
 div#bolinha-indicado {
-    top: 2.5px;
-    height: 50px;
-    width: 50px;
-    background-color: white;
-    border-radius: 50%;
-    z-index: 100;
-    align-self: center;
+  top: 2.5px;
+  height: 50px;
+  width: 50px;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 100;
+  align-self: center;
 }
 
-#saiu-partida > h2{
-    text-align: center;
+#saiu-partida > h2 {
+  text-align: center;
 }

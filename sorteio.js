@@ -81,7 +81,7 @@ function sorteio() {
     }
   }
 
-  return [final, trocas]; /*final será utilizada apenas no fim do jogo (daí vem o seu nome), pois é ela que registra as "páginas" de cada um dos álbuns. Trocas é usada no back-end para organizar a logística de enviar e receber as jogadas. Veja mais explicações sobre as trocas (app.js linha 175-197) e final (back-end-game.js linha)
+  return [final, trocas]; /*final será utilizada apenas no fim do jogo (daí vem o seu nome), pois é ela que registra as "páginas" de cada um dos álbuns. Trocas é usada no back-end para organizar a logística de enviar e receber as jogadas. Veja mais explicações sobre as trocas (app.js linha 175-200) e final (back-end-game.js linha 90-107)
   OBS: ver explicações sobre final apenas depois de ver sobre as trocas.
   */
 }
