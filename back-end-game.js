@@ -90,7 +90,7 @@ async function rodada() {
                 //se o jogo acabou
 
                 /*
-                Para mostrar os álbuns, precisamos transformar a matriz de desenhos (que salva o que cada jogador recebeu em cada rodada) em uma matriz baseada na matriz final, salvando as "páginas" de cada álbum. Essa nova matriz é a desenhosFinal.
+                Para mostrar os álbuns, precisamos transformar a matriz de desenhos (que salva o que cada jogador recebeu em cada rodada) em uma matriz baseada na matriz final, salvando as "páginas" de cada álbum de maneira organizada. Essa nova matriz é a desenhosFinal.
                 */
                 for (let i = 1; i <= rodadas; i++) {
                   // para cada jogador
@@ -103,7 +103,7 @@ async function rodada() {
                       */
                   }
                   /*
-                  Veja que desenhos[i][rodadas-1] é a penúltima página de um dos álbuns. A última página desse mesmo álbum, ou seja, a resposta a desenhos[i][rodadas-1], está salva em desenhos[i][rodadas], então basta reutilizar final[álbum][rodadas-1].
+                  Veja que desenhos[i][rodadas-1] é a penúltima página do álbum i. A última página desse mesmo álbum, ou seja, a jogada feita em resposta a desenhos[i][rodadas-1], está salva em desenhos[i][rodadas], então basta reutilizar final[álbum][rodadas-1].
                   */
                   jogo.desenhosFinal[i][rodadas] =
                     jogo.desenhos[jogo.final[i][rodadas - 1]][rodadas];

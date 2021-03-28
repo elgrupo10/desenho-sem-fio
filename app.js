@@ -21,7 +21,11 @@ app.get("/download", (req, res) => {
 });
 app.get("/lobby", (req, res) => {
   if (jogo.gameStatus.estado != "esperando") {
-    res.redirect("/indisponivel");
+    if(jogo.gameStatus.estado == "jogando" || jogo.gameStatus.estado == "fim-da-rodada"){
+      res.redirect("/game");
+    }else{
+      res.redirect("/final");
+    }
     return;
   }
   res.sendFile(path.join(__dirname + "/views/lobby.html"));
@@ -157,19 +161,13 @@ app.post("/saindo", (req, res) => {
 
 app.post("/marcarPresenca", (req, res) => {
   const nomeJogador = req.body.nome;
-  let estaPresente = 0;
-  for (let i = 0; i < jogo.gameStatus.jogadores.length; i++) {
-    if (jogo.gameStatus.jogadores[i].nome == nomeJogador) {
-      estaPresente = 1;
-      break;
-    }
-  }
-  if (!estaPresente) {
+  if (jogo.idJogadores[nomeJogador] == undefined) {
     res.redirect("/indisponivel");
     return;
+  }else{
+    jogo.presentes[nomeJogador] = 1;
+    res.send("ok");
   }
-  jogo.presentes[nomeJogador] = 1;
-  res.send("ok");
 });
 
 app.post("/enviarJogada", (req, res) => {

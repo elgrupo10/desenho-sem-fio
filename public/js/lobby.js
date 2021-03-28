@@ -27,8 +27,8 @@ let selectVelocidade = document.querySelector("#select-tempo");
 let vJogadores = [];
 let ready = 0;
 let tipoDeInicio = 0;
-let tipoInicio = 1;
-let tempo = 1;
+let tipoPrimeiraRodada = 1;
+let velocidadeDoJogo = 1;
 let lider = "";
 const headers = new Headers({
   "Content-Type": "application/json",
@@ -264,8 +264,8 @@ function iniciarPartida() {
       headers: headers,
       body: JSON.stringify({
         nome: localStorage.getItem("nome"),
-        tempo: tempo,
-        tipoInicio: tipoInicio,
+        tempo: velocidadeDoJogo,
+        tipoInicio: tipoPrimeiraRodada,
       }),
     }).then(() => {
       contador();
@@ -319,9 +319,9 @@ function avisarServer() {
 function mudarConfiguracao(e) {
   let mudanca = e.target.id;
   if (mudanca == "select-tempo") {
-    tempo = e.target.value;
+    velocidadeDoJogo = e.target.value;
   } else {
-    tipoInicio = mudanca;
+    tipoPrimeiraRodada = mudanca;
   }
 }
 

@@ -3,24 +3,24 @@ const { jogo } = require("./variaveis");
     A lógica por trás do recebimento/envio das jogadas é feita aqui.
     A ideia é que cada jogador tem seu próprio álbum, que é criado com a primeira jogada. Cada álbum deve passar por todos os jogadores apenas uma vez. 
     O caminho que será feito por cada álbum é registrado na matriz "final", onde final[i] representa o caminho do álbum criado pelo jogador i e final[i][j] nos diz quem irá "escrever uma nova página" no álbum criado pelo jogador i e na rodada j. Um detalhe: a primeira posição definida em cada final[i] representa o segundo jogador a editar o álbum i. Fizemos assim pois o primeiro jogador a editar o álbum i sempre será o próprio jogador i, logo é redundante fazer esse registro.
-    Não conseguimos pensar em um algoritmo que resolvesse isso de maneira inteligente, então a função sorteio simplesmente escolhe jogadores aleatórios com algumas restrições óbvias. Entretanto, essas restrições não são suficientes para gerar uma matriz adequada: pode acontecer de, na última rodada, dois álbuns precisarem de serem "editados" pelo mesmo jogador, fazendo com que um álbum receba "undefined" na última rodada.
+    Não conseguimos pensar em um algoritmo que resolvesse isso de maneira inteligente, então a função sorteio simplesmente escolhe jogadores aleatórios com algumas restrições óbvias. Entretanto essas restrições não são suficientes para gerar uma matriz adequada: pode acontecer de, na última rodada, dois álbuns precisarem de serem "editados" pelo mesmo jogador, fazendo com que um álbum receba "undefined" na última rodada.
     Por isso, a randomização é feita infinitamente até a matriz estar totalmente correta.
-    Também é necessário ter uma matriz que informe ao jogador, em cada uma das rodadas (excluíndo a última), para quem sua jogada deve ser enviada. É possível extrair essa matriz através da matriz "final". Todas essas trocas de jogadas são armazenadas em "trocas", onde trocas[i][j] armazena para quem o jogador i deve enviar sua jogada feita na rodada j.
+    Também é necessário ter uma matriz que informe ao jogador, em cada uma das rodadas (excluíndo a última), para quem sua jogada deve ser enviada. É possível extrair essas informações através da matriz "final". Todas essas trocas de jogadas são armazenadas em "trocas", onde trocas[i][j] armazena para quem o jogador i deve enviar sua jogada feita na rodada j.
   
 
 */
 function sorteio() {
   let trocas = []; //guarda todas as trocas de jogadas
   let final = []; //guarda o caminho completo feito por cada jogada inicial;
-  const jogadores = jogo.gameStatus.jogadores.length; //numero de jogadores no jogo
+  const jogadores = jogo.gameStatus.jogadores.length; //número de jogadores no jogo
   for (let i = 1; i <= jogadores; i++) {
     final[i] = [];
     trocas[i] = [];
   }
 
-  //final é definida aqui
+  //laço infinito que só é quebrado quando não há imperfeições na matriz final
   while (true) {
-    let disponiveis = []; //matriz onde disponiveis[i] mostra quem escreveu/falta editou o álbum i. disponiveis[i][j] é igual 0 se o jogador j já editou o álbum i ou é igual a 1 se o jogador j ainda não editou o álbum i.
+    let disponiveis = []; //matriz que mostra se alguém já editou ou não algum álbum. Se o jogador j já editou o álbum i, disponiveis[i][j] é igual a 0. Caso contrário, é igual a 1.
     for (let i = 1; i <= jogadores; i++) {
       disponiveis[i] = [];
     }
@@ -45,7 +45,6 @@ function sorteio() {
         //para cada jogador
         let disponiveisNestaRodada = []; //vetor que salva os jogadores que podem editar o álbum i nesta rodada
         for (let j = 1; j <= jogadores; j++) {
-          //loop para preencher o disponiveisNestaRodada.
           /*Se o jogador j ainda não editou o álbum i e não recebeu o álbum de outro jogador nessa rodada, ele é adicionado ao disponiveisNestaRodada*/
           if (disponiveis[i][j] && jogadorDisponivel[j])
             disponiveisNestaRodada.push(j);
@@ -65,13 +64,13 @@ function sorteio() {
   }
 
   //a matriz trocas é definida aqui
-  /* Excluíndo o caso onde estamos na primeira rodada, é possível definir para quem o jogador i deve enviar sua jogada na rodada j descobrindo qual álbum o jogador i editou na rodada anterior e salvando seu índice. Com isso, veja que final[índice do álbum][j] é exatamente o jogador que deve receber a j-ésima jogada do jogador i.*/
   for (let player = 1; player <= jogadores; player++) {
     trocas[player][1] = final[player][1]; //A primeira troca feita por todo jogador consiste em passar o álbum que acabaram de criar para outro jogador. É exatamente o caminho descrito pelo álbum na segunda rodada, que está salvo em final[player][1].
 
     for (let rodada = 2; rodada < jogadores; rodada++) {
+      /* Excluíndo o caso onde estamos na primeira rodada, é possível definir para quem o jogador i deve enviar sua jogada na rodada j descobrindo qual álbum o jogador i editou na rodada anterior e salvando seu índice. Com isso, final[índice do álbum][j] é exatamente o jogador que deve receber a j-ésima jogada do jogador i.*/
       let recebido;
-      for (let i = 1; i <= jogadores; i++) { 
+      for (let i = 1; i <= jogadores; i++) {
         if (final[i][rodada - 1] == player) {
           recebido = i;
           break;
