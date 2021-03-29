@@ -189,6 +189,11 @@ footer a:active {
   font-size: 3vh;
 }
 
+#conteudo-tutorial{
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 img {
   margin-top: 1.5em;
   width: 13em;
