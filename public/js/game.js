@@ -81,6 +81,14 @@ function atualizarHUD() {
   fetch("/jogadores")
     .then((r) => r.json())
     .then((r) => {
+      if(r.rodadaAtual!=rodadaAtual){
+        if(!ready){
+          enviarJogada()
+          .then(() => location.reload());
+        }else{
+          location.reload();
+        }
+      }
       if (r.estado == "fim-da-rodada") {
         finalizarRodada();
       }else{
@@ -213,31 +221,36 @@ function changeReadyState(e) {
 }
 
 function enviarJogada() {
-  if (!rodadaAtual) {
-    let canvas = document.querySelector("#canvas");
-    canvas.classList.add("nao-desenhe");
-    let url = canvas.toDataURL();
-    fetch("/enviarJogada", {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({ nome: localStorage.getItem("nome"), jogada: url }),
-    });
-  } else {
-    let descricaoEl;
-    if (primeiraRodada) {
-      descricaoEl = document.querySelector("#descricao1");
-    } else {
-      descricaoEl = document.querySelector("#descricao2");
-    }
-    fetch("/enviarJogada", {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({
-        nome: localStorage.getItem("nome"),
-        jogada: descricaoEl.value,
-      }),
-    });
-  }
+  return new Promise(response => {
+      if (!rodadaAtual) {
+        let canvas = document.querySelector("#canvas");
+        canvas.classList.add("nao-desenhe");
+        let url = canvas.toDataURL();
+        fetch("/enviarJogada", {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({ nome: localStorage.getItem("nome"), jogada: url }),
+        })
+        .then(() => response("ok"));
+      } else {
+        let descricaoEl;
+        if (primeiraRodada) {
+          descricaoEl = document.querySelector("#descricao1");
+        } else {
+          descricaoEl = document.querySelector("#descricao2");
+        }
+        fetch("/enviarJogada", {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({
+            nome: localStorage.getItem("nome"),
+            jogada: descricaoEl.value,
+          }),
+        })
+        .then(() => response("ok"));
+      }
+  }) 
+  
 }
 
 function finalizarRodada() {
@@ -245,14 +258,6 @@ function finalizarRodada() {
   if (!ready) {
     enviarJogada();
   }
-  fetch("/changeReadyState", {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      nome: localStorage.getItem("nome"),
-      semprePronto: 1,
-    }),
-  });
   function podeReiniciar() {
     fetch("/jogadores")
       .then((r) => r.json())
