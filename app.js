@@ -20,6 +20,9 @@ app.get("/download", (req, res) => {
   });
 });
 app.get("/lobby", (req, res) => {
+  if(jogo.gameStatus.jogadores.length >= 10){
+    res.redirect("/indisponivel");
+  }
   if (jogo.gameStatus.estado != "esperando") {
     if(jogo.gameStatus.estado == "jogando" || jogo.gameStatus.estado == "fim-da-rodada"){
       res.redirect("/game");
@@ -69,7 +72,7 @@ app.get("/final", (req, res) => {
 });
 
 app.get("/indisponivel", (req, res) => {
-  if (jogo.gameStatus.estado == "esperando") {
+  if (jogo.gameStatus.estado == "esperando" && jogo.gameStatus.jogadores.length<10) {
     res.redirect("/lobby");
     return;
   }
@@ -182,8 +185,8 @@ app.post("/enviarJogada", (req, res) => {
   if (jogo.gameStatus.rodada != jogo.gameStatus.jogadores.length) {
     // se o jogo não está na última rodada
     console.log(
-      `jogador numero ${id} mandando para jogador ${
-        trocas[id][jogo.gameStatus.rodada]
+      `${nomeJogador} mandando para ${
+        jogo.gameStatus.jogadores[trocas[id][jogo.gameStatus.rodada]-1].nome
       }`
     );
     /*
