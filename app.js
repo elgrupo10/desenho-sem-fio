@@ -22,6 +22,7 @@ app.get("/download", (req, res) => {
 app.get("/lobby", (req, res) => {
   if(jogo.gameStatus.jogadores.length >= 10){
     res.redirect("/indisponivel");
+    return;
   }
   if (jogo.gameStatus.estado != "esperando") {
     if(jogo.gameStatus.estado == "jogando" || jogo.gameStatus.estado == "fim-da-rodada"){
