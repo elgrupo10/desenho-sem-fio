@@ -82,12 +82,7 @@ function atualizarHUD() {
     .then((r) => r.json())
     .then((r) => {
       if(r.rodadaAtual!=rodadaAtual){
-        if(!ready){
-          enviarJogada()
-          .then(() => location.reload());
-        }else{
           location.reload();
-        }
       }
       if (r.estado == "fim-da-rodada") {
         finalizarRodada();
@@ -221,7 +216,7 @@ function changeReadyState(e) {
 }
 
 function enviarJogada() {
-  return new Promise(response => {
+  
       if (!rodadaAtual) {
         let canvas = document.querySelector("#canvas");
         canvas.classList.add("nao-desenhe");
@@ -231,7 +226,7 @@ function enviarJogada() {
           headers: headers,
           body: JSON.stringify({ nome: localStorage.getItem("nome"), jogada: url }),
         })
-        .then(() => response("ok"));
+        
       } else {
         let descricaoEl;
         if (primeiraRodada) {
@@ -247,10 +242,8 @@ function enviarJogada() {
             jogada: descricaoEl.value,
           }),
         })
-        .then(() => response("ok"));
+        
       }
-  }) 
-  
 }
 
 function finalizarRodada() {
