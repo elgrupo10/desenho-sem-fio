@@ -88,7 +88,7 @@ function atualizarHUD() {
         finalizarRodada();
       }else{
         tempoRestante = r.tempoRestante;
-      }//
+      }
       lider = r.lider;
       for (let i = 0; i < r.jogadores.length; i++) {
         v2Jogadores.push({

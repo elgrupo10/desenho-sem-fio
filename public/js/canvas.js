@@ -222,6 +222,7 @@ function atualizarModo(modo) {
 
 redimensionar();
 
+
 function preencher(
   posX,
   posY,
@@ -232,6 +233,8 @@ function preencher(
   antiAlias,
   redesenhando
 ) {
+  /*
+  essa função foi copiada de um tópico no Stack Overflow: https://stackoverflow.com/questions/18310561/html5-canvas-anti-aliasing-and-paint-bucket-flood-fill*/
   var data = imgData.data;
   antiAlias = true;
   var stack = [];
